@@ -8,8 +8,8 @@ int main(int argc, char ** argv) {
 
 	char* filename = argv[1];
 
-	char *file = leitor->loadFile(filename);
-	printf("%08x\n", *(file));
+	leitor->loadFile(filename);
+	printf("%x\n", *(leitor->byteArray));
 
 	delete(leitor);
 	return 0;

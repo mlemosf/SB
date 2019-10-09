@@ -1,31 +1,28 @@
 #include "../include/leitor.hpp"
 using namespace std;
 
-char* Leitor::loadFile(const string filename) {
+void Leitor::loadFile(const string filename) {
 	ifstream classfile;
 	classfile.open(filename, ios::in|ios::binary);
 
 	classfile.seekg(0, ios::end);
-	int filesize = classfile.tellg();
+	int32_t filesize = classfile.tellg();
 
 	char buffer;
-	char *fileContent = new char[filesize];
-	
+	unsigned char *fileContent = new unsigned char[filesize];
 
 	classfile.seekg(0, ios::beg);
 	
 	if (classfile.is_open()) {
-		int i = 0;
+		int32_t i = 0;
 		while(!classfile.eof()) {
 			classfile.read(&buffer, 1);
-			fileContent[i] = buffer;
+			fileContent[i] = static_cast<unsigned char>(buffer);
 			i++;
 		}
-		printf("\n");
 	}
 	else {
 		printf("Unable to open file\n");
 	}
-
-	return fileContent;
+	this->byteArray = fileContent;
 }
