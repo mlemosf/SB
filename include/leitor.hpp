@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <fstream>
 #include <string>
+#include <string.h>
 
 #define u1 uint8_t
 #define u2 uint16_t
