@@ -33,8 +33,8 @@ make
 ```
 
 na pasta base do projeto.  
-A execucão é feita executando o arquivo **main** gerado pelo make:
+A execucão é feita executando o arquivo **main** gerado pelo make, passando como parâmetro um arquivo .class:
 
 ```
-./main
+./main file.class
 ```

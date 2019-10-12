@@ -1,6 +1,9 @@
 #include "../include/leitor.hpp"
 using namespace std;
 
+
+/* LEITOR */
+
 void Leitor::loadFile(const string filename) {
 	ifstream classfile;
 	classfile.open(filename, ios::in|ios::binary);
@@ -23,7 +26,7 @@ void Leitor::loadFile(const string filename) {
 	else {
 		printf("Unable to open file\n");
 	};
-	this->byteArray = fileContent;
+	this->byte_array = fileContent;
 }
 
 bool Leitor::setMagicNumber() {
@@ -34,11 +37,11 @@ bool Leitor::setMagicNumber() {
 	bool result  = false;
 
 	for (int32_t i = 0; i < size; i++) {
-		magic[j]= *(this->byteArray + i);
+		magic[j]= *(this->byte_array + i);
 		j--;
 	}
 
-	memcpy(buffer, &magic, sizeof magic);
+	memcpy(buffer, &magic, sizeof(magic));
 
 	if (*buffer == (int32_t)0xcafebabe)  {
 		this->magic = *buffer;
@@ -47,9 +50,47 @@ bool Leitor::setMagicNumber() {
 	else {
 		printf("Invalid class file\n");
 	}
+	this->current_size = sizeof(this->magic);
 	return result;
 }
 
+
+bool Leitor::setMinorVersion() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t minor_version[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		minor_version[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &minor_version, sizeof(minor_version));
+	this->minor_version = *buffer;
+	this->current_size += sizeof(this->minor_version);
+	return true;
+}
+
+bool Leitor::setMajorVersion() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t major_version[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		major_version[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &major_version, sizeof(major_version));
+	this->major_version = *buffer;
+	this->current_size += sizeof(this->minor_version);
+	return true;
+}
+
+/* EXIBIDOR */
+
 void Leitor::exibir() {
 	printf("Magic number: %x\n", this->magic);
+	printf("Minor version: %x\n", this->minor_version);
+	printf("Major version: %x\n", this->major_version);
 }

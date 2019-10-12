@@ -9,6 +9,8 @@ int main(int argc, char ** argv) {
 
 	leitor->loadFile(filename);
 	leitor->setMagicNumber();
+	leitor->setMinorVersion();
+	leitor->setMajorVersion();
 
 	leitor->exibir();
 

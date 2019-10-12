@@ -32,11 +32,15 @@ class Leitor {
 		u2 attributes_count;
 		// attribute_info attributes[attributes_count];
 
+		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
+
 	public:
-		unsigned char* byteArray;
+		unsigned char* byte_array;
 		void loadFile(string filename);
 		bool setMagicNumber();
 		void exibir();
+		bool setMinorVersion();
+		bool setMajorVersion();
 };
 
 #endif
