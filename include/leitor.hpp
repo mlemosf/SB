@@ -35,7 +35,8 @@ class Leitor {
 	public:
 		unsigned char* byteArray;
 		void loadFile(string filename);
-		void setMagicNumber();
+		bool setMagicNumber();
+		void exibir();
 };
 
 #endif

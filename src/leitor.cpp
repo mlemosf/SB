@@ -26,21 +26,30 @@ void Leitor::loadFile(const string filename) {
 	this->byteArray = fileContent;
 }
 
-void Leitor::setMagicNumber() {
+bool Leitor::setMagicNumber() {
 	int32_t size = 4;
 	int32_t buffer[size];
 	unsigned char magic[size];
-	int j = size - 1;
-	for (int i = 0; i < size; i++) {
+	int32_t j = size - 1;
+	bool result  = false;
+
+	for (int32_t i = 0; i < size; i++) {
 		magic[j]= *(this->byteArray + i);
 		j--;
 	}
 
-	memcpy(buffer, &magic, sizeof magic); 
+	memcpy(buffer, &magic, sizeof magic);
+
 	if (*buffer == (int32_t)0xcafebabe)  {
 		this->magic = *buffer;
+		result = true;
 	}
 	else {
 		printf("Invalid class file\n");
 	}
+	return result;
+}
+
+void Leitor::exibir() {
+	printf("Magic number: %x\n", this->magic);
 }

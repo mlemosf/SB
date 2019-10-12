@@ -10,6 +10,8 @@ int main(int argc, char ** argv) {
 	leitor->loadFile(filename);
 	leitor->setMagicNumber();
 
+	leitor->exibir();
+
 	delete(leitor);
 	return 0;
 
