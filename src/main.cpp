@@ -11,6 +11,7 @@ int main(int argc, char ** argv) {
 	leitor->setMagicNumber();
 	leitor->setMinorVersion();
 	leitor->setMajorVersion();
+	leitor->setConstantPoolCount();
 
 	leitor->exibir();
 

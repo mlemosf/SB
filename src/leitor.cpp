@@ -83,7 +83,28 @@ bool Leitor::setMajorVersion() {
 	}
 	memcpy(buffer, &major_version, sizeof(major_version));
 	this->major_version = *buffer;
-	this->current_size += sizeof(this->minor_version);
+	this->current_size += sizeof(this->major_version);
+	return true;
+}
+
+bool Leitor::setConstantPoolCount() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t constant_pool_count[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		constant_pool_count[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &constant_pool_count, sizeof(constant_pool_count));
+	this->constant_pool_count = *buffer;
+	this->current_size += sizeof(this->constant_pool_count);
+	return true;
+}
+
+bool Leitor::setConstantPool() {
+
 	return true;
 }
 

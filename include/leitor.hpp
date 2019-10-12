@@ -41,6 +41,8 @@ class Leitor {
 		void exibir();
 		bool setMinorVersion();
 		bool setMajorVersion();
+		bool setConstantPoolCount();
+		bool setConstantPool();
 };
 
 #endif
