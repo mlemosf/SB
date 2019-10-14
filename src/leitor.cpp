@@ -104,9 +104,29 @@ bool Leitor::setConstantPoolCount() {
 }
 
 bool Leitor::setConstantPool() {
-
+	int32_t size = this->constant_pool_count - 2;
+	this->current_size += size;
 	return true;
 }
+
+
+// bool Leitor::setAccessFlagCount() {
+// 	int32_t size = 2;
+// 	int32_t j = size -1;
+// 	int16_t buffer[size];
+// 	int16_t access_flags[size];
+
+// 	for (int32_t i = 0; i < size; i++) {
+// 		access_flags[j] = *(this->byte_array + this->current_size + i);
+// 		j--;
+// 	}
+
+// 	memcpy(buffer, &access_flags, sizeof(access_flags));
+// 	this->access_flags = *buffer;
+// 	this->current_size += sizeof(this->access_flags);
+// 	return true;
+// }
+
 
 /* EXIBIDOR */
 
@@ -114,4 +134,6 @@ void Leitor::exibir() {
 	printf("Magic number: %x\n", this->magic);
 	printf("Minor version: %x\n", this->minor_version);
 	printf("Major version: %x\n", this->major_version);
+	printf("Constant pool count: %d\n", this->constant_pool_count);
+	printf("Access flags: %x\n", this->access_flags);
 }

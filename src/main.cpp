@@ -12,6 +12,7 @@ int main(int argc, char ** argv) {
 	leitor->setMinorVersion();
 	leitor->setMajorVersion();
 	leitor->setConstantPoolCount();
+	leitor->setConstantPool();
 
 	leitor->exibir();
 

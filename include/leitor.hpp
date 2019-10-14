@@ -3,14 +3,15 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <cstdint>
+// #include <cstdint>
 #include <fstream>
 #include <string>
 #include <string.h>
+#include "cp_info.hpp"
 
-#define u1 uint8_t
-#define u2 uint16_t
-#define u4 uint32_t
+// #define u1 uint8_t
+// #define u2 uint16_t
+// #define u4 uint32_t
 using namespace std;
 
 class Leitor {
@@ -43,6 +44,7 @@ class Leitor {
 		bool setMajorVersion();
 		bool setConstantPoolCount();
 		bool setConstantPool();
+		// bool setAccessFlagCount();
 };
 
 #endif
