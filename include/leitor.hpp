@@ -2,7 +2,7 @@
 #define LEITOR_H
 
 #include <cstdlib>
-#include <iostream>
+// #include <iostream>
 // #include <cstdint>
 #include <fstream>
 #include <string>

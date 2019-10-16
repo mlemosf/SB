@@ -11,11 +11,11 @@ TARGET=main
 
 all: $(TARGET)
 
-$(TARGET): $(SRC)/$(TARGET).cpp leitor.o
-	$(CXX) $(CFLAGS) -o $(TARGET) $(SRC)/$(TARGET).cpp leitor.o
+$(TARGET): $(SRC)/$(TARGET).cpp leitor.o cp_info.o
+	$(CXX) $(CFLAGS) -o $(TARGET) $(SRC)/$(TARGET).cpp leitor.o cp_info.o
 
-leitor.o: $(INCLUDE)/leitor.hpp $(SRC)/leitor.cpp cp_info.o
-	$(CXX) $(CFLAGS) -c $(SRC)/leitor.cpp cp_info.o
+leitor.o: $(INCLUDE)/leitor.hpp $(SRC)/leitor.cpp
+	$(CXX) $(CFLAGS) -c $(SRC)/leitor.cpp
 
 cp_info.o: $(INCLUDE)/cp_info.hpp $(SRC)/cp_info.cpp
 		$(CXX) $(CFLAGS) -c $(SRC)/cp_info.cpp

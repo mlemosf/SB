@@ -104,7 +104,20 @@ bool Leitor::setConstantPoolCount() {
 }
 
 bool Leitor::setConstantPool() {
+
 	int32_t size = this->constant_pool_count - 2;
+	
+
+	Cp_info *constant_pool = new Cp_info();
+
+	// for (int32_t i = 0; i < this->constant_pool_count; i++) {
+
+	// }
+	int8_t entry = *(this->byte_array + this->current_size);
+	constant_pool->getConstantPoolEntry(entry);
+
+	delete(constant_pool);
+
 	this->current_size += size;
 	return true;
 }
@@ -135,5 +148,5 @@ void Leitor::exibir() {
 	printf("Minor version: %x\n", this->minor_version);
 	printf("Major version: %x\n", this->major_version);
 	printf("Constant pool count: %d\n", this->constant_pool_count);
-	printf("Access flags: %x\n", this->access_flags);
+	// printf("Access flags: %x\n", this->access_flags);
 }
