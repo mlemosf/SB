@@ -96,7 +96,7 @@ class CONSTANT_Utf8_info {
 	public:
 		u1 tag;
 		u2 length;
-		// u1 bytes[length];
+		u1 bytes[];
 };
 
 class CONSTANT_MethodHandle_info {
@@ -110,6 +110,13 @@ class CONSTANT_MethodType_info {
 	public:
 		u1 tag;
 		u2 descriptor_index;
+};
+
+class CONSTANT_InvokeDynamic_info {
+	public:
+    	u1 tag;
+    	u2 bootstrap_method_attr_index;
+    	u2 name_and_type_index;
 };
 
 
@@ -127,6 +134,7 @@ union cp_info_element {
 	CONSTANT_Utf8_info c11;
 	CONSTANT_MethodHandle_info c12;
 	CONSTANT_MethodType_info c13;
+	CONSTANT_InvokeDynamic_info c14;
 };
 
 class Cp_info {
@@ -135,7 +143,7 @@ class Cp_info {
 		// os elementos do constant pool
 		vector<cp_info_element> constant_pool;
 	public:
-		u4 getConstantPoolEntry(u2 tag);
+		u4 getConstantPoolTag(u2 tag, u4 size);
 
 };
 

@@ -106,16 +106,20 @@ bool Leitor::setConstantPoolCount() {
 bool Leitor::setConstantPool() {
 
 	int32_t size = this->constant_pool_count - 2;
-	
+	int8_t tag;
+	int32_t ret = 0;
+	int32_t pos = 0;
+	int32_t utf8_size = 0;
 
 	Cp_info *constant_pool = new Cp_info();
 
-	// for (int32_t i = 0; i < this->constant_pool_count; i++) {
-
-	// }
-	int8_t entry = *(this->byte_array + this->current_size);
-	constant_pool->getConstantPoolEntry(entry);
-
+	for (int32_t i = 0; i < this->constant_pool_count; i++) {
+		tag = *(this->byte_array + this->current_size + pos);
+		utf8_size = *(this->byte_array + this->current_size + pos + 2);
+		ret = constant_pool->getConstantPoolTag(tag, utf8_size);
+		pos += ret;
+		printf("tag: %d\n", tag);
+	}
 	delete(constant_pool);
 
 	this->current_size += size;
