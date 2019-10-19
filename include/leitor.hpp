@@ -47,7 +47,15 @@ class Leitor {
 		bool setAccessFlags();
 		bool setThisClass();
 		bool setSuperClass();
+		
 		bool setInterfacesCount();
+		bool setInterfaces();
+		bool setFieldsCount();
+		bool setFields();
+		bool setMethodsCount();
+		bool setMethods();
+		bool setAttributesCount();
+		bool setAttributes();
 		// bool setAccessFlagCount();
 };
 
