@@ -44,6 +44,10 @@ class Leitor {
 		bool setMajorVersion();
 		bool setConstantPoolCount();
 		bool setConstantPool();
+		bool setAccessFlags();
+		bool setThisclass();
+		bool setSuperClass();
+		bool setInterfacesCount();
 		// bool setAccessFlagCount();
 };
 
