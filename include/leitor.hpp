@@ -45,7 +45,7 @@ class Leitor {
 		bool setConstantPoolCount();
 		bool setConstantPool();
 		bool setAccessFlags();
-		bool setThisclass();
+		bool setThisClass();
 		bool setSuperClass();
 		bool setInterfacesCount();
 		// bool setAccessFlagCount();
