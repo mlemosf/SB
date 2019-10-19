@@ -49,7 +49,22 @@ class Leitor {
 		bool setConstantPoolCount();
 		u2 getConstantPoolCount();
 		bool setConstantPool();
-		
+		bool setAccessFlags();
+		bool setThisClass();
+		bool setSuperClass();
+
+		bool setInterfacesCount();
+		u2 getInterfacesCount();
+		bool setInterfaces();
+		bool setFieldsCount();
+		u2 getFieldsCount();
+		bool setFields();
+		bool setMethodsCount();
+		u2 getMethodsCount();
+		bool setMethods();
+		u2 getAttributesCount();
+		bool setAttributesCount();
+		bool setAttributes();
 		// bool setAccessFlagCount();
 };
 

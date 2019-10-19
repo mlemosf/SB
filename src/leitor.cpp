@@ -133,6 +133,141 @@ bool Leitor::setConstantPool() {
 	return true;
 }
 
+u2 Leitor::getInterfacesCount(){return interfaces_count;}
+
+bool Leitor::setAccessFlags() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t access_flags[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		access_flags[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &access_flags, sizeof(access_flags));
+	this->access_flags = *buffer;
+	this->current_size += sizeof(this->access_flags);
+	return true;
+}
+
+u2 Leitor::getFieldsCount(){return fields_count;}
+
+bool Leitor::setThisClass() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t this_class[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		this_class[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &this_class, sizeof(this_class));
+	this->this_class = *buffer;
+	this->current_size += sizeof(this->this_class);
+	return true;
+}
+
+u2 Leitor::getMethodsCount(){return methods_count;}
+
+bool Leitor::setSuperClass() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t super_class[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		super_class[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &super_class, sizeof(super_class));
+	this->super_class = *buffer;
+	this->current_size += sizeof(this->super_class);
+	return true;
+}
+
+u2 Leitor::getAttributesCount(){return attributes_count;}
+
+bool Leitor::setInterfacesCount() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t interfaces_count[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		interfaces_count[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &interfaces_count, sizeof(interfaces_count));
+	this->interfaces_count = *buffer;
+	this->current_size += sizeof(this->interfaces_count);
+	return true;
+}
+
+bool Leitor::setInterfaces(){
+
+}
+
+bool Leitor::setFieldsCount() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t fields_count[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		fields_count[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &fields_count, sizeof(fields_count));
+	this->fields_count = *buffer;
+	this->current_size += sizeof(this->fields_count);
+	return true;
+}
+
+bool Leitor::setFields(){
+	
+}
+
+bool Leitor::setMethodsCount() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t methods_count[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		methods_count[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &methods_count, sizeof(methods_count));
+	this->methods_count = *buffer;
+	this->current_size += sizeof(this->methods_count);
+	return true;
+}
+
+bool Leitor::setMethods(){
+	
+}
+
+bool Leitor::setAttributesCount() {
+	int32_t size = 2;
+	int32_t j = size - 1;
+	int16_t buffer[size];
+	int16_t attributes_count[size];
+
+	for (int32_t i = 0; i < size; i++) {
+		attributes_count[j] = *(this->byte_array + this->current_size + i);
+		j--;
+	}
+	memcpy(buffer, &attributes_count, sizeof(attributes_count));
+	this->attributes_count = *buffer;
+	this->current_size += sizeof(this->attributes_count);
+	return true;
+}
+
+bool Leitor::setAttributes(){
+	
+}
 
 // bool Leitor::setAccessFlagCount() {
 // 	int32_t size = 2;
