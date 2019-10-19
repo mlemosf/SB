@@ -54,6 +54,7 @@ bool Leitor::setMagicNumber() {
 	return result;
 }
 
+u4 Leitor::getMagicNumber(){return this->magic;}
 
 bool Leitor::setMinorVersion() {
 	int32_t size = 2;
@@ -71,6 +72,8 @@ bool Leitor::setMinorVersion() {
 	return true;
 }
 
+u2 Leitor::getMinorVersion(){return this->minor_version}
+
 bool Leitor::setMajorVersion() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -87,6 +90,8 @@ bool Leitor::setMajorVersion() {
 	return true;
 }
 
+u2 Leitor::getMajorVersion(){return this->major_version;}
+
 bool Leitor::setConstantPoolCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -102,6 +107,8 @@ bool Leitor::setConstantPoolCount() {
 	this->current_size += sizeof(this->constant_pool_count);
 	return true;
 }
+
+u2 Leitor::getConstantPoolCount(){return this->constant_pool_count;}
 
 bool Leitor::setConstantPool() {
 

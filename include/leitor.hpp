@@ -9,6 +9,7 @@
 #include <string.h>
 #include "cp_info.hpp"
 
+
 // #define u1 uint8_t
 // #define u2 uint16_t
 // #define u4 uint32_t
@@ -39,11 +40,16 @@ class Leitor {
 		unsigned char* byte_array;
 		void loadFile(string filename);
 		bool setMagicNumber();
+		u4 getMagicNumber();
 		void exibir();
 		bool setMinorVersion();
+		u2 getMinorVersion();
 		bool setMajorVersion();
+		u2 getMajorVersion();
 		bool setConstantPoolCount();
+		u2 getConstantPoolCount();
 		bool setConstantPool();
+		
 		// bool setAccessFlagCount();
 };
 
