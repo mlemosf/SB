@@ -17,7 +17,15 @@ int main(int argc, char ** argv) {
 	leitor->setAccessFlags();
 	leitor->setThisClass();
 	leitor->setSuperClass();
+
 	leitor->setInterfacesCount();
+	// leitor->setInterfaces();
+	leitor->setFieldsCount();
+	// leitor->setFields();
+	leitor->setMethodsCount();
+	// leitor->setMethods();
+	leitor->setAttributesCount();
+	// leitor->setAttributes();
 
 	leitor->exibir();
 
