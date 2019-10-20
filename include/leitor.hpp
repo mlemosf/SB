@@ -8,7 +8,7 @@
 #include <string>
 #include <string.h>
 #include "cp_info.hpp"
-
+#include "field_info.hpp"
 
 // #define u1 uint8_t
 // #define u2 uint16_t

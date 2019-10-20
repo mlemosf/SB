@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
-
+#include "attribute_info.hpp"
 #define u1 uint8_t
 #define u2 uint16_t
 #define u4 uint32_t
@@ -24,14 +24,14 @@ class Fiel_info{
             u2 getAcessFlags();
             u2 getNameIndex();
             u2 getDescriptorIndex();
-            u2 getAttributesCount;
+            u2 getAttributesCount();
 
     private:
             u2 access_flags;
             u2 name_index;
             u2 descriptor_index;
             u2 attributes_count;
-            // attribute_info attributes[attributes_count];
+            //Attribute_info attributes[attributes_count];
 };
 
 
