@@ -40,31 +40,35 @@ class Leitor {
 		unsigned char* byte_array;
 		void loadFile(string filename);
 		bool setMagicNumber();
-		u4 getMagicNumber();
 		void exibir();
 		bool setMinorVersion();
-		u2 getMinorVersion();
 		bool setMajorVersion();
-		u2 getMajorVersion();
 		bool setConstantPoolCount();
-		u2 getConstantPoolCount();
 		bool setConstantPool();
 		bool setAccessFlags();
 		bool setThisClass();
 		bool setSuperClass();
 
 		bool setInterfacesCount();
-		u2 getInterfacesCount();
 		bool setInterfaces();
 		bool setFieldsCount();
-		u2 getFieldsCount();
 		bool setFields();
 		bool setMethodsCount();
-		u2 getMethodsCount();
 		bool setMethods();
-		u2 getAttributesCount();
 		bool setAttributesCount();
 		bool setAttributes();
+
+		u4 getMagicNumber();
+		u2 getInterfacesCount();
+		u2 getMinorVersion();
+		u2 getMajorVersion();
+    u2 getConstantPoolCount();
+		u2 getFieldsCount();
+		u2 getMethodsCount();
+		u2 getAttributesCount();
+		u2 getAcessFlags();
+		u2 getThisClass();
+		u2 getSuperClass();
 		// bool setAccessFlagCount();
 };
 

@@ -269,6 +269,19 @@ bool Leitor::setAttributes(){
 	
 }
 
+u2 Leitor::getAcessFlags(){
+	return access_flags;
+}
+
+u2 Leitor::getThisClass()
+{
+	return this_class;
+}
+
+u2 Leitor::getSuperClass(){
+  return super_class;
+}
+
 // bool Leitor::setAccessFlagCount() {
 // 	int32_t size = 2;
 // 	int32_t j = size -1;
