@@ -7,6 +7,12 @@
 
 class Method_info{
     public:
+        bool setAcessFlags(u2 access_flags);
+        bool setNameIndex(u2 name_index);
+        bool setDescriptorIndex(u2 descriptor_index);
+        bool setAttributeCount(u2 attributes_count);
+        bool setAttributes(Attribute_info * attributes);
+
         u2 getAcessFlags();
         u2 getNameIndex();
         u2 getDescriptorIndex();

@@ -22,6 +22,12 @@ using namespace std;
 
 class Fiel_info{
     public:
+            bool setAcessFlags(u2 acess_flags);
+            bool setNameIndex(u2 name_index);
+            bool setDescriptorIndex(u2 descriptor_index);
+            bool setAttributesCount(u2 attributes_count);
+            bool setAttributes(Attribute_info * attributes);
+
             u2 getAcessFlags();
             u2 getNameIndex();
             u2 getDescriptorIndex();

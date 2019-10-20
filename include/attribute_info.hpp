@@ -9,6 +9,10 @@
 #define u4 uint32_t
 class Attribute_info{
     public:
+        bool setAttributeNameIndex(u2 attribute_name_index);
+        bool setAttributeLenght(u2 attribute_length);
+        bool setInfo(u1 * info);
+
         u2 getAttributeNameIndex();
         u2 getAttributeLenght();
         u1* getInfo();
