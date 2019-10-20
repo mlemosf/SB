@@ -72,7 +72,7 @@ bool Leitor::setMinorVersion() {
 	return true;
 }
 
-u2 Leitor::getMinorVersion(){return this->minor_version}
+u2 Leitor::getMinorVersion(){return this->minor_version;}
 
 bool Leitor::setMajorVersion() {
 	int32_t size = 2;
