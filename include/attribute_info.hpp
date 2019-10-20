@@ -15,7 +15,7 @@ class Attribute_info{
     private:
         u2 attribute_name_index;
         u2 attribute_length;
-        //u1 info[attribute_length];
+        u1 * info;    //u1 info[attribute_length];
 };
 
 #endif

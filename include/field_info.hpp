@@ -4,9 +4,10 @@
 #include <iostream>
 #include <vector>
 #include "attribute_info.hpp"
-#define u1 uint8_t
-#define u2 uint16_t
-#define u4 uint32_t
+
+//#define u1 uint8_t
+//#define u2 uint16_t
+//#define u4 uint32_t
 
 #define ACC_PUBLIC 0x0001
 #define ACC_PRIVATE 0x0002
@@ -25,13 +26,14 @@ class Fiel_info{
             u2 getNameIndex();
             u2 getDescriptorIndex();
             u2 getAttributesCount();
+            Attribute_info * getAttributes();
 
     private:
             u2 access_flags;
             u2 name_index;
             u2 descriptor_index;
             u2 attributes_count;
-            //Attribute_info attributes[attributes_count];
+            Attribute_info * attributes; //Attribute_info attributes[attributes_count];
 };
 
 
