@@ -8,6 +8,7 @@
 #include <string>
 #include <string.h>
 #include "cp_info.hpp"
+#include "method_info.hpp"
 
 
 // #define u1 uint8_t
@@ -21,7 +22,7 @@ class Leitor {
 		u2 minor_version;
 		u2 major_version;
 		u2 constant_pool_count;
-		// cp_info constant_pool[constant_pool_count - 1];
+		//cp_info constant_pool[constant_pool_count - 1];
 		u2 access_flags;
 		u2 this_class;
 		u2 super_class;
@@ -30,9 +31,9 @@ class Leitor {
 		u2 fields_count;
 		// field_info fields[fields_count];
 		u2 methods_count;
-		// method_info methods[methods_count];
+		Method_info* methods;
 		u2 attributes_count;
-		// attribute_info attributes[attributes_count];
+		Attribute_info* attributes;
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
 

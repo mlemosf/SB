@@ -24,9 +24,9 @@ int main(int argc, char ** argv) {
 	leitor->setFieldsCount();
 	// leitor->setFields();
 	leitor->setMethodsCount();
-	// leitor->setMethods();
+	leitor->setMethods();
 	leitor->setAttributesCount();
-	// leitor->setAttributes();
+	//leitor->setAttributes();
 
 	leitor->exibir();
 
