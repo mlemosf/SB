@@ -8,8 +8,8 @@
 #include <string>
 #include <string.h>
 #include "cp_info.hpp"
-#include "field_info.hpp"
 #include "method_info.hpp"
+
 
 // #define u1 uint8_t
 // #define u2 uint16_t
@@ -22,18 +22,18 @@ class Leitor {
 		u2 minor_version;
 		u2 major_version;
 		u2 constant_pool_count;
-		// cp_info constant_pool[constant_pool_count - 1];
+		//cp_info constant_pool[constant_pool_count - 1];
 		u2 access_flags;
 		u2 this_class;
 		u2 super_class;
 		u2 interfaces_count;
-		u2 * interfaces;// u2 interfaces[interfaces_count];
+		// u2 interfaces[interfaces_count];
 		u2 fields_count;
-		Field_info* fields;// field_info fields[fields_count];
+		// field_info fields[fields_count];
 		u2 methods_count;
 		Method_info* methods;
 		u2 attributes_count;
-		//Attribute_info* attributes;
+		Attribute_info* attributes;
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
 
@@ -41,31 +41,35 @@ class Leitor {
 		unsigned char* byte_array;
 		void loadFile(string filename);
 		bool setMagicNumber();
-		u4 getMagicNumber();
 		void exibir();
 		bool setMinorVersion();
-		u2 getMinorVersion();
 		bool setMajorVersion();
-		u2 getMajorVersion();
 		bool setConstantPoolCount();
-		u2 getConstantPoolCount();
 		bool setConstantPool();
 		bool setAccessFlags();
 		bool setThisClass();
 		bool setSuperClass();
 
 		bool setInterfacesCount();
-		u2 getInterfacesCount();
 		bool setInterfaces();
 		bool setFieldsCount();
-		u2 getFieldsCount();
 		bool setFields();
 		bool setMethodsCount();
-		u2 getMethodsCount();
 		bool setMethods();
-		u2 getAttributesCount();
 		bool setAttributesCount();
 		bool setAttributes();
+
+		u4 getMagicNumber();
+		u2 getInterfacesCount();
+		u2 getMinorVersion();
+		u2 getMajorVersion();
+    u2 getConstantPoolCount();
+		u2 getFieldsCount();
+		u2 getMethodsCount();
+		u2 getAttributesCount();
+		u2 getAcessFlags();
+		u2 getThisClass();
+		u2 getSuperClass();
 		// bool setAccessFlagCount();
 };
 

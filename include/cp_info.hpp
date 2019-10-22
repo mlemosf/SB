@@ -137,6 +137,7 @@ union cp_info_element {
 	CONSTANT_InvokeDynamic_info c14;
 };
 
+
 class Cp_info {
 	private:
 		// colocar aqui a estrutura que vai guardar 

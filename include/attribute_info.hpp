@@ -8,6 +8,21 @@
 #define u2 uint16_t
 #define u4 uint32_t
 
+class Attribute_info{
+    public:
+        bool setAttributeNameIndex(u2 attribute_name_index);
+        bool setAttributeLenght(u4 attribute_length);
+        bool setInfo(u1 * info);
+
+        u2 getAttributeNameIndex();
+        u4 getAttributeLength();
+        u1* getInfo();
+    private:
+        u2 attribute_name_index;
+        u4 attribute_length;
+        u1 * info;    //u1 info[attribute_length];
+};
+
 class ClassInners_info{ // classe extra
     public:
         u2 inner_class_info;
@@ -96,20 +111,6 @@ class LocalVariableTable_attribute{
         u2 attribute_name_index;
         u4 attribute_length;
         LocalVariableTable_info * local_variable_table;
-};
-class Attribute_info{
-    public:
-        bool setAttributeNameIndex(u2 attribute_name_index);
-        bool setAttributeLenght(u4 attribute_length);
-        bool setInfo(u1 * info);
-
-        u2 getAttributeNameIndex();
-        u4 getAttributeLenght();
-        u1* getInfo();
-    private:
-        u2 attribute_name_index;
-        u4 attribute_length;
-        u1 * info;    //u1 info[attribute_length];
 };
 
 #endif

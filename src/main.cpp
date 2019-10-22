@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../include/leitor.hpp"
+#include "../include/exibidor.hpp"
 using namespace std;
 
 int main(int argc, char ** argv) {
@@ -25,7 +26,7 @@ int main(int argc, char ** argv) {
 	leitor->setMethodsCount();
 	leitor->setMethods();
 	leitor->setAttributesCount();
-	// leitor->setAttributes();
+	//leitor->setAttributes();
 
 	leitor->exibir();
 

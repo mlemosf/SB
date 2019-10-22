@@ -1,6 +1,7 @@
 #include "../include/leitor.hpp"
 using namespace std;
 
+
 /* LEITOR */
 
 void Leitor::loadFile(const string filename) {
@@ -204,6 +205,8 @@ bool Leitor::setInterfacesCount() {
 	return true;
 }
 
+/*
+
 bool Leitor::setInterfaces(){
 	int32_t size = this->attributes_count;
 	uint16_t interfaces[size];
@@ -212,12 +215,14 @@ bool Leitor::setInterfaces(){
 	for(int32_t i=0;i<size;i++){
 		interfaces[j] = *(this->byte_array + this->current_size + i);
 		j--;
-	}	
+	}
 	memcpy(buffer,&interfaces,sizeof(interfaces));
 	this->interfaces = buffer;
 	this->current_size +=  sizeof(interfaces);
+
 	return true;
 }
+*/
 
 bool Leitor::setFieldsCount() {
 	int32_t size = 2;
@@ -234,11 +239,11 @@ bool Leitor::setFieldsCount() {
 	this->current_size += sizeof(this->fields_count);
 	return true;
 }
-
+/*
 bool Leitor::setFields(){
 	return true;
 }
-
+*/
 bool Leitor::setMethodsCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -256,6 +261,7 @@ bool Leitor::setMethodsCount() {
 }
 
 bool Leitor::setMethods(){
+
 	printf("methods_count: %d\n", this->methods_count);
 	int32_t size = 2;
 	int32_t j = size-1;
@@ -320,7 +326,7 @@ bool Leitor::setAttributesCount() {
 	return true;
 }
 
-bool Leitor::setAttributes(){
+/*bool Leitor::setAttributes(){
 	int32_t size = 2;
 	int32_t j = size-1;
 	int16_t attribute_name_index[size];
@@ -350,6 +356,19 @@ bool Leitor::setAttributes(){
 	}
 
 	return true;
+}*/
+
+u2 Leitor::getAcessFlags(){
+	return access_flags;
+}
+
+u2 Leitor::getThisClass()
+{
+	return this_class;
+}
+
+u2 Leitor::getSuperClass(){
+  return super_class;
 }
 
 // bool Leitor::setAccessFlagCount() {

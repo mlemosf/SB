@@ -41,6 +41,6 @@ class Method_info{
         u2 getDescriptorIndex();
         u2 getAttributeCount();
         Attribute_info * getAttributes();
-  
+
 };
 #endif
