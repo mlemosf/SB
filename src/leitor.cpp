@@ -72,7 +72,7 @@ bool Leitor::setMinorVersion() {
 	return true;
 }
 
-u2 Leitor::getMinorVersion(){return this->minor_version}
+u2 Leitor::getMinorVersion(){return this->minor_version;}
 
 bool Leitor::setMajorVersion() {
 	int32_t size = 2;
@@ -205,9 +205,11 @@ bool Leitor::setInterfacesCount() {
 	return true;
 }
 
+/*
 bool Leitor::setInterfaces(){
 
 }
+*/
 
 bool Leitor::setFieldsCount() {
 	int32_t size = 2;
@@ -224,11 +226,11 @@ bool Leitor::setFieldsCount() {
 	this->current_size += sizeof(this->fields_count);
 	return true;
 }
-
+/*
 bool Leitor::setFields(){
 	
 }
-
+*/
 bool Leitor::setMethodsCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -244,11 +246,11 @@ bool Leitor::setMethodsCount() {
 	this->current_size += sizeof(this->methods_count);
 	return true;
 }
-
+/*
 bool Leitor::setMethods(){
 	
 }
-
+*/
 bool Leitor::setAttributesCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -264,11 +266,11 @@ bool Leitor::setAttributesCount() {
 	this->current_size += sizeof(this->attributes_count);
 	return true;
 }
-
+/*
 bool Leitor::setAttributes(){
 	
 }
-
+*/
 u2 Leitor::getAcessFlags(){
 	return access_flags;
 }

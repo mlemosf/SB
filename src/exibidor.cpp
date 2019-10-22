@@ -30,12 +30,12 @@ void Exibidor::Interfaces()
 
 }
 
-void Exbidor::Fields()
+void Exibidor::Fields()
 {
 	printf("Show Fields:\n");
 	printf("Public:%d\nPrivate:%d\nProtected:%d\nStatic:%d\nFinal:%d\nVolatile:%d\nTransient:%d\nSynthetic:%d\nEnum:%d\nAll:%d\n",
 		PUBLIC,PRIVATE,PROTECTED,STATIC,FINAL,VOLATILE,TRANSIENT,SYNTHETIC,ENUM,ALL);
-	cin >> show;
+	scanf("%d\n",&show);
 
 	switch(show){
 		case PUBLIC:

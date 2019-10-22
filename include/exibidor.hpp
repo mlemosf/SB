@@ -8,6 +8,7 @@
 #include <string>
 #include <string.h>
 #include "cp_info.hpp"
+#include "leitor.hpp"
 
 enum Typeshow
 {
@@ -23,10 +24,10 @@ enum Typeshow
 	ALL
 };
 
-class Exbidor {
+class Exibidor {
   private:
 	Leitor r;
-	Typeshow show;
+	int show;
 	void ShowField(Typeshow s);
 	public:
 		Exibidor(Leitor l);
