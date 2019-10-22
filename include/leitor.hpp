@@ -9,6 +9,7 @@
 #include <string.h>
 #include "cp_info.hpp"
 #include "field_info.hpp"
+#include "method_info.hpp"
 
 // #define u1 uint8_t
 // #define u2 uint16_t
@@ -30,9 +31,9 @@ class Leitor {
 		u2 fields_count;
 		// field_info fields[fields_count];
 		u2 methods_count;
-		// method_info methods[methods_count];
+		Method_info* methods;
 		u2 attributes_count;
-		// attribute_info attributes[attributes_count];
+		//Attribute_info* attributes;
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
 

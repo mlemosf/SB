@@ -1,7 +1,6 @@
 #include "../include/leitor.hpp"
 using namespace std;
 
-
 /* LEITOR */
 
 void Leitor::loadFile(const string filename) {
@@ -206,7 +205,7 @@ bool Leitor::setInterfacesCount() {
 }
 
 bool Leitor::setInterfaces(){
-
+	return true;
 }
 
 bool Leitor::setFieldsCount() {
@@ -226,7 +225,7 @@ bool Leitor::setFieldsCount() {
 }
 
 bool Leitor::setFields(){
-	
+	return true;
 }
 
 bool Leitor::setMethodsCount() {
@@ -246,7 +245,52 @@ bool Leitor::setMethodsCount() {
 }
 
 bool Leitor::setMethods(){
-	
+	printf("methods_count: %d\n", this->methods_count);
+	int32_t size = 2;
+	int32_t j = size-1;
+	//int32_t cont = 0;
+	int16_t access_flags[size];
+	int16_t name_index[size];
+	int16_t descriptor_index[size];
+	int16_t attributes_count[size];
+
+	Method_info a[this->methods_count];
+	for (int i = 0; i < this->methods_count; ++i){
+		for (int k = 0; k < size; ++k){
+			access_flags[j] = *(this->byte_array + this->current_size + k);
+			j--;
+		}
+		//printf("access_flags: 0x%04x\n", *access_flags);
+		this->current_size += sizeof(u2);
+		a[i].setAccessFlags(*access_flags);
+		j = size-1;
+		for (int k = 0; k < size; ++k){
+			name_index[j] = *(this->byte_array + this->current_size + k);
+			j--;
+		}
+		a[i].setNameIndex(*name_index);
+		this->current_size += sizeof(u2);
+		j = size-1;
+		for (int k = 0; k < size; ++k){
+			descriptor_index[j] = *(this->byte_array + this->current_size + k);
+			j--;
+		}
+		a[i].setDescriptorIndex(*descriptor_index);
+		this->current_size += sizeof(u2);
+		j = size-1;
+		for (int k = 0; k < size; ++k){
+			attributes_count[j] = *(this->byte_array + this->current_size + k);
+			j--;
+		}
+		this->current_size += sizeof(u2);
+		a[i].setAttributeCount(*attributes_count);
+		j = size-1;
+		/*a[i].setAttributes(this->attributes+cont);
+		cont+=a[i].getAttributeCount();*/
+	}
+	this->methods = a;
+	this->current_size+=sizeof(a)*this->methods_count;
+	return true;
 }
 
 bool Leitor::setAttributesCount() {
@@ -266,7 +310,7 @@ bool Leitor::setAttributesCount() {
 }
 
 bool Leitor::setAttributes(){
-	
+	return true;
 }
 
 // bool Leitor::setAccessFlagCount() {

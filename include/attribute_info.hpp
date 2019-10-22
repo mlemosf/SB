@@ -1,5 +1,5 @@
 #ifndef ATTRIBUTEINFO_H
-#define ATTRIBUTE_H
+#define ATTRIBUTEINFO_H
 #include <cstdint>
 #include <iostream>
 #include <vector>
