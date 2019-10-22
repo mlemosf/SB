@@ -31,19 +31,19 @@ enum TypeShow
 };
 
 class Exibidor {
-  private:
+private:
 	Leitor r;
 	int show;
 	void ShowField(int s);
 	void ShowMethod(int s);
-	public:
-		Exibidor(Leitor l);
-		void GeneralInformation();
-		void ConstantPool();
-		void Interfaces();
-		void Fields();
-		void Methods();
-		void Attributes();
+public:
+	Exibidor(Leitor l);
+	void GeneralInformation();
+	void ConstantPool();
+	void Interfaces();
+	void Fields();
+	void Methods();
+	void Attributes();
 
 };
 
