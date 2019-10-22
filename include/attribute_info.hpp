@@ -20,6 +20,13 @@ class LineNumber_info{ // classe extra
         u2 start_pc;
         u2 line_number;
 };
+class ExceptionCode_info{ // classe extra
+    public:
+        u2 start_pc;
+        u2 end_pc;
+        u2 handler_pc;
+        u2 catch_type;
+};
 class LocalVariableTable_info{ // classe extra
     public:
         u2 start_pc;
@@ -37,8 +44,9 @@ class Code_attribute{
         u4 code_length;
         u1 * code; //u1 code[code_length];
         u2 exception_table_length;
-        //faltando atributos
-
+        ExceptionCode_info * exception_table;
+        u2 attributes_count;
+        Attribute_info * attributes;
 };
 class ConstantValue_attribute{
     public:

@@ -20,7 +20,7 @@
 #define ACC_ENUM      0x4000
 using namespace std;
 
-class Fiel_info{
+class Field_info{
     public:
             bool setAcessFlags(u2 acess_flags);
             bool setNameIndex(u2 name_index);
