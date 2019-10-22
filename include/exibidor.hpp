@@ -10,7 +10,7 @@
 #include "cp_info.hpp"
 #include "leitor.hpp"
 
-enum Typeshow
+enum TypeShow
 {
 	PUBLIC,
 	PRIVATE,
@@ -21,6 +21,12 @@ enum Typeshow
 	TRANSIENT,
 	SYNTHETIC,
 	ENUM,
+	SYNCHRONIZED,
+	NATIVE,
+	ABSTRACT,
+	STRICT,
+	BRIDGE,
+	VARARGS,
 	ALL
 };
 
@@ -28,7 +34,8 @@ class Exibidor {
   private:
 	Leitor r;
 	int show;
-	void ShowField(Typeshow s);
+	void ShowField(int s);
+	void ShowMethod(int s);
 	public:
 		Exibidor(Leitor l);
 		void GeneralInformation();

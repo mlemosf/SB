@@ -33,43 +33,54 @@ void Exibidor::Interfaces()
 void Exibidor::Fields()
 {
 	printf("Show Fields:\n");
-	printf("Public:%d\nPrivate:%d\nProtected:%d\nStatic:%d\nFinal:%d\nVolatile:%d\nTransient:%d\nSynthetic:%d\nEnum:%d\nAll:%d\n",
-		PUBLIC,PRIVATE,PROTECTED,STATIC,FINAL,VOLATILE,TRANSIENT,SYNTHETIC,ENUM,ALL);
+	cout << "Public: " << PUBLIC << endl;
+	cout << "Private: " << PRIVATE << endl;
+	cout << "Protected: " << PROTECTED << endl;
+	cout << "Static: " << STATIC << endl;
+	cout << "Volatile: " << VOLATILE << endl;
+	cout << "Transient: " << TRANSIENT << endl;
+	cout << "Synthetic: " << SYNTHETIC << endl;
+	cout << "Enum: " << ENUM << endl;
+	cout << "All: " << ALL << endl;
+	
 	scanf("%d\n",&show);
 
-	switch(show){
-		case PUBLIC:
-		  break;
-		case PRIVATE:
-		  break;
-		case PROTECTED:
-		  break;
-		case STATIC:
-		  break;
-		case FINAL:
-		  break;
-		case VOLATILE:
-		  break;
-		case TRANSIENT:
-		  break;
-		case SYNTHETIC:
-		  break;
-		case ENUM:
-		  break;
-		case ALL:
-		  break;
-	}
-
+	ShowField(show);
 }
 
-void Exibidor::ShowField(Typeshow s = ALL)
+void Exibidor::ShowField(int s = ALL)
 {
-	//printf()
+	/*fazer um loop para cada field e ir exibindo esses atributos com o filtro correspondente*/
+	printf("Name:\n");
+	printf("Descriptor:\n");
+	printf("AcessFlags:\n");
 }
 
 void Exibidor::Methods()
 {
+  printf("Show Methods:\n");
+  cout << "Public: " << PUBLIC << endl;
+  cout << "Private: " << PRIVATE << endl;
+  cout << "Static: " << STATIC << endl;
+  cout << "Final: " << FINAL << endl;
+  cout << "Native: " << NATIVE << endl;
+  cout << "Abstract: " << ABSTRACT << endl; 
+  cout << "Strict: " << STRICT << endl;
+  cout << "Synthetic: " << SYNTHETIC << endl;
+  cout << "Bridge: " << BRIDGE << endl;
+  cout << "Varargs: " << VARARGS << endl;
+  cout << "All: " << ALL << endl;
+  
+  scanf("%d\n",&show);
 
+	ShowMethod(show);
+}
+
+void Exibidor::ShowMethod(int s = ALL)
+{
+	printf("Name:\n");
+	printf("Descriptor:\n");
+	printf("AcessFlags:\n");
 }
 
 void Exibidor::Attributes()

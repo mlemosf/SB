@@ -206,21 +206,8 @@ bool Leitor::setInterfacesCount() {
 }
 
 /*
-
 bool Leitor::setInterfaces(){
-	int32_t size = this->attributes_count;
-	uint16_t interfaces[size];
-	uint16_t buffer[size];
-	int16_t j = size-1;
-	for(int32_t i=0;i<size;i++){
-		interfaces[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer,&interfaces,sizeof(interfaces));
-	this->interfaces = buffer;
-	this->current_size +=  sizeof(interfaces);
 
-	return true;
 }
 */
 
@@ -241,7 +228,7 @@ bool Leitor::setFieldsCount() {
 }
 /*
 bool Leitor::setFields(){
-	return true;
+	
 }
 */
 bool Leitor::setMethodsCount() {
@@ -259,57 +246,11 @@ bool Leitor::setMethodsCount() {
 	this->current_size += sizeof(this->methods_count);
 	return true;
 }
-
+/*
 bool Leitor::setMethods(){
-
-	printf("methods_count: %d\n", this->methods_count);
-	int32_t size = 2;
-	int32_t j = size-1;
-	//int32_t cont = 0;
-	int16_t access_flags[size];
-	int16_t name_index[size];
-	int16_t descriptor_index[size];
-	int16_t attributes_count[size];
-
-	Method_info a[this->methods_count];
-	for (int i = 0; i < this->methods_count; ++i){
-		for (int k = 0; k < size; ++k){
-			access_flags[j] = *(this->byte_array + this->current_size + k);
-			j--;
-		}
-		//printf("access_flags: 0x%04x\n", *access_flags);
-		this->current_size += sizeof(u2);
-		a[i].setAccessFlags(*access_flags);
-		j = size-1;
-		for (int k = 0; k < size; ++k){
-			name_index[j] = *(this->byte_array + this->current_size + k);
-			j--;
-		}
-		a[i].setNameIndex(*name_index);
-		this->current_size += sizeof(u2);
-		j = size-1;
-		for (int k = 0; k < size; ++k){
-			descriptor_index[j] = *(this->byte_array + this->current_size + k);
-			j--;
-		}
-		a[i].setDescriptorIndex(*descriptor_index);
-		this->current_size += sizeof(u2);
-		j = size-1;
-		for (int k = 0; k < size; ++k){
-			attributes_count[j] = *(this->byte_array + this->current_size + k);
-			j--;
-		}
-		this->current_size += sizeof(u2);
-		a[i].setAttributeCount(*attributes_count);
-		j = size-1;
-		/*a[i].setAttributes(this->attributes+cont);
-		cont+=a[i].getAttributeCount();*/
-	}
-	this->methods = a;
-	this->current_size+=sizeof(a)*this->methods_count;
-	return true;
+	
 }
-
+*/
 bool Leitor::setAttributesCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -325,39 +266,11 @@ bool Leitor::setAttributesCount() {
 	this->current_size += sizeof(this->attributes_count);
 	return true;
 }
-
-/*bool Leitor::setAttributes(){
-	int32_t size = 2;
-	int32_t j = size-1;
-	int16_t attribute_name_index[size];
-
-	for (int i = 0; i < this->attributes_count; ++i){
-		for (int k = 0; k < size; ++k){
-			attribute_name_index[j] = (*this->byte_array + this->current_size + k);
-			j--;
-		}
-		this->current_size+=sizeof(u2);
-		switch(this->constant_pool[*attribute_name_index]){
-			case "ConstantValue":
-				ConstantValueAttribute a;
-				int16_t constantvalue_index[2];
-				a.attribute_name_index = *attribute_name_index;
-				a.attribute_lenght = 2;
-				j = attribute_lenght-1;
-				for (int k = 0; k < a.attribute_lenght; ++k){
-					constantvalue_index[j] (*this->byte_array + this->current_size + k);
-					j--;
-				}
-				this->current_size+=sizeof(u2);
-				a.constantvalue_index = *constantvalue_index;
-				break;
-		}
-
-	}
-
-	return true;
-}*/
-
+/*
+bool Leitor::setAttributes(){
+	
+}
+*/
 u2 Leitor::getAcessFlags(){
 	return access_flags;
 }
