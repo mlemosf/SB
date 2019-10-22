@@ -321,6 +321,34 @@ bool Leitor::setAttributesCount() {
 }
 
 bool Leitor::setAttributes(){
+	int32_t size = 2;
+	int32_t j = size-1;
+	int16_t attribute_name_index[size];
+
+	for (int i = 0; i < this->attributes_count; ++i){
+		for (int k = 0; k < size; ++k){
+			attribute_name_index[j] = (*this->byte_array + this->current_size + k);
+			j--;
+		}
+		this->current_size+=sizeof(u2);
+		switch(this->constant_pool[*attribute_name_index]){
+			case "ConstantValue":
+				ConstantValueAttribute a;
+				int16_t constantvalue_index[2];
+				a.attribute_name_index = *attribute_name_index;
+				a.attribute_lenght = 2;
+				j = attribute_lenght-1;
+				for (int k = 0; k < a.attribute_lenght; ++k){
+					constantvalue_index[j] (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				this->current_size+=sizeof(u2);
+				a.constantvalue_index = *constantvalue_index;
+				break;
+		}
+
+	}
+
 	return true;
 }
 

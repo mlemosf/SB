@@ -100,15 +100,15 @@ class LocalVariableTable_attribute{
 class Attribute_info{
     public:
         bool setAttributeNameIndex(u2 attribute_name_index);
-        bool setAttributeLenght(u2 attribute_length);
+        bool setAttributeLenght(u4 attribute_length);
         bool setInfo(u1 * info);
 
         u2 getAttributeNameIndex();
-        u2 getAttributeLenght();
+        u4 getAttributeLenght();
         u1* getInfo();
     private:
         u2 attribute_name_index;
-        u2 attribute_length;
+        u4 attribute_length;
         u1 * info;    //u1 info[attribute_length];
 };
 
