@@ -23,6 +23,7 @@ class Leitor {
 		u2 minor_version;
 		u2 major_version;
 		u2 constant_pool_count;
+		Cp_info *constant_pool;
 		//cp_info constant_pool[constant_pool_count - 1];
 		u2 access_flags;
 		u2 this_class;
