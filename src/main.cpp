@@ -12,6 +12,7 @@ int main(int argc, char ** argv) {
 	leitor->setMinorVersion();
 	leitor->setMajorVersion();
 	leitor->setConstantPoolCount();
+	leitor->exibir();
 	leitor->setConstantPool();
 
 	leitor->setAccessFlags();
@@ -27,7 +28,7 @@ int main(int argc, char ** argv) {
 	leitor->setAttributesCount();
 	// leitor->setAttributes();
 
-	leitor->exibir();
+	
 
 	delete(leitor);
 	return 0;
