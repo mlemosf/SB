@@ -29,7 +29,11 @@ using namespace std;
 class CONSTANT{
 	public:
 		void print();
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> 83add90ffe6085541058ec7a4ae21243f9114332
 
 class CONSTANT_Class_info : public CONSTANT {
 	public:

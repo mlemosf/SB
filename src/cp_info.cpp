@@ -73,3 +73,4 @@ void CONSTANT_Utf8_info::print()				{ printf("Tag: Utf8 || Length: %d || Bytes[]
 void CONSTANT_MethodHandle_info::print()		{ printf("Tag: MethodHandle || Reference kind: %d || Reference index: %d\n", reference_kind, reference_index) }
 void CONSTANT_MethodType_info::print()			{ printf("Tag: MethodType || Descriptor index: %d\n", descriptor_index) }
 void CONSTANT_InvokeDynamic_info::print()		{ printf("Tag: InvokeDynamic || Bootstrap Method Attributes Index: %d || Name and type index: %d\n", bootstrap_method_attr_index, name_and_type_index) }
+void CONSTANT_InvokeDynamic_info::print()		{ printf("Tag: InvokeDynamic || Bootstrap Method Attributes Index: %d || Name and type index: %d\n", bootstrap_method_attr_index, name_and_type_index) }
