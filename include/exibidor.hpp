@@ -9,6 +9,7 @@
 #include <string.h>
 #include "cp_info.hpp"
 #include "leitor.hpp"
+#include "field_info.hpp"
 
 #ifdef __WIN32
   #define CLS "cls"

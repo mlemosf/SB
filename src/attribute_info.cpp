@@ -30,7 +30,7 @@ u1* Attribute_info::getInfo(){
 	return this->info;
 }
 
-bool Code_attribute::setAttributes(Cp_info constant_pool){
+/*bool Code_attribute::setAttributes(Cp_info constant_pool){
 	for (u2 i = 0; i < this->attributes_count; ++i){
 			
 		u2 attribute_name_index = read2byte();
@@ -82,7 +82,7 @@ bool Code_attribute::setAttributes(Cp_info constant_pool){
 	}
 
 	return true;
-}
+}*/
 
 void Attribute_info::print(){
 	printf("Attribute name index: %d\n",attribute_name_index);

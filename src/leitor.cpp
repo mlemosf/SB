@@ -146,18 +146,18 @@ bool Leitor::setConstantPool() {
 	int32_t ret = 0;
 	int32_t pos = 0;
 	int32_t utf8_size = 0;
-	Cp_info *cp_info = new Cp_info();
+	Cp_info cp_info;
 
 	for (int32_t i = 0; i < size; i++) {
 		tag = *(this->byte_array + this->current_size + pos);
 		utf8_size = *(this->byte_array + this->current_size + pos + 2);
-		ret = cp_info->getConstantPoolTag(tag, utf8_size);
-		cp_info->addElement(tag, ret, pos, this->current_size,  this->byte_array);
+		ret = cp_info.getConstantPoolTag(tag, utf8_size);
+		cp_info.addElement(tag, ret, pos, this->current_size,  this->byte_array);
 		pos += ret;
 		count += ret;
 	}
 	this->constant_pool = cp_info;
-	this->constant_pool->getConstantPool();
+	this->constant_pool.getConstantPool();
 	this->current_size += count;
 	return true;
 }
@@ -266,56 +266,32 @@ bool Leitor::setFieldsCount() {
 	}
 	memcpy(buffer, &fields_count, sizeof(fields_count));
 	this->fields_count = *buffer;
+	printf("fields: %d\n", this->fields_count);
 	this->current_size += sizeof(this->fields_count);
 	return true;
 }
-/*
+
 bool Leitor::setFields(){
 	uint16_t size = this->fields_count;
-	int32_t j = size - 1;
-	Field_info fields[size];
-	int32_t sizeU2 =  2;
-	int32_t j_aux = sizeU2-1;
-	int16_t * buffer;
-	uint8_t access_flags[sizeU2];
-	uint8_t name_index[sizeU2]; 
-	uint8_t descriptor_index[sizeU2];
-	uint8_t attributes_count[sizeU2];
-	Attribute_info * attributes;
 	for(int32_t i =0;i<size;i++){
-		for(int32_t k=0;k<sizeU2;k++){
-			access_flags[j_aux] = *(this->byte_array + this->current_size+ k);
-			j_aux--;
+		u2 aux;
+		aux = read2byte();
+		this->fields[i].setAcessFlags(aux);
+		aux = read2byte();
+		this->fields[i].setNameIndex(aux);
+		aux = read2byte();
+		this->fields[i].setDescriptorIndex(aux);
+		aux = read2byte();
+		this->fields[i].setAttributesCount(aux);
+		Attribute_info attributes[aux];
+		for(int32_t k=0;k < this->attributes_count;k++){	
+			attributes[i] = readAttribute();
 		}
-		memcpy(buffer,&access_flags,sizeof(buffer));
-		fields[i].setAcessFlags(*buffer);
-		j_aux = sizeU2-1;
-		for(int32_t k=0;k<sizeU2;k++){
-			name_index[j_aux] = *(this->byte_array + this->current_size+ k);
-			j_aux--;
-		}
-		memcpy(buffer,&name_index,sizeof(buffer));
-		fields[i].setNameIndex(*buffer);
-		j_aux = sizeU2-1;
-		for(int32_t k=0;k<sizeU2;k++){
-			descriptor_index[j_aux] = *(this->byte_array + this->current_size+ k);
-			j_aux--;
-		}
-		memcpy(buffer,&descriptor_index,sizeof(buffer));
-		fields[i].setDescriptorIndex(*buffer);
-		j_aux=sizeU2-1;
-		for(int32_t k=0;k<sizeU2;k++){
-			attributes_count[j_aux] =  *(this->byte_array + this->current_size+ k);
-			j_aux--;
-		}
-		memcpy(buffer,&attributes_count,sizeof(buffer));
-		fields[i].setAttributesCount(*buffer);
-		//for(int32_t k=0;k < this->attributes_count;k++){	
-		//}
+		this->fields[i].setAttributes(attributes);
 	}
 	return true;
 }
-*/
+
 bool Leitor::setMethodsCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -342,6 +318,7 @@ bool Leitor::setMethods(){
 	for (int i = 0; i < this->methods_count; ++i){
 		Method_info a;
 		access_flags = read2byte();
+		printf("access_flags: %d\n", access_flags);
 		a.setAccessFlags(access_flags);
 
 		//printf("access_flags: 0x%04x\n", *access_flags);
@@ -354,7 +331,13 @@ bool Leitor::setMethods(){
 		attributes_count = read2byte();
 		a.setAttributeCount(attributes_count);
 
-		a.setAttributes(this->constant_pool);
+		Attribute_info aux[a.getAttributeCount()];
+		for (int i = 0; i < attributes_count; ++i){
+			aux[i] = readAttribute();
+		}
+		a.setAttributes(aux);
+
+
 	
 		this->methods[i] = a;
 	}
@@ -377,32 +360,26 @@ bool Leitor::setAttributesCount() {
 	return true;
 }
 
-bool Leitor::setAttributes(){
-	int32_t size = 2;
-	u4 j = size-1;
-	int16_t attribute_name_index;
-	int32_t attribute_length;
-
-	for (u4 i = 0; i < this->attributes_count; ++i){
-		attribute_name_index = read2byte();
-		attribute_length = read4byte();
-
+Attribute_info Leitor::readAttribute(){
+	u2 attribute_name_index = read2byte();
+	u4 attribute_length = read4byte();
 
 		string op = "";
-		u2 length = this->constant_pool.constant_pool[attribute_name_index].c11.length;
-		for (int i = 0; i < length; ++i){
-			op += constant_pool.constant_pool[attribute_name_index].c11.bytes[i];
+		printf("%d\n", attribute_name_index);
+		printf("%d\n", this->constant_pool_count	);
+		u2 length = this->constant_pool.constant_pool[attribute_name_index].constant_element.c11->length;
+		for (u2 i = 0; i < length; ++i){
+			op += this->constant_pool.constant_pool[attribute_name_index].constant_element.c11->bytes[i];
 		}
-
-		switch(op){
-			case "ConstantValue":
+		
+			if(op ==  "ConstantValue"){
 				ConstantValue_attribute cv_aux;
 				cv_aux.attribute_name_index = attribute_name_index;
 				cv_aux.attribute_length = attribute_length;
 				cv_aux.constantvalue_index = read2byte();
-				this->attributes[i] = cv_aux;
-				break;
-			case "Code":
+				return cv_aux;
+			}
+			if(op ==  "Code"){
 				Code_attribute code_aux;
 				code_aux.attribute_name_index = attribute_name_index;
 				code_aux.attribute_length = attribute_length;
@@ -428,12 +405,13 @@ bool Leitor::setAttributes(){
 
 				code_aux.attributes_count = read2byte();
 
-				code_aux.setAttributes(this->constant_pool);
-				this->attributes[i] = cv_aux;
-				break;
+				for (int i = 0; i < code_aux.attributes_count; ++i){
+					code_aux.attributes[i] = readAttribute();
+				}
+				return code_aux;
+			}
 
-			case "Exceptions":
-				j = 3;
+			if(op ==  "Exceptions"){
 				Exceptions_attribute exc_aux;
 				exc_aux.attribute_name_index = attribute_name_index;
 				exc_aux.attribute_length = attribute_length;
@@ -444,10 +422,10 @@ bool Leitor::setAttributes(){
 					exc_aux.exception_index_table[k] = read2byte();
 				}
 
-				this->attributes[i] = exc_aux;
-				break;
+				return exc_aux;
+			}
 
-			case "InnerClasses":
+			if(op ==  "InnerClass"){
 				InnerClasses_attribute in_aux;
 				in_aux.attribute_name_index = attribute_name_index;
 				in_aux.attribute_length = attribute_length;
@@ -465,28 +443,28 @@ bool Leitor::setAttributes(){
 
 					in_aux.classes[k] = c;	
 				}
-				this->attributes[i] = in_aux;
-				break;
+				return in_aux;
+			}
 
-			case "Synthetic":
+			if(op ==  "Synthetic"){
 				Synthetic_attribute syn_aux;
 				syn_aux.attribute_name_index = attribute_name_index;
 				syn_aux.attribute_length = attribute_length;
 
-				this->attributes[i] = syn_aux;
-				break;
+				return syn_aux;
+			}
 
-			case "SourceFile":
+			if(op ==  "SourceFile"){
 				SourceFile_attribute source_aux;
 				source_aux.attribute_name_index = attribute_name_index;
 				source_aux.attribute_length = attribute_length;
 
 				source_aux.sourcefile_index = read2byte();
 
-				this->attributes[i] = source_aux;
-				break;
+				return source_aux;
+			}
 			
-			case "LineNumberTable":
+			if(op ==  "LineNumberTable"){
 				LineNumberTable_attribute lnt_aux;
 				lnt_aux.attribute_name_index = attribute_name_index;
 				lnt_aux.attribute_length = attribute_length;
@@ -502,10 +480,10 @@ bool Leitor::setAttributes(){
 					lnt_aux.line_number_table[k] = d;
 				}
 
-				this->attributes[i] = lnt_aux;
-				break;
+				return lnt_aux;
+			}
 
-			case "LocalVariableTable":
+			if(op ==  "LocalVariableTable"){
 				LocalVariableTable_attribute local_aux;
 				local_aux.attribute_name_index = attribute_name_index;
 				local_aux.attribute_length = attribute_length;
@@ -524,28 +502,31 @@ bool Leitor::setAttributes(){
 					local_aux.local_variable_table[k] = e;
 				}
 
-				this->attributes[i] = local_aux;
-				break;
+				return local_aux;
+			}
 
-			case "Deprecated":
+			if(op ==  "Deprecated"){
 				Deprecated_attribute dep_aux;
 				dep_aux.attribute_name_index = attribute_name_index;
 				dep_aux.attribute_length = attribute_length;
 
-				this->attributes[i] = dep_aux;
-				break;
+				return dep_aux;
+			}
+			Attribute_info a;
 
-			default:
-				printf("invalido\n");
+			printf("Não deu\n");
+			return a;
+}
 
-		}
-
+bool Leitor::setAttributes(){
+	for (u4 i = 0; i < this->attributes_count; ++i){
+		this->attributes[i] = readAttribute();
 	}
 
 	return true;
 }
 
-u2 Leitor::getAcessFlags(){
+u2 Leitor::getAccessFlags(){
 	return this->access_flags;
 }
 
@@ -560,7 +541,6 @@ u2 Leitor::getSuperClass(){
 
 vector<Field_info> Leitor::getFields(){
 	vector<Field_info> ret;
-
 	for (u2 i = 0; i < this->fields_count; ++i){
 		ret.push_back(this->fields[i]);
 	}
@@ -588,12 +568,12 @@ vector<Attribute_info> Leitor::getAttributes(){
 	return ret;
 }
 
-vector<CONSTANT> Leitor::getConstantPoolElement(u2 num){
+/*vector<CONSTANT> Leitor::getConstantPoolElement(u2 num){
 	vector<Attribute_info> ret;
-	
+
 
 	return ret;
-}
+}*/
 
 // bool Leitor::setAccessFlagCount() {
 // 	int32_t size = 2;
@@ -616,9 +596,9 @@ vector<CONSTANT> Leitor::getConstantPoolElement(u2 num){
 /* EXIBIDOR */
 
 void Leitor::exibir() {
-	printf("Magic number: %x\n", this->magic);
+	/*printf("Magic number: %x\n", this->magic);
 	printf("Minor version: %x\n", this->minor_version);
 	printf("Major version: %x\n", this->major_version);
 	printf("Constant pool count: %d\n", this->constant_pool_count);
-	printf("Constant Pool:\n");
+	printf("Constant Pool:\n");*/
 }

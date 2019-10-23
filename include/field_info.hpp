@@ -27,14 +27,14 @@ class Field_info{
             bool setDescriptorIndex(u2 descriptor_index);
             bool setAttributesCount(u2 attributes_count);
             bool setAttributes(Attribute_info * attributes);
+            void print();
 
-            u2 getAcessFlags();
+            u2 getAccessFlags();
             u2 getNameIndex();
             u2 getDescriptorIndex();
             u2 getAttributesCount();
             Attribute_info * getAttributes();
 
-            void print();
 
     private:
             u2 access_flags;

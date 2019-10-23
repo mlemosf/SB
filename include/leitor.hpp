@@ -23,7 +23,7 @@ class Leitor {
 		u2 minor_version;
 		u2 major_version;
 		u2 constant_pool_count;
-		Cp_info *constant_pool;
+		Cp_info constant_pool;
 		//cp_info constant_pool[constant_pool_count - 1];
 		u2 access_flags;
 		u2 this_class;
@@ -32,9 +32,9 @@ class Leitor {
 		u2 interfaces;
 		// u2 interfaces[interfaces_count];
 		u2 fields_count;
-		// field_info fields[fields_count];
+		Field_info* fields;
 		u2 methods_count;
-		Method_info methods;
+		Method_info *methods;
 		u2 attributes_count;
 		// attribute_info attributes[attributes_count];
 		Attribute_info* attributes;
@@ -71,9 +71,12 @@ class Leitor {
 		u2 getFieldsCount();
 		u2 getMethodsCount();
 		u2 getAttributesCount();
-		u2 getAcessFlags();
+		u2 getAccessFlags();
 		u2 getThisClass();
 		u2 getSuperClass();
+
+		Attribute_info readAttribute();
+
 		vector<Field_info> getFields();
 		vector<Method_info> getMethods();
 		//vector<interface> getInterfaces();
