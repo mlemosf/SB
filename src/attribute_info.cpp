@@ -33,3 +33,9 @@ u1* Attribute_info::getInfo(){
 bool Code_attribute::setAttributes(unsigned char* byte_array, u4 current_size){
 	return true;
 }
+
+void Attribute_info::print(){
+	printf("Attribute name index: %d\n",attribute_name_index);
+	printf("Attribute length: %d\n",attribute_length);
+	printf("Specific Info:\n"); // colocar a lista de atributos
+}

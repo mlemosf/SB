@@ -47,3 +47,48 @@ u2 Method_info::getAttributeCount(){
 Attribute_info* Method_info::getAttributes(){
 	return this->attributes;
 }
+
+void Method_info::print(){
+	printf("Name Index: %d\n",name_index);
+	printf("Descriptor Index: %d\n",descriptor_index);
+	printf("Acess Flags: %x",access_flags);
+	switch(acess_flags){
+		case ACC_PUBLIC:
+		  printf("[public]");
+		  break;
+    case ACC_PRIVATE:
+      printf("[private]");
+      break;
+		case ACC_PROTECTED:
+		  printf("[protected]");
+		  break;
+		case ACC_STATIC:
+		  printf("[static]");
+		  break;
+		case ACC_FINAL:
+		  printf("[final]");
+		  break;
+		case ACC_SYNCHRONIZED: 
+ 		  printf("[synchronized]")
+ 		  break;
+ 		case ACC_BRIDGE:
+ 		  printf("[bridge]");
+ 		  break;
+ 		case ACC_VARARGS:
+ 		  printf("[varargs]");
+ 		  break; 
+ 		case ACC_NATIVE:
+ 		  printf("[native]");
+ 		  break; 
+ 		case ACC_ABSTRACT:
+ 		  printf("[abstract]");
+ 		  break; 
+ 		case ACC_STRICT:
+ 		  printf("[strict]");
+ 		  break; 
+		case ACC_SYNTHETIC:
+		  printf("[synthetic]");
+		  break;
+	}
+	printf("\n");
+}

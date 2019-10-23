@@ -13,6 +13,7 @@ class Attribute_info{
         bool setAttributeNameIndex(u2 attribute_name_index);
         bool setAttributeLength(u4 attribute_length);
         bool setInfo(u1 * info);
+        void print();
 
         u2 getAttributeNameIndex();
         u4 getAttributeLength();
