@@ -10,25 +10,11 @@
 #include "cp_info.hpp"
 #include "leitor.hpp"
 
-enum TypeShow
-{
-	PUBLIC,
-	PRIVATE,
-	PROTECTED,
-	STATIC,
-	FINAL,
-	VOLATILE,
-	TRANSIENT,
-	SYNTHETIC,
-	ENUM,
-	SYNCHRONIZED,
-	NATIVE,
-	ABSTRACT,
-	STRICT,
-	BRIDGE,
-	VARARGS,
-	ALL
-};
+#ifdef __WIN32
+  #define CLS "cls"
+#elif __linux__
+  #define CLS "clear"
+#endif
 
 class Exibidor {
 private:
@@ -44,7 +30,6 @@ public:
 	void Fields();
 	void Methods();
 	void Attributes();
-
 };
 
 #endif
