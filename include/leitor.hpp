@@ -9,6 +9,7 @@
 #include <string.h>
 #include "cp_info.hpp"
 #include "method_info.hpp"
+#include "field_info.hpp"
 
 
 // #define u1 uint8_t
@@ -70,6 +71,10 @@ class Leitor {
 		u2 getAcessFlags();
 		u2 getThisClass();
 		u2 getSuperClass();
+		vector<Field_info> getFields();
+		vector<Method_info> getMethods();
+		//vector<interface> getInterfaces();
+		vector<Attribute_info> getAttributes();
 		// bool setAccessFlagCount();
 
 		u1 read1byte();

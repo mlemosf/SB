@@ -34,13 +34,9 @@ class Method_info{
         bool setNameIndex(u2 name_index);
         bool setDescriptorIndex(u2 descriptor_index);
         bool setAttributeCount(u2 attributes_count);
-<<<<<<< HEAD
+        bool setAttributes(Cp_info constant_pool);
+
         void print();
-        bool setAttributes();
-=======
-        bool setAttributes(Attribute_info * attributes);
-        void print();
->>>>>>> 3f76f51f00d66f72e39a2dcdce6c258a4ec71c16
 
         u2 getAccessFlags();
         u2 getNameIndex();

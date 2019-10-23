@@ -30,8 +30,6 @@ u4 Leitor::read4byte(){
 	return *b;
 }
 
-
-
 /* LEITOR */
 
 void Leitor::loadFile(const string filename) {
@@ -236,7 +234,6 @@ bool Leitor::setInterfacesCount() {
 }
 
 /*
-
 bool Leitor::setInterfaces(){
 	int32_t size = this->attributes_count;
 	uint16_t interfaces[size];
@@ -354,7 +351,7 @@ bool Leitor::setMethods(){
 		attributes_count = read2byte();
 		a.setAttributeCount(attributes_count);
 
-		a.setAttributes();
+		a.setAttributes(this->constant_pool);
 	
 		this->methods[i] = a;
 	}
@@ -388,7 +385,11 @@ bool Leitor::setAttributes(){
 		attribute_length = read4byte();
 
 
-		//string op = constant_pool;
+		string op = "";
+		u2 length = this->constant_pool.constant_pool[attribute_name_index].c11.length;
+		for (int i = 0; i < length; ++i){
+			op += constant_pool.constant_pool[attribute_name_index].c11.bytes[i];
+		}
 
 		switch(op){
 			case "ConstantValue":
@@ -424,7 +425,7 @@ bool Leitor::setAttributes(){
 
 				code_aux.attributes_count = read2byte();
 
-				code_aux.setAttributes();
+				code_aux.setAttributes(this->constant_pool);
 				this->attributes[i] = cv_aux;
 				break;
 
@@ -542,16 +543,46 @@ bool Leitor::setAttributes(){
 }
 
 u2 Leitor::getAcessFlags(){
-	return access_flags;
+	return this->access_flags;
 }
 
 u2 Leitor::getThisClass()
 {
-	return this_class;
+	return this->this_class;
 }
 
 u2 Leitor::getSuperClass(){
-  return super_class;
+  return this->super_class;
+}
+
+vector<Field_info> Leitor::getFields(){
+	vector<Field_info> ret;
+
+	for (u2 i = 0; i < this->fields_count; ++i){
+		ret.push_back(this->fields[i]);
+	}
+
+	return ret;
+}
+
+vector<Method_info> Leitor::getMethods(){
+	vector<Method_info> ret;
+
+	for (u2 i = 0; i < this->methods_count; ++i){
+		ret.push_back(this->methods[i]);
+	}
+
+	return ret;
+}
+
+vector<Attribute_info> Leitor::getMethods(){
+	vector<Attribute_info> ret;
+
+	for (u2 i = 0; i < this->attributes_count; ++i){
+		ret.push_back(this->attributes[i]);
+	}
+
+	return ret;
 }
 
 // bool Leitor::setAccessFlagCount() {

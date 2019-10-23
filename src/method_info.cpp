@@ -21,7 +21,7 @@ bool Method_info::setAttributeCount(u2 attributes_count){
 	return true;
 }
 
-bool Method_info::setAttributes(){
+bool Method_info::setAttributes(Cp_info constant_pool){
 	for (u2 i = 0; i < this->attributes_count; ++i){		
 		u2 attribute_name_index = read2byte();
 		u4 attribute_length = read4byte();

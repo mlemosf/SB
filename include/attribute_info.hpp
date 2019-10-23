@@ -64,7 +64,7 @@ class Code_attribute : public Attribute_info{
         u2 attributes_count;
         Attribute_info * attributes;
 
-        bool setAttributes();
+        bool setAttributes(Cp_info constant_pool);
 };
 class ConstantValue_attribute : public Attribute_info{
     public:
