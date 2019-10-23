@@ -42,7 +42,7 @@ bool Code_attribute::setAttributes(){
 				lnt_aux.attribute_name_index = attribute_name_index;
 				lnt_aux.attribute_length = attribute_length;
 
-				source_aux.line_number_table_length = read2byte();
+				lnt_aux.line_number_table_length = read2byte();
 
 				for (u2 k = 0; k < lnt_aux.line_number_table_length; ++k){
 					LineNumber_info d;
@@ -50,10 +50,10 @@ bool Code_attribute::setAttributes(){
 					d.start_pc = read2byte();
 					d.line_number = read2byte();
 
-					source_aux.line_number_table[k] = d;
+					lnt_aux.line_number_table[k] = d;
 				}
 
-				this->attributes[i] = source_aux;
+				this->attributes[i] = lnt_aux;
 
 				break;
 			case "LocalVariableTable":
