@@ -1,4 +1,5 @@
 #include "../include/exibidor.hpp"
+#include "../include/cp_info.hpp"
 using namespace std;
 
 Exibidor::Exibidor(Leitor l)
@@ -24,7 +25,8 @@ void Exibidor::ConstantPool()
 {
 	int qtd = l.getConstantPoolCount();
 	for(int i = 0; i<qtd; i++){
-		printf("%s\n", "a");
+		CONSTANT c = l.getConstantPoolElement(i);
+		c.print();
 	}
 }
 
