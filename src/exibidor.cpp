@@ -35,8 +35,8 @@ void Exibidor::GeneralInformation()
 void Exibidor::ConstantPool()
 {
 	printf("\nConstantPool: \n\n");
-	int qtd = r.getConstantPoolCount();
-	for(int i = 0; i<qtd; i++){
+	u2 qtd = r.getConstantPoolCount();
+	for(u2 i = 0; i<qtd; i++){
 		CONSTANT c = r.getConstantPoolElement(i);
 		c.print();
 	}

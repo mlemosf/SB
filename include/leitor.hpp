@@ -24,29 +24,20 @@ class Leitor {
 		u2 major_version;
 		u2 constant_pool_count;
 		Cp_info *constant_pool;
-<<<<<<< HEAD
-=======
 		//cp_info constant_pool[constant_pool_count - 1];
->>>>>>> exibidor
 		u2 access_flags;
 		u2 this_class;
 		u2 super_class;
 		u2 interfaces_count;
-<<<<<<< HEAD
 		u2 interfaces;
-=======
 		// u2 interfaces[interfaces_count];
->>>>>>> exibidor
 		u2 fields_count;
 		// field_info fields[fields_count];
 		u2 methods_count;
 		Method_info methods;
 		u2 attributes_count;
-<<<<<<< HEAD
 		// attribute_info attributes[attributes_count];
-=======
 		Attribute_info* attributes;
->>>>>>> exibidor
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
 

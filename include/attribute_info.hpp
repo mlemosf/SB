@@ -8,23 +8,6 @@
 #define u2 uint16_t
 #define u4 uint32_t
 
-<<<<<<< HEAD
-
-class Attribute_info{
-    public:
-        bool setAttributeNameIndex(u2 attribute_name_index);
-        bool setAttributeLenght(u2 attribute_length);
-        bool setInfo(u1 * info);
-
-        u2 getAttributeNameIndex();
-        u2 getAttributeLenght();
-        u1* getInfo();
-    private:
-        u2 attribute_name_index;
-        u2 attribute_length;
-        u1 * info;    //u1 info[attribute_length];
-};
-=======
 class Attribute_info{
     public:
         bool setAttributeNameIndex(u2 attribute_name_index);
@@ -41,7 +24,6 @@ class Attribute_info{
         u1 * info;    //u1 info[attribute_length];
 };
 
->>>>>>> exibidor
 class ClassInners_info{ // classe extra
     public:
         u2 inner_class_info_index;
@@ -80,13 +62,9 @@ class Code_attribute : public Attribute_info{
         u2 exception_table_length;
         ExceptionCode_info * exception_table;
         u2 attributes_count;
-<<<<<<< HEAD
-        Attribute_info *attributes;
-=======
         Attribute_info * attributes;
 
         bool setAttributes(Cp_info constant_pool);
->>>>>>> exibidor
 };
 class ConstantValue_attribute : public Attribute_info{
     public:
@@ -140,9 +118,5 @@ class LocalVariableTable_attribute : public Attribute_info{
         u2 local_variable_table_length;
         LocalVariableTable_info * local_variable_table;
 };
-<<<<<<< HEAD
-
-=======
->>>>>>> exibidor
 
 #endif
