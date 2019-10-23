@@ -27,6 +27,7 @@ bool Field_info::setAttributes(Attribute_info * attributes){
 }
 
 void Field_info::print(){
+<<<<<<< HEAD
     printf("Name Index: %d\n",name_index);
     printf("Descriptor Index: %d\n",descriptor_index);
     printf("Acess Flags: %x",access_flags);
@@ -60,6 +61,41 @@ void Field_info::print(){
           break;
     }
     printf("\n");
+=======
+	printf("Name Index: %d\n",name_index);
+	printf("Descriptor Index: %d\n",descriptor_index);
+	printf("Acess Flags: %x",access_flags);
+	switch(acess_flags){
+		case ACC_PUBLIC:
+		  printf("[public]");
+		  break;
+    case ACC_PRIVATE:
+      printf("[private]");
+      break;
+		case ACC_PROTECTED:
+		  printf("[protected]");
+		  break;
+		case ACC_STATIC:
+		  printf("[static]");
+		  break;
+		case ACC_FINAL:
+		  printf("[final]");
+		  break;
+		case ACC_VOLATILE:
+		  printf("[volatile]");
+		  break;
+		case ACC_TRANSIENT:
+		  printf("[transient]");
+		  break;
+		case ACC_SYNTHETIC:
+		  printf("[synthetic]");
+		  break;
+		case ACC_ENUM:
+		  printf("[enum]");
+		  break;
+	}
+	printf("\n");
+>>>>>>> 3f76f51f00d66f72e39a2dcdce6c258a4ec71c16
 }
 
 u2 Field_info::getAcessFlags(){return this->access_flags;}

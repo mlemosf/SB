@@ -24,8 +24,13 @@ void Exibidor::GeneralInformation()
 	printf("Major version: %x\n", r.getMajorVersion());
 	printf("Constant pool count: %d\n", r.getConstantPoolCount());
 	printf("Acess Flags: %x\n", r.getAcessFlags());
+<<<<<<< HEAD
 	printf("This Class: \n", r.getThisClass());
 	printf("Super Class: \n", r.getSuperClass());
+=======
+	printf("This Class: %d\n", r.getThisClass());
+	printf("Super Class: %d\n", r.getSuperClass());
+>>>>>>> 3f76f51f00d66f72e39a2dcdce6c258a4ec71c16
 	printf("Interfaces count: %d\n",r.getInterfacesCount());
 	printf("Fields Count: %d\n",r.getFieldsCount());
 	printf("Methods Count: %d\n",r.getMethodsCount());

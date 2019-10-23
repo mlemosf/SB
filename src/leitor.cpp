@@ -31,6 +31,7 @@ u4 Leitor::read4byte(){
 }
 
 
+
 /* LEITOR */
 
 void Leitor::loadFile(const string filename) {
