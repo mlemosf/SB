@@ -1,4 +1,6 @@
 #include "../include/method_info.hpp"
+#include "../include/cp_info.hpp"
+#include "../include/leitor.hpp"
 using namespace std;
 
 bool Method_info::setAccessFlags(u2 access_flags){
@@ -117,7 +119,7 @@ void Method_info::print(){
 	printf("Name Index: %d\n",name_index);
 	printf("Descriptor Index: %d\n",descriptor_index);
 	printf("Acess Flags: %x",access_flags);
-	switch(acess_flags){
+	switch(access_flags){
 		case ACC_PUBLIC:
 		  printf("[public]");
 		  break;
@@ -134,7 +136,7 @@ void Method_info::print(){
 		  printf("[final]");
 		  break;
 		case ACC_SYNCHRONIZED: 
- 		  printf("[synchronized]")
+ 		  printf("[synchronized]");
  		  break;
  		case ACC_BRIDGE:
  		  printf("[bridge]");

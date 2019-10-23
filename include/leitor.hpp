@@ -32,7 +32,7 @@ class Leitor {
 		u2 * interfaces;
 		// u2 interfaces[interfaces_count];
 		u2 fields_count;
-		Field_info * field_info;// field_info fields[fields_count];
+		Field_info * fields;// field_info fields[fields_count];
 		u2 methods_count;
 		Method_info methods;
 		u2 attributes_count;

@@ -309,7 +309,7 @@ bool Leitor::setMethodsCount() {
 		j--;
 	}
 	memcpy(buffer, &methods_count, sizeof(methods_count));
-	this->methods_count = *fieldsbuffer;
+	this->methods_count = *buffer;
 	this->current_size += sizeof(this->methods_count);
 	return true;
 }
