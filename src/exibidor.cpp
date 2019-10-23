@@ -22,7 +22,10 @@ void Exibidor::GeneralInformation()
 
 void Exibidor::ConstantPool()
 {
-	
+	int qtd = l.getConstantPoolCount();
+	for(int i = 0; i<qtd; i++){
+		printf("%s\n", "a");
+	}
 }
 
 void Exibidor::Interfaces()
