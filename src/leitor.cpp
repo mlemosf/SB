@@ -1,5 +1,34 @@
 #include "../include/leitor.hpp"
+#include "../include/field_info.hpp"
+#include "../include/attribute_info.hpp"
 using namespace std;
+
+u1 Leitor::read1byte(){
+	u1 ret;
+	ret = *(this->byte_array + this->current_size);
+	this->current_size += sizeof(ret);
+	return ret;
+}
+
+u2 Leitor::read2byte(){
+	u2 b[1];
+	u1 ret[2];
+	ret[1] = read1byte();
+	ret[0] = read1byte();
+	memcpy(b, &ret, sizeof(u2));
+	return *b;
+}
+
+u4 Leitor::read4byte(){
+	u4 b[1];
+	u1 ret[4];
+	ret[3] = read1byte();
+	ret[2] = read1byte();
+	ret[1] = read1byte();
+	ret[0] = read1byte();
+	memcpy(b, &ret, sizeof(u4));
+	return *b;
+}
 
 /* LEITOR */
 
@@ -207,6 +236,7 @@ bool Leitor::setInterfacesCount() {
 	return true;
 }
 
+/*
 bool Leitor::setInterfaces(){
 	int32_t size = this->attributes_count;
 	uint16_t interfaces[size];
@@ -215,12 +245,14 @@ bool Leitor::setInterfaces(){
 	for(int32_t i=0;i<size;i++){
 		interfaces[j] = *(this->byte_array + this->current_size + i);
 		j--;
-	}	
+	}
 	memcpy(buffer,&interfaces,sizeof(interfaces));
 	this->interfaces = *buffer;
 	this->current_size +=  sizeof(interfaces);
+
 	return true;
 }
+*/
 
 bool Leitor::setFieldsCount() {
 	int32_t size = 2;
@@ -237,11 +269,53 @@ bool Leitor::setFieldsCount() {
 	this->current_size += sizeof(this->fields_count);
 	return true;
 }
-
+/*
 bool Leitor::setFields(){
+	uint16_t size = this->fields_count;
+	int32_t j = size - 1;
+	Field_info fields[size];
+	int32_t sizeU2 =  2;
+	int32_t j_aux = sizeU2-1;
+	int16_t * buffer;
+	uint8_t access_flags[sizeU2];
+	uint8_t name_index[sizeU2]; 
+	uint8_t descriptor_index[sizeU2];
+	uint8_t attributes_count[sizeU2];
+	Attribute_info * attributes;
+	for(int32_t i =0;i<size;i++){
+		for(int32_t k=0;k<sizeU2;k++){
+			access_flags[j_aux] = *(this->byte_array + this->current_size+ k);
+			j_aux--;
+		}
+		memcpy(buffer,&access_flags,sizeof(buffer));
+		fields[i].setAcessFlags(*buffer);
+		j_aux = sizeU2-1;
+		for(int32_t k=0;k<sizeU2;k++){
+			name_index[j_aux] = *(this->byte_array + this->current_size+ k);
+			j_aux--;
+		}
+		memcpy(buffer,&name_index,sizeof(buffer));
+		fields[i].setNameIndex(*buffer);
+		j_aux = sizeU2-1;
+		for(int32_t k=0;k<sizeU2;k++){
+			descriptor_index[j_aux] = *(this->byte_array + this->current_size+ k);
+			j_aux--;
+		}
+		memcpy(buffer,&descriptor_index,sizeof(buffer));
+		fields[i].setDescriptorIndex(*buffer);
+		j_aux=sizeU2-1;
+		for(int32_t k=0;k<sizeU2;k++){
+			attributes_count[j_aux] =  *(this->byte_array + this->current_size+ k);
+			j_aux--;
+		}
+		memcpy(buffer,&attributes_count,sizeof(buffer));
+		fields[i].setAttributesCount(*buffer);
+		//for(int32_t k=0;k < this->attributes_count;k++){	
+		//}
+	}
 	return true;
 }
-
+*/
 bool Leitor::setMethodsCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -258,6 +332,7 @@ bool Leitor::setMethodsCount() {
 	return true;
 }
 
+<<<<<<< HEAD
 // bool Leitor::setMethods(){
 // 	printf("methods_count: %d\n", this->methods_count);
 // 	int32_t size = 2;
@@ -306,6 +381,36 @@ bool Leitor::setMethodsCount() {
 // 	this->current_size+=sizeof(a)*this->methods_count;
 // 	return true;
 // }
+=======
+bool Leitor::setMethods(){
+	printf("methods_count: %d\n", this->methods_count);
+	int16_t access_flags;
+	int16_t name_index;
+	int16_t descriptor_index;
+	int16_t attributes_count;
+
+	for (int i = 0; i < this->methods_count; ++i){
+		Method_info a;
+		access_flags = read2byte();
+		a.setAccessFlags(access_flags);
+
+		//printf("access_flags: 0x%04x\n", *access_flags);
+		name_index = read2byte();
+		a.setNameIndex(name_index);
+		
+		descriptor_index = read2byte();
+		a.setDescriptorIndex(descriptor_index);
+		
+		attributes_count = read2byte();
+		a.setAttributeCount(attributes_count);
+
+		a.setAttributes(this->constant_pool);
+	
+		this->methods[i] = a;
+	}
+	return true;
+}
+>>>>>>> exibidor
 
 bool Leitor::setAttributesCount() {
 	int32_t size = 2;
@@ -324,7 +429,214 @@ bool Leitor::setAttributesCount() {
 }
 
 bool Leitor::setAttributes(){
+	int32_t size = 2;
+	u4 j = size-1;
+	int16_t attribute_name_index;
+	int32_t attribute_length;
+
+	for (u4 i = 0; i < this->attributes_count; ++i){
+		attribute_name_index = read2byte();
+		attribute_length = read4byte();
+
+
+		string op = "";
+		u2 length = this->constant_pool.constant_pool[attribute_name_index].c11.length;
+		for (int i = 0; i < length; ++i){
+			op += constant_pool.constant_pool[attribute_name_index].c11.bytes[i];
+		}
+
+		switch(op){
+			case "ConstantValue":
+				ConstantValue_attribute cv_aux;
+				cv_aux.attribute_name_index = attribute_name_index;
+				cv_aux.attribute_length = attribute_length;
+				cv_aux.constantvalue_index = read2byte();
+				this->attributes[i] = cv_aux;
+				break;
+			case "Code":
+				Code_attribute code_aux;
+				code_aux.attribute_name_index = attribute_name_index;
+				code_aux.attribute_length = attribute_length;
+				code_aux.max_stack = read2byte();
+				code_aux.max_locals = read2byte();
+				code_aux.code_length = read4byte();
+
+				for (u2 k = 0; k < code_aux.code_length; ++k){
+					code_aux.code[k] = read1byte();
+				}
+
+				code_aux.exception_table_length = read2byte();
+
+				for (int k = 0; k < code_aux.exception_table_length; ++k){
+					ExceptionCode_info b;
+					b.start_pc = read2byte();
+					b.end_pc = read2byte();
+					b.handler_pc = read2byte();
+					b.catch_type = read2byte();
+
+					code_aux.exception_table[k] = b;
+				}
+
+				code_aux.attributes_count = read2byte();
+
+				code_aux.setAttributes(this->constant_pool);
+				this->attributes[i] = cv_aux;
+				break;
+
+			case "Exceptions":
+				j = 3;
+				Exceptions_attribute exc_aux;
+				exc_aux.attribute_name_index = attribute_name_index;
+				exc_aux.attribute_length = attribute_length;
+
+				exc_aux.number_of_exceptions = read2byte();
+
+				for (int k = 0; k < exc_aux.number_of_exceptions; ++k){
+					exc_aux.exception_index_table[k] = read2byte();
+				}
+
+				this->attributes[i] = exc_aux;
+				break;
+
+			case "InnerClasses":
+				InnerClasses_attribute in_aux;
+				in_aux.attribute_name_index = attribute_name_index;
+				in_aux.attribute_length = attribute_length;
+
+				in_aux.number_of_classes = read2byte();
+				
+
+				for (int k = 0; k < in_aux.number_of_classes; ++k){
+					ClassInners_info c;
+					
+					c.inner_class_info_index = read2byte();
+					c.outer_class_info_index = read2byte();
+					c.inner_name_index = read2byte();
+					c.inner_class_access_flags = read2byte();
+
+					in_aux.classes[k] = c;	
+				}
+				this->attributes[i] = in_aux;
+				break;
+
+			case "Synthetic":
+				Synthetic_attribute syn_aux;
+				syn_aux.attribute_name_index = attribute_name_index;
+				syn_aux.attribute_length = attribute_length;
+
+				this->attributes[i] = syn_aux;
+				break;
+
+			case "SourceFile":
+				SourceFile_attribute source_aux;
+				source_aux.attribute_name_index = attribute_name_index;
+				source_aux.attribute_length = attribute_length;
+
+				source_aux.sourcefile_index = read2byte();
+
+				this->attributes[i] = source_aux;
+				break;
+			
+			case "LineNumberTable":
+				LineNumberTable_attribute lnt_aux;
+				lnt_aux.attribute_name_index = attribute_name_index;
+				lnt_aux.attribute_length = attribute_length;
+
+				lnt_aux.line_number_table_length = read2byte();
+
+				for (u2 k = 0; k < lnt_aux.line_number_table_length; ++k){
+					LineNumber_info d;
+
+					d.start_pc = read2byte();
+					d.line_number = read2byte();
+
+					lnt_aux.line_number_table[k] = d;
+				}
+
+				this->attributes[i] = lnt_aux;
+				break;
+
+			case "LocalVariableTable":
+				LocalVariableTable_attribute local_aux;
+				local_aux.attribute_name_index = attribute_name_index;
+				local_aux.attribute_length = attribute_length;
+
+				local_aux.local_variable_table_length = read2byte();
+
+				for (int k = 0; k < local_aux.local_variable_table_length; ++k){
+					LocalVariableTable_info e;
+
+					e.start_pc = read2byte();
+					e.length = read2byte();
+					e.name_index = read2byte();
+					e.descriptor_index = read2byte();
+					e.index = read2byte();
+
+					local_aux.local_variable_table[k] = e;
+				}
+
+				this->attributes[i] = local_aux;
+				break;
+
+			case "Deprecated":
+				Deprecated_attribute dep_aux;
+				dep_aux.attribute_name_index = attribute_name_index;
+				dep_aux.attribute_length = attribute_length;
+
+				this->attributes[i] = dep_aux;
+				break;
+
+			default:
+				printf("invalido\n");
+
+		}
+
+	}
+
 	return true;
+}
+
+u2 Leitor::getAcessFlags(){
+	return this->access_flags;
+}
+
+u2 Leitor::getThisClass()
+{
+	return this->this_class;
+}
+
+u2 Leitor::getSuperClass(){
+  return this->super_class;
+}
+
+vector<Field_info> Leitor::getFields(){
+	vector<Field_info> ret;
+
+	for (u2 i = 0; i < this->fields_count; ++i){
+		ret.push_back(this->fields[i]);
+	}
+
+	return ret;
+}
+
+vector<Method_info> Leitor::getMethods(){
+	vector<Method_info> ret;
+
+	for (u2 i = 0; i < this->methods_count; ++i){
+		ret.push_back(this->methods[i]);
+	}
+
+	return ret;
+}
+
+vector<Attribute_info> Leitor::getAttributes(){
+	vector<Attribute_info> ret;
+
+	for (u2 i = 0; i < this->attributes_count; ++i){
+		ret.push_back(this->attributes[i]);
+	}
+
+	return ret;
 }
 
 // bool Leitor::setAccessFlagCount() {
