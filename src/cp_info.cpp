@@ -1,4 +1,5 @@
 #include "../include/cp_info.hpp"
+#include <typeinfo>
 using namespace std;
 
 void Cp_info::concatBytes(u1* buffer, u2 size, u1* bytes) {
@@ -7,13 +8,14 @@ void Cp_info::concatBytes(u1* buffer, u2 size, u1* bytes) {
 		bytes[j] = *(buffer + i);
 		j++;
 	}
-	printf("\n");
+	// printf("\n");
 }
 
 
 u4 Cp_info::getConstantPoolTag(u2 tag, u4 utf8_size) {
 	int32_t size = 0;
 
+	// printf("tag: %d\n", tag);
 	switch (tag) {
 		case CONSTANT_Class:
 			size = sizeof(CONSTANT_Class_info);
@@ -40,7 +42,7 @@ u4 Cp_info::getConstantPoolTag(u2 tag, u4 utf8_size) {
 			size = sizeof(CONSTANT_Long_info);
 			break;
 		case CONSTANT_Double:
-			size = sizeof(CONSTANT_Double_info);
+			size = sizeof(CONSTANT_Double_info) - 2; 
 			break;
 		case CONSTANT_NameAndType:
 			size = sizeof(CONSTANT_NameAndType_info);
@@ -61,6 +63,7 @@ u4 Cp_info::getConstantPoolTag(u2 tag, u4 utf8_size) {
 			printf("Tipo de dado inválido\n");
 			break;
 	}
+	// printf("%d\n", size - 1);
 	if (size <= 0) {
 		return size;
 	}
@@ -69,35 +72,27 @@ u4 Cp_info::getConstantPoolTag(u2 tag, u4 utf8_size) {
 	}
 }
 
-cp_info_element Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned char* byte_array, vector<cp_info_element>* constant_pool) {
+void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned char* byte_array) {
 	uint8_t buffer[size];
 	int8_t val;
 	int32_t j = size - 1;
-	cp_info_element element;
+	struct cp_info element;
 
 	for (int32_t i = 0; i < size; i++) {
 		val = *(byte_array + currentSize + position);
 		buffer[i] = val;
-		// j--;
 		position++;
 	}
 
+	// printf("%d\n", typeid(buffer[0]));
+	// printf("%d\n", buffer[0]);
+	element.tag = buffer[0];
 	switch (tag) {
 		case CONSTANT_Class: {
 			CONSTANT_Class_info *class_info = new CONSTANT_Class_info();
 			class_info->tag = buffer[0];
 			class_info->name_index = (buffer[1] << 16) + (buffer[2] << 8);
-			element.c1 = class_info;
-			break;
-		}
-		case CONSTANT_Fieldref: {
-			CONSTANT_Fieldref_info *fieldref_info = new CONSTANT_Fieldref_info();
-			fieldref_info->tag = buffer[0];
-			fieldref_info->class_index = (buffer[1] << 16) + (buffer[2] << 8);
-			fieldref_info->name_and_type_index = (buffer[3] << 16) + (buffer[4] << 8);
-			// printf("tag: %x\n", fieldref_info->tag);
-			// printf("class_index: %x\n", fieldref_info->class_index);
-			// printf("name: %x\n", fieldref_info->name_and_type_index);
+			element.constant_element.c1 = class_info;
 			break;
 		}
 		case CONSTANT_Methodref: {
@@ -105,11 +100,85 @@ cp_info_element Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize
 			methodref_info->tag = buffer[0];
 			methodref_info->class_index = (buffer[1] << 16) + (buffer[2] << 8);
 			methodref_info->name_and_type_index = (buffer[3] << 16) + (buffer[4] << 8);
-			element.c2 = methodref_info;
+			element.constant_element.c2 = methodref_info;
 			// printf("tag: %x\n", methodref_info->tag);
 			// printf("class_index: %x\n", methodref_info->class_index);
 			// printf("name: %x\n", methodref_info->name_and_type_index);
 			break;
+		}
+		case CONSTANT_Fieldref: {
+			CONSTANT_Fieldref_info *fieldref_info = new CONSTANT_Fieldref_info();
+			fieldref_info->tag = buffer[0];
+			fieldref_info->class_index = (buffer[1] << 16) + (buffer[2] << 8);
+			fieldref_info->name_and_type_index = (buffer[3] << 16) + (buffer[4] << 8);
+			element.constant_element.c3 = fieldref_info;
+			// printf("tag: %x\n", fieldref_info->tag);
+			// printf("class_index: %x\n", fieldref_info->class_index);
+			// printf("name: %x\n", fieldref_info->name_and_type_index);
+			break;
+		}
+		case CONSTANT_InterfaceMethodref: {
+			CONSTANT_InterfaceMethodref_info *interfacemethodref_info= new CONSTANT_InterfaceMethodref_info();
+			interfacemethodref_info->tag = buffer[0];
+			interfacemethodref_info->class_index = (buffer[1] << 16) + (buffer[2] << 8);
+			interfacemethodref_info->name_and_type_index = (buffer[3] << 16) + (buffer[4] << 8);
+			element.constant_element.c4 = interfacemethodref_info;
+			// printf("tag: %x\n", interfacemethodref_info->tag);
+			// printf("class_index: %x\n", interfacemethodref_info->class_index);
+			// printf("name: %x\n", interfacemethodref_info->name_and_type_index);
+			break;
+		}
+		case CONSTANT_String: {
+			CONSTANT_String_info *string_info = new CONSTANT_String_info();
+			string_info->tag = buffer[0];
+			string_info->string_index = (buffer[1] << 16) + (buffer[2] << 8);
+			element.constant_element.c5 = string_info;
+			break;
+		}
+		case CONSTANT_Integer: {
+			CONSTANT_Integer_info *integer_info = new CONSTANT_Integer_info();
+			integer_info->tag = buffer[0];
+			integer_info->bytes = (buffer[1] << 24) + (buffer[2] << 16) + (buffer[3] << 8) + (buffer[4]); 
+			element.constant_element.c6 = integer_info;
+			break;
+		}
+		case CONSTANT_Float: {
+			CONSTANT_Float_info *float_info = new CONSTANT_Float_info();
+			float_info->tag = buffer[0];
+			float_info->bytes = (buffer[1] << 24) + (buffer[2] << 16) + (buffer[3] << 8) + (buffer[4]); 
+			element.constant_element.c7 = float_info;
+			break;
+		}
+		case CONSTANT_Long: {
+			CONSTANT_Long_info *long_info = new CONSTANT_Long_info();
+			long_info->tag = buffer[0];
+			long_info->high_bytes = (buffer[1] << 24) + (buffer[2] << 16) + (buffer[3] << 8) + (buffer[4]);
+			long_info->low_bytes = (buffer[5] << 24) + (buffer[6] << 16) + (buffer[7] << 8) + (buffer[8]);
+			element.constant_element.c8 = long_info;
+			break;
+		}
+		case CONSTANT_Double: {
+			CONSTANT_Double_info *double_info = new CONSTANT_Double_info();
+			double_info->tag = buffer[0];
+			double_info->high_bytes = (buffer[1] << 24) + (buffer[2] << 16) + (buffer[3] << 8) + (buffer[4]);
+			double_info->low_bytes = (buffer[5] << 24) + (buffer[6] << 16) + (buffer[7] << 8) + (buffer[8]);
+			// printf("tag: %d\n", double_info->tag);
+			// printf("high_bytes: %x\n", double_info->high_bytes);
+			// printf("low_bytes: %x\n", double_info->low_bytes);
+
+			element.constant_element.c9 = double_info;
+			break;
+		}
+		case CONSTANT_NameAndType: {
+			CONSTANT_NameAndType_info *nameandtype_info = new CONSTANT_NameAndType_info();
+			nameandtype_info->tag = buffer[0];
+			nameandtype_info->name_index = (buffer[1] << 16) + (buffer[2] << 8);
+			nameandtype_info->descriptor_index = (buffer[3] << 16) + (buffer[4] << 8);
+			element.constant_element.c10 = nameandtype_info;
+			break;
+			// printf("tag: %d\n", nameandtype_info->tag);
+			// printf("index: %x\n", nameandtype_info->name_index);
+			// printf("descriptor_index: %x\n", nameandtype_info->descriptor_index);
 		}
 		case CONSTANT_Utf8: {
 			int16_t utf8_size = buffer[2] + buffer[1];
@@ -118,13 +187,40 @@ cp_info_element Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize
 			utf8_info->length = utf8_size;
 			utf8_info->bytes = new uint8_t[utf8_size];
 			concatBytes(buffer, utf8_info->length + 2, utf8_info->bytes);
-			// printf("bytes: %x\n", utf8_info->bytes[0]);
-			element.c11 = utf8_info;
+			element.constant_element.c11 = utf8_info;
 			break;
 		}
-
+		case CONSTANT_MethodHandle: {
+			CONSTANT_MethodHandle_info *methodhandle_info = new CONSTANT_MethodHandle_info();
+			methodhandle_info->tag = buffer[0];
+			methodhandle_info->reference_kind = buffer[1];
+			methodhandle_info->reference_index = (buffer[2] << 16) + (buffer[3] << 8);
+			element.constant_element.c12 = methodhandle_info;
+			break;
+		}
+		case CONSTANT_MethodType: {
+			CONSTANT_MethodType_info *methodtype_info = new CONSTANT_MethodType_info();
+			methodtype_info->tag = buffer[0];
+			methodtype_info->descriptor_index = (buffer[2] << 16) + (buffer[3] << 8);
+			element.constant_element.c13 = methodtype_info;
+			break;
+		}
+		case CONSTANT_InvokeDynamic: {
+			CONSTANT_InvokeDynamic_info *invokedynamic_info = new CONSTANT_InvokeDynamic_info();
+			invokedynamic_info->tag = buffer[0];
+			invokedynamic_info->bootstrap_method_attr_index = (buffer[1] << 16) + (buffer[2] << 8);
+			invokedynamic_info->name_and_type_index = (buffer[3] << 16) + (buffer[4] << 8);
+			element.constant_element.c14 = invokedynamic_info;
+			break;
+		}
 	}
-	// return element;
-	// constant_pool->push_back(element);
-	// this->
+	this->constant_pool.push_back(element);
+}
+
+vector<cp_info>* Cp_info::getConstantPool() {
+	// return this->constant_pool;
+	vector<cp_info>::iterator i;
+	for (i = this->constant_pool.begin(); i != this->constant_pool.end(); ++i) {
+		printf("%d\n", i->tag);
+	}
 }

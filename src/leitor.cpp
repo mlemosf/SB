@@ -1,5 +1,4 @@
 #include "../include/leitor.hpp"
-#include <typeinfo>
 using namespace std;
 
 
@@ -119,23 +118,17 @@ bool Leitor::setConstantPool() {
 	int32_t ret = 0;
 	int32_t pos = 0;
 	int32_t utf8_size = 0;
-	vector<cp_info_element> constant_pool;
-
 	Cp_info *cp_info = new Cp_info();
 
 	for (int32_t i = 0; i < size; i++) {
 		tag = *(this->byte_array + this->current_size + pos);
 		utf8_size = *(this->byte_array + this->current_size + pos + 2);
 		ret = cp_info->getConstantPoolTag(tag, utf8_size);
-		// printf("ret: %d\n", ret);
-		cp_info->addElement(tag, ret, pos, this->current_size,  this->byte_array, &constant_pool);
+		cp_info->addElement(tag, ret, pos, this->current_size,  this->byte_array);
 		pos += ret;
 		count += ret;
 	}
-	// for (int32_t i = 0; i < constant_pool.size(); i++) {
-	// 	printf("%x\n", constant_pool.at(i));
-	// }
-	delete(cp_info);
+	this->constant_pool = cp_info;
 	this->current_size += count;
 	return true;
 }
