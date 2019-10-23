@@ -575,7 +575,7 @@ vector<Method_info> Leitor::getMethods(){
 	return ret;
 }
 
-vector<Attribute_info> Leitor::getMethods(){
+vector<Attribute_info> Leitor::getAttributes(){
 	vector<Attribute_info> ret;
 
 	for (u2 i = 0; i < this->attributes_count; ++i){
