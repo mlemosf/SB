@@ -10,34 +10,27 @@
 #include "cp_info.hpp"
 #include "leitor.hpp"
 
-enum Typeshow
-{
-	PUBLIC,
-	PRIVATE,
-	PROTECTED,
-	STATIC,
-	FINAL,
-	VOLATILE,
-	TRANSIENT,
-	SYNTHETIC,
-	ENUM,
-	ALL
-};
+#ifdef __WIN32
+  #define CLS "cls"
+#elif __linux__
+  #define CLS "clear"
+#endif
 
 class Exibidor {
-  private:
+private:
 	Leitor r;
 	int show;
-	void ShowField(Typeshow s);
-	public:
-		Exibidor(Leitor l);
-		void GeneralInformation();
-		void ConstantPool();
-		void Interfaces();
-		void Fields();
-		void Methods();
-		void Attributes();
-
+	void ShowField(int s);
+	void ShowMethod(int s);
+public:
+	Exibidor(Leitor l);
+	void Mostrar();
+	void GeneralInformation();
+	void ConstantPool();
+	void Interfaces();
+	void Fields();
+	void Methods();
+	void Attributes();
 };
 
 #endif

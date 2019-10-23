@@ -63,7 +63,7 @@ class Leitor {
 		u2 getInterfacesCount();
 		u2 getMinorVersion();
 		u2 getMajorVersion();
-    u2 getConstantPoolCount();
+    	u2 getConstantPoolCount();
 		u2 getFieldsCount();
 		u2 getMethodsCount();
 		u2 getAttributesCount();
@@ -71,6 +71,10 @@ class Leitor {
 		u2 getThisClass();
 		u2 getSuperClass();
 		// bool setAccessFlagCount();
+
+		u1 read1byte();
+		u2 read2byte();
+		u4 read4byte();
 };
 
 #endif

@@ -1,6 +1,33 @@
 #include "../include/leitor.hpp"
 using namespace std;
 
+u1 Leitor::read1byte(){
+	u1 ret;
+	ret = *(this->byte_array + this->current_size);
+	this->current_size += sizeof(ret);
+	return ret;
+}
+
+u2 Leitor::read2byte(){
+	u2 b[1];
+	u1 ret[2];
+	ret[1] = read1byte();
+	ret[0] = read1byte();
+	memcpy(b, &ret, sizeof(u2));
+	return *b;
+}
+
+u4 Leitor::read4byte(){
+	u4 b[1];
+	u1 ret[4];
+	ret[3] = read1byte();
+	ret[2] = read1byte();
+	ret[1] = read1byte();
+	ret[0] = read1byte();
+	memcpy(b, &ret, sizeof(u4));
+	return *b;
+}
+
 
 /* LEITOR */
 
@@ -328,29 +355,402 @@ bool Leitor::setAttributesCount() {
 
 /*bool Leitor::setAttributes(){
 	int32_t size = 2;
-	int32_t j = size-1;
+	u4 j = size-1;
 	int16_t attribute_name_index[size];
+	int16_t attribute_length[4];
 
-	for (int i = 0; i < this->attributes_count; ++i){
-		for (int k = 0; k < size; ++k){
+	for (u4 i = 0; i < this->attributes_count; ++i){
+		for (int32_t k = 0; k < size; ++k){
 			attribute_name_index[j] = (*this->byte_array + this->current_size + k);
 			j--;
 		}
 		this->current_size+=sizeof(u2);
 		switch(this->constant_pool[*attribute_name_index]){
 			case "ConstantValue":
-				ConstantValueAttribute a;
+				ConstantValue_attribute cv_aux;
 				int16_t constantvalue_index[2];
-				a.attribute_name_index = *attribute_name_index;
-				a.attribute_lenght = 2;
-				j = attribute_lenght-1;
-				for (int k = 0; k < a.attribute_lenght; ++k){
-					constantvalue_index[j] (*this->byte_array + this->current_size + k);
+				cv_aux.attribute_name_index = *attribute_name_index;
+				cv_aux.attribute_length = 2;
+				j = cv_aux.attribute_length-1;
+				for (u4 k = 0; k < cv_aux.attribute_length; ++k){
+					constantvalue_index[j] = (*this->byte_array + this->current_size + k);
 					j--;
 				}
 				this->current_size+=sizeof(u2);
-				a.constantvalue_index = *constantvalue_index;
+				cv_aux.constantvalue_index = *constantvalue_index;
 				break;
+			case "Code":
+				Code_attribute code_aux;
+				for (int k = 0; k < 4; ++k){
+					attribute_length[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				code_aux.attribute_length = *attribute_length;
+				this->current_size+=sizeof(u4);
+				
+				int8_t max_stack[2];
+				j = 1;
+				for (int k = 0; k < 2; ++k){
+					max_stack[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				code_aux.max_stack = *max_stack;
+				this->current_size+=sizeof(u2);
+				
+				int8_t max_locals[2];
+				j = 1;
+				for (int k = 0; k < 2; ++k){
+					max_locals[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				code_aux.max_locals = *max_locals;
+				this->current_size+=sizeof(u2);
+				
+				int8_t code_length[4];
+				j = 3;
+				for (int k = 0; k < 4; ++k){
+					code_length[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				code_aux.code_length = *code_length;
+				this->current_size+=sizeof(u4);
+
+				j = code_aux.code_length-1;
+				for (u2 k = 0; k < code_aux.code_length; ++k){
+					code_aux.code[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				this->current_size+=sizeof(u1)*code_aux.code_length;
+
+				int8_t exception_table_length[2];
+				j = 1;
+				for (int k = 0; k < 2; ++k){
+					exception_table_length[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				code_aux.exception_table_length = *exception_table_length;
+				this->current_size+=sizeof(u2);
+
+				for (int k = 0; k < code_aux.exception_table_length; ++k){
+					ExceptionCode_info b;
+					j = 1;
+					int8_t start_pc[2];
+					for (u2 l = 0; l < 2; ++l){
+						start_pc[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					b.start_pc = *start_pc;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t end_pc[2];
+					for (u2 l = 0; l < 2; ++l){
+						end_pc[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					b.end_pc = *end_pc;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t handler_pc[2];
+					for (u2 l = 0; l < 2; ++l){
+						handler_pc[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					b.handler_pc = *handler_pc;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t catch_type[2];
+					for (u2 l = 0; l < 2; ++l){
+						catch_type[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					b.catch_type = *catch_type;
+					this->current_size+=sizeof(u2);
+
+					code_aux.exception_table[k] = b;
+				}
+
+				j = 1;
+				int8_t attributes_count[2];
+				for (u2 k = 0; k < 2; ++k){
+					attributes_count[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				code_aux.attributes_count = *attributes_count;
+				this->current_size+=sizeof(u2);
+
+				code_aux.setAttributes(this->byte_array, this->current_size);
+				break;
+
+			case "Exceptions":
+				j = 3;
+				Exceptions_attribute exc_aux;
+				for (u4 k = 0; k < 4; ++k){
+					attribute_length[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				exc_aux.attribute_length = *attribute_length;
+				this->current_size+=sizeof(u4);
+
+				j = 1;
+				int8_t number_of_exceptions[2];
+				for (u2 k = 0; k < 2; ++k){
+					number_of_exceptions[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				exc_aux.number_of_exceptions = *number_of_exceptions;
+				this->current_size+=sizeof(u2);
+
+				for (int k = 0; k < exc_aux.number_of_exceptions; ++k){
+					j = 1;
+					int8_t var_exc[2];
+					for (u2 l = 0; l < 2; ++l){
+						var_exc[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					exc_aux.exception_index_table[k] = *var_exc;
+					this->current_size+=sizeof(u2);
+				}
+
+				break;
+
+			case "InnerClasses":
+				InnerClasses_attribute in_aux;
+
+				j = 3;
+				for (u2 k = 0; k < 4; ++k){
+					attribute_length[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				in_aux.attribute_length = *attribute_length;
+				this->current_size+=sizeof(u4);
+
+				j = 1;
+				int8_t number_of_classes[2];
+				for (u2 k = 0; k < 2; ++k){
+					number_of_classes[j] = (*this->byte_array + this->current_size + k);
+					j--;
+				}
+				in_aux.number_of_classes = *number_of_classes;
+				this->current_size+=sizeof(u2);
+
+				for (int k = 0; k < in_aux.number_of_classes; ++k){
+					ClassInners_info c;
+					
+					j = 1;
+					int8_t inner_class_info_index[2];
+					for (u2 l = 0; l < 2; ++l){
+						inner_class_info_index[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					c.inner_class_info_index = *inner_class_info_index;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t outer_class_info_index[2];
+					for (u2 l = 0; l < 2; ++l){
+						outer_class_info_index[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					c.outer_class_info_index = *outer_class_info_index;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t inner_name_index[2];
+					for (u2 l = 0; l < 2; ++l){
+						inner_name_index[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					c.inner_name_index = *inner_name_index;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t inner_class_access_flags[2];
+					for (u2 l = 0; l < 2; ++l){
+						inner_class_access_flags[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					c.inner_class_access_flags = *inner_class_access_flags;
+					this->current_size+=sizeof(u2);
+
+					in_aux.classes[k] = c;	
+				}
+
+				break;
+
+			case "Synthetic":
+				Synthetic_attribute syn_aux;
+
+				j = 3;
+				for (u2 l = 0; l < 4; ++l){
+					attribute_length[j] = (*this->byte_array + this->current_size + l);
+					j--;
+				}
+				syn_aux.attribute_length = *attribute_length;
+				this->current_size+=sizeof(u4);
+
+				break;
+
+			case "SourceFile":
+				SourceFile_attribute source_aux;
+
+				j = 3;
+				for (u2 l = 0; l < 4; ++l){
+					attribute_length[j] = (*this->byte_array + this->current_size + l);
+					j--;
+				}
+				source_aux.attribute_length = *attribute_length;
+				this->current_size+=sizeof(u4);
+
+				j = 1;
+				int8_t sourcefile_index[2];
+				for (u2 l = 0; l < 2; ++l){
+					sourcefile_index[j] = (*this->byte_array + this->current_size + l);
+					j--;
+				}
+				source_aux.sourcefile_index = *sourcefile_index;
+				this->current_size+=sizeof(u2);
+
+				break;
+			
+			case "LineNumberTable":
+				LineNumberTable_attribute lnt_aux;
+
+				j = 3;
+				for (u2 l = 0; l < 4; ++l){
+					attribute_length[j] = (*this->byte_array + this->current_size + l);
+					j--;
+				}
+				lnt_aux.attribute_length = *attribute_length;
+				this->current_size+=sizeof(u4);
+
+				j = 1;
+				int8_t line_number_table_length[2];
+				for (u2 l = 0; l < 2; ++l){
+					line_number_table_length[j] = (*this->byte_array + this->current_size + l);
+					j--;
+				}
+				lnt_aux.line_number_table_length = *line_number_table_length;
+				this->current_size+=sizeof(u2);
+
+				for (u2 k = 0; k < lnt_aux.line_number_table_length; ++k){
+					LineNumber_info d;
+
+					j = 1;
+					int8_t start_pc[2];
+					for (u2 l = 0; l < 2; ++l){
+						start_pc[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					d.start_pc = *start_pc;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t line_number[2];
+					for (u2 l = 0; l < 2; ++l){
+						line_number[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					d.line_number = *line_number;
+					this->current_size+=sizeof(u2);
+
+					lnt_aux.line_number_table[k] = d;
+				}
+
+				break;
+
+			case "LocalVariableTable":
+				LocalVariableTable_attribute local_aux;
+
+				j = 3;
+				for (u2 l = 0; l < 4; ++l){
+					attribute_length[j] = (*this->byte_array + this->current_size + l);
+					j--;
+				}
+				local_aux.attribute_length = *attribute_length;
+				this->current_size+=sizeof(u4);
+
+				j = 1;
+				int8_t local_variable_table_length[2];
+				for (u2 l = 0; l < 2; ++l){
+					local_variable_table_length[j] = (*this->byte_array + this->current_size + l);
+					j--;
+				}
+				local_aux.local_variable_table_length = *local_variable_table_length;
+				this->current_size+=sizeof(u2);
+
+				for (int k = 0; k < local_aux.local_variable_table_length; ++k){
+					LocalVariableTable_info e;
+
+					j = 1;
+					int8_t start_pc[2];
+					for (u2 l = 0; l < 2; ++l){
+						start_pc[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					e.start_pc = *start_pc;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t length[2];
+					for (u2 l = 0; l < 2; ++l){
+						length[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					e.length = *length;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t name_index[2];
+					for (u2 l = 0; l < 2; ++l){
+						name_index[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					e.name_index = *name_index;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t descriptor_index[2];
+					for (u2 l = 0; l < 2; ++l){
+						descriptor_index[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					e.descriptor_index = *descriptor_index;
+					this->current_size+=sizeof(u2);
+
+					j = 1;
+					int8_t index[2];
+					for (u2 l = 0; l < 2; ++l){
+						index[j] = (*this->byte_array + this->current_size + l);
+						j--;
+					}
+					e.index = *index;
+					this->current_size+=sizeof(u2);
+
+					local_aux.local_variable_table[k] = e;
+				}
+
+				break;
+
+			case "Deprecated":
+				Deprecated_attribute dep_aux;
+
+				j = 1;
+				for (u2 l = 0; l < 2; ++l){
+					attribute_length[j] = (*this->byte_array + this->current_size + l);
+					j--;
+				}
+				dep_aux.attribute_length = *attribute_length;
+				this->current_size+=sizeof(u2);
+
+				break;
+
+			default:
+				printf("invalido\n");
+
+
 		}
 
 	}

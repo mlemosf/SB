@@ -11,7 +11,7 @@
 class Attribute_info{
     public:
         bool setAttributeNameIndex(u2 attribute_name_index);
-        bool setAttributeLenght(u4 attribute_length);
+        bool setAttributeLength(u4 attribute_length);
         bool setInfo(u1 * info);
 
         u2 getAttributeNameIndex();
@@ -25,7 +25,7 @@ class Attribute_info{
 
 class ClassInners_info{ // classe extra
     public:
-        u2 inner_class_info;
+        u2 inner_class_info_index;
         u2 outer_class_info_index;
         u2 inner_name_index;
         u2 inner_class_access_flags;
@@ -62,6 +62,8 @@ class Code_attribute{
         ExceptionCode_info * exception_table;
         u2 attributes_count;
         Attribute_info * attributes;
+
+        bool setAttributes(unsigned char* byte_array, u4 current_size);
 };
 class ConstantValue_attribute{
     public:
@@ -72,12 +74,12 @@ class ConstantValue_attribute{
 class Deprecated_attribute{
     public:
         u2 attribute_name_index;
-        u4 attribute_legth;
+        u4 attribute_length;
 };
 class Exceptions_attribute{
     public:
         u2 attribute_name_index;
-        u4 attribute_legth;
+        u4 attribute_length;
         u2 number_of_exceptions;
         u2 * exception_index_table;//u2 exception_index_table[number_of_exceptions];
 };
@@ -96,13 +98,15 @@ class SourceFile_attribute{
 
 };
 class Synthetic_attribute{
-    u2 attribute_name_index;
-    u4 attribute_length;
+    public:
+        u2 attribute_name_index;
+        u4 attribute_length;
 };
 class LineNumberTable_attribute {
     public:
         u2 attribute_name_index;
         u4 attribute_length;
+        u2 line_number_table_length;
         LineNumber_info * line_number_table;
 
 };
@@ -110,6 +114,7 @@ class LocalVariableTable_attribute{
     public:
         u2 attribute_name_index;
         u4 attribute_length;
+        u2 local_variable_table_length;
         LocalVariableTable_info * local_variable_table;
 };
 

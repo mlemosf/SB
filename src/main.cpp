@@ -28,9 +28,13 @@ int main(int argc, char ** argv) {
 	leitor->setAttributesCount();
 	//leitor->setAttributes();
 
-	leitor->exibir();
+
+	Exibidor *exib = new Exibidor(*leitor);
+
+	exib->Mostrar();
 
 	delete(leitor);
+	delete(exib);
 	return 0;
 
 }

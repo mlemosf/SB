@@ -6,7 +6,7 @@ bool Attribute_info::setAttributeNameIndex(u2 attribute_name_index){
 	return true;
 }
 
-bool Attribute_info::setAttributeLenght(u4 attribute_lenght){
+bool Attribute_info::setAttributeLength(u4 attribute_length){
 	this->attribute_length = attribute_length;
 	return true;
 }
@@ -28,4 +28,8 @@ u4 Attribute_info::getAttributeLength(){
 
 u1* Attribute_info::getInfo(){
 	return this->info;
+}
+
+bool Code_attribute::setAttributes(unsigned char* byte_array, u4 current_size){
+	return true;
 }
