@@ -239,17 +239,14 @@ bool Leitor::setInterfacesCount() {
 
 bool Leitor::setInterfaces(){
 	int32_t size = this->attributes_count;
+	int32_t sizeInter = 2;
 	uint16_t interfaces[size];
-	uint16_t buffer[size];
-	int16_t j = size-1;
+	uint8_t buffer[sizeInter];
+	int16_t j = sizeInter-1;
 	for(int32_t i=0;i<size;i++){
-		interfaces[j] = *(this->byte_array + this->current_size + i);
-		j--;
+		interfaces[i] = read2byte();
 	}
-	memcpy(buffer,&interfaces,sizeof(interfaces));
-	this->interfaces = *buffer;
-	this->current_size +=  sizeof(interfaces);
-
+	this->interfaces = interfaces;
 	return true;
 }
 
