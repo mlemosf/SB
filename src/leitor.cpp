@@ -266,7 +266,7 @@ bool Leitor::setFieldsCount() {
 	this->current_size += sizeof(this->fields_count);
 	return true;
 }
-/*
+
 bool Leitor::setFields(){
 	uint16_t size = this->fields_count;
 	int32_t j = size - 1;
@@ -280,39 +280,24 @@ bool Leitor::setFields(){
 	uint8_t attributes_count[sizeU2];
 	Attribute_info * attributes;
 	for(int32_t i =0;i<size;i++){
-		for(int32_t k=0;k<sizeU2;k++){
-			access_flags[j_aux] = *(this->byte_array + this->current_size+ k);
-			j_aux--;
-		}
-		memcpy(buffer,&access_flags,sizeof(buffer));
+		*buffer = read2byte();
 		fields[i].setAcessFlags(*buffer);
-		j_aux = sizeU2-1;
-		for(int32_t k=0;k<sizeU2;k++){
-			name_index[j_aux] = *(this->byte_array + this->current_size+ k);
-			j_aux--;
-		}
-		memcpy(buffer,&name_index,sizeof(buffer));
+		*buffer = read2byte();
 		fields[i].setNameIndex(*buffer);
-		j_aux = sizeU2-1;
-		for(int32_t k=0;k<sizeU2;k++){
-			descriptor_index[j_aux] = *(this->byte_array + this->current_size+ k);
-			j_aux--;
-		}
-		memcpy(buffer,&descriptor_index,sizeof(buffer));
+		*buffer = read2byte();
 		fields[i].setDescriptorIndex(*buffer);
-		j_aux=sizeU2-1;
-		for(int32_t k=0;k<sizeU2;k++){
-			attributes_count[j_aux] =  *(this->byte_array + this->current_size+ k);
-			j_aux--;
-		}
-		memcpy(buffer,&attributes_count,sizeof(buffer));
+		*buffer = read2byte();
 		fields[i].setAttributesCount(*buffer);
-		//for(int32_t k=0;k < this->attributes_count;k++){	
-		//}
+		for(int32_t k=0;k < this->attributes_count;k++){
+			attributes[k].setAttributeNameIndex(read2byte());
+			attributes[k].setAttributeLength(read2byte());
+			attributes[k].setInfo(this->byte_array);	
+		}
+		fields[i].setAttributes(attributes);
 	}
 	return true;
 }
-*/
+
 bool Leitor::setMethodsCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -324,7 +309,7 @@ bool Leitor::setMethodsCount() {
 		j--;
 	}
 	memcpy(buffer, &methods_count, sizeof(methods_count));
-	this->methods_count = *buffer;
+	this->methods_count = *fieldsbuffer;
 	this->current_size += sizeof(this->methods_count);
 	return true;
 }
