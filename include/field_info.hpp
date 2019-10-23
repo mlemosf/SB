@@ -34,6 +34,8 @@ class Field_info{
             u2 getAttributesCount();
             Attribute_info * getAttributes();
 
+            void print();
+
     private:
             u2 access_flags;
             u2 name_index;

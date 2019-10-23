@@ -24,8 +24,8 @@ void Exibidor::GeneralInformation()
 	printf("Major version: %x\n", r.getMajorVersion());
 	printf("Constant pool count: %d\n", r.getConstantPoolCount());
 	printf("Acess Flags: %x\n", r.getAcessFlags());
-	printf("This Class: \n");
-	printf("Super Class: \n");
+	printf("This Class: \n", r.getThisClass());
+	printf("Super Class: \n", r.getSuperClass());
 	printf("Interfaces count: %d\n",r.getInterfacesCount());
 	printf("Fields Count: %d\n",r.getFieldsCount());
 	printf("Methods Count: %d\n",r.getMethodsCount());
@@ -34,9 +34,10 @@ void Exibidor::GeneralInformation()
 
 void Exibidor::ConstantPool()
 {
-	int qtd = l.getConstantPoolCount();
+	printf("\nConstantPool: \n\n");
+	int qtd = r.getConstantPoolCount();
 	for(int i = 0; i<qtd; i++){
-		CONSTANT c = l.getConstantPoolElement(i);
+		CONSTANT c = r.getConstantPoolElement(i);
 		c.print();
 	}
 }
@@ -44,26 +45,44 @@ void Exibidor::ConstantPool()
 void Exibidor::Interfaces()
 {
 	printf("\nInterfaces: \n\n");
+	/*
+	int qtd = r.getInterfacesCount();
+	vector<Interface_info> v = r.getInterfaces();
+	for (int i = 0; i < qtd; ++i)
+	{
+		v[i].print();
+	}*/
 }
 
 void Exibidor::Fields()
 {
 	printf("\nFields: \n\n");
-	/*fazer um loop para cada field e ir exibindo esses atributos com o filtro correspondente*/
-	printf("Name:\n");
-	printf("Descriptor:\n");
-	printf("AcessFlags:\n");
+	int qtd = r.getFieldsCount();
+	vector<Field_info> v = r.getFields();
+	for(int i =0;i<qtd;i++){
+		v[i].print();
+	}
 }
 
 void Exibidor::Methods()
 {
 	printf("\nMethods: \n\n");
-	printf("Name:\n");
-	printf("Descriptor:\n");
-	printf("AcessFlags:\n");
+	int qtd = r.getMethodsCount();
+	vector<Method_info> v = r.getMethods();
+	for (int i = 0; i < qtd; ++i)
+	{
+		v[i].print();
+	}
+
 }
 
 void Exibidor::Attributes()
 {
 	printf("\nAttributes: \n\n");
+	int qtd = r.getAttributesCount();
+	vector<Attribute_info> v = r.getAttributes();
+	for (int i = 0; i < qtd; ++i)
+	{
+		v[i].print();
+	}
 }
