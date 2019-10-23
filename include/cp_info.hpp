@@ -96,7 +96,9 @@ class CONSTANT_Utf8_info {
 	public:
 		u1 tag;
 		u2 length;
-		u1 bytes[];
+		u1* bytes;
+
+		// CONSTANT_Utf8_info(u2 size);
 };
 
 class CONSTANT_MethodHandle_info {
@@ -121,8 +123,8 @@ class CONSTANT_InvokeDynamic_info {
 
 
 union cp_info_element {
-	CONSTANT_Class_info c1;
-	CONSTANT_Methodref_info c2;
+	CONSTANT_Class_info* c1;
+	CONSTANT_Methodref_info* c2;
 	CONSTANT_Fieldref_info c3;
 	CONSTANT_InterfaceMethodref_info c4;
 	CONSTANT_String_info c5;
@@ -131,20 +133,18 @@ union cp_info_element {
 	CONSTANT_Long_info c8;
 	CONSTANT_Double_info c9;
 	CONSTANT_NameAndType_info c10;
-	CONSTANT_Utf8_info c11;
+	CONSTANT_Utf8_info *c11;
 	CONSTANT_MethodHandle_info c12;
 	CONSTANT_MethodType_info c13;
 	CONSTANT_InvokeDynamic_info c14;
 };
 
 class Cp_info {
-	private:
-		// colocar aqui a estrutura que vai guardar 
-		// os elementos do constant pool
-		vector<cp_info_element> constant_pool;
 	public:
+		vector<cp_info_element> constant_pool;
 		u4 getConstantPoolTag(u2 tag, u4 size);
-
+		cp_info_element addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned char* byte_array, vector<cp_info_element>* constant_pool);
+		void concatBytes(u1* buffer, u2 size, u1* bytes); 
 };
 
 #endif
