@@ -1,4 +1,6 @@
 #include "../include/leitor.hpp"
+#include "../include/field_info.hpp"
+#include "../include/attribute_info.hpp"
 using namespace std;
 
 u1 Leitor::read1byte(){
@@ -268,6 +270,48 @@ bool Leitor::setFieldsCount() {
 }
 /*
 bool Leitor::setFields(){
+	uint16_t size = this->fields_count;
+	int32_t j = size - 1;
+	Field_info fields[size];
+	int32_t sizeU2 =  2;
+	int32_t j_aux = sizeU2-1;
+	int16_t * buffer;
+	uint8_t access_flags[sizeU2];
+	uint8_t name_index[sizeU2]; 
+	uint8_t descriptor_index[sizeU2];
+	uint8_t attributes_count[sizeU2];
+	Attribute_info * attributes;
+	for(int32_t i =0;i<size;i++){
+		for(int32_t k=0;k<sizeU2;k++){
+			access_flags[j_aux] = *(this->byte_array + this->current_size+ k);
+			j_aux--;
+		}
+		memcpy(buffer,&access_flags,sizeof(buffer));
+		fields[i].setAcessFlags(*buffer);
+		j_aux = sizeU2-1;
+		for(int32_t k=0;k<sizeU2;k++){
+			name_index[j_aux] = *(this->byte_array + this->current_size+ k);
+			j_aux--;
+		}
+		memcpy(buffer,&name_index,sizeof(buffer));
+		fields[i].setNameIndex(*buffer);
+		j_aux = sizeU2-1;
+		for(int32_t k=0;k<sizeU2;k++){
+			descriptor_index[j_aux] = *(this->byte_array + this->current_size+ k);
+			j_aux--;
+		}
+		memcpy(buffer,&descriptor_index,sizeof(buffer));
+		fields[i].setDescriptorIndex(*buffer);
+		j_aux=sizeU2-1;
+		for(int32_t k=0;k<sizeU2;k++){
+			attributes_count[j_aux] =  *(this->byte_array + this->current_size+ k);
+			j_aux--;
+		}
+		memcpy(buffer,&attributes_count,sizeof(buffer));
+		fields[i].setAttributesCount(*buffer);
+		//for(int32_t k=0;k < this->attributes_count;k++){	
+		//}
+	}
 	return true;
 }
 */
