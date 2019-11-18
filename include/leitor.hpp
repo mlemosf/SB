@@ -28,13 +28,13 @@ class Leitor {
 		u2 this_class; //OK
 		u2 super_class;//OK
 		u2 interfaces_count;//OK
-		u2 * interfaces; // Faltando
+		u2 * interfaces; // OK--
 		u2 fields_count; //  OK
-		Field_info * fields;// Faltando
+		vector<Field_info> fields;// Faltando
 		u2 methods_count; // OK-
 		Method_info methods; // Faltando
-		u2 attributes_count; // OK -
-		Attribute_info* attributes; // Faltando
+		u2 attributes_count; // OK-
+		vector< Attribute_info> attributes; // Faltando
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
 
@@ -68,12 +68,12 @@ class Leitor {
 		u2 getFieldsCount();
 		u2 getMethodsCount();
 		u2 getAttributesCount();
-		u2 getAcessFlags();
+		u2 getAccessFlags();
 		u2 getThisClass();
 		u2 getSuperClass();
 		vector<Field_info> getFields();
 		vector<Method_info> getMethods();
-		//vector<interface> getInterfaces();
+		u2 * getInterfaces();
 		vector<Attribute_info> getAttributes();
 		// bool setAccessFlagCount();
 

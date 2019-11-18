@@ -162,7 +162,9 @@ bool Leitor::setConstantPool() {
 	return true;
 }
 
-u2 Leitor::getInterfacesCount(){return interfaces_count;}
+u2 Leitor::getAccessFlags(){
+	return this->access_flags;
+}
 
 bool Leitor::setAccessFlags() {
 	int32_t size = 2;
@@ -180,9 +182,9 @@ bool Leitor::setAccessFlags() {
 	return true;
 }
 
-u2 Leitor::getFieldsCount(){return fields_count;}
+u2 Leitor::getThisClass(){return this->this_class;}
 
-bool Leitor::setThisClass() {
+bool Leitor::setThisClass(){
 	int32_t size = 2;
 	int32_t j = size - 1;
 	int16_t buffer[size];
@@ -198,9 +200,7 @@ bool Leitor::setThisClass() {
 	return true;
 }
 
-u2 Leitor::getMethodsCount(){
-	return methods_count;
-}
+u2 Leitor::getSuperClass(){return this->super_class;}
 
 bool Leitor::setSuperClass() {
 	int32_t size = 2;
@@ -218,9 +218,9 @@ bool Leitor::setSuperClass() {
 	return true;
 }
 
-u2 Leitor::getAttributesCount(){return attributes_count;}
+u2 Leitor::getInterfacesCount(){return interfaces_count;}
 
-bool Leitor::setInterfacesCount() {
+bool Leitor::setInterfacesCount(){
 	int32_t size = 2;
 	int32_t j = size - 1;
 	int16_t buffer[size];
@@ -236,22 +236,27 @@ bool Leitor::setInterfacesCount() {
 	return true;
 }
 
+u2 * Leitor::getInterfaces(){return this->interfaces;} 
 
 bool Leitor::setInterfaces(){
 	int32_t size = this->attributes_count;
-	int32_t sizeInter = 2;
-	uint16_t interfaces[size];
-	uint8_t buffer[sizeInter];
-	int16_t j = sizeInter-1;
-	for(int32_t i=0;i<size;i++){
-		interfaces[i] = read2byte();
+	int32_t j = size;
+	u2 interfaces[size];
+	u2 buffer[size];
+	u1 aux[1];
+	for(int i=0;i< size-1; i++){
+		aux[0] = *(this->byte_array + this->current_size + i);
+		aux[1] = *(this->byte_array + this->current_size + i+1);
+		interfaces[j] = aux[0] + aux[1];
+		j--;
 	}
 	this->interfaces = interfaces;
 	return true;
 }
 
+u2 Leitor::getFieldsCount(){return fields_count;}
 
-bool Leitor::setFieldsCount() {
+bool Leitor::setFieldsCount(){
 	int32_t size = 2;
 	int32_t j = size - 1;
 	int16_t buffer[size];
@@ -267,7 +272,42 @@ bool Leitor::setFieldsCount() {
 	return true;
 }
 
+vector<Field_info> Leitor::getFields(){
+	vector<Field_info> ret;
+
+	for (u2 i = 0; i < this->fields_count; ++i){
+		ret.push_back(this->fields[i]);
+	}
+
+	return ret;
+}
+
 bool Leitor::setFields(){
+	uint16_t size = this->fields_count;
+	vector<Field_info> fields;
+	vector<Attribute_info> attributes;
+	Field_info aux;
+	u2 access_flags;
+	u2 nameIndex;
+	u2 descriptor_index;
+	u2 attributes_count;
+	for(int i=0;i<size;i++){
+		access_flags = read2byte();
+		fields[i].setAcessFlags(access_flags);
+		nameIndex = read2byte();
+		fields[i].setNameIndex(nameIndex);
+		descriptor_index = read2byte();
+		fields[i].setDescriptorIndex(descriptor_index);
+		attributes_count = read2byte();
+		fields[i].setAttributesCount(attributes_count);
+		for(int j=0;j<attributes_count;j++){
+			// precisa terminar o attribute_info (Voltar aqui)
+		}
+	}
+	return true;
+}
+
+/*bool Leitor::setFields(){ // refatora depois conferir attributes
 	uint16_t size = this->fields_count;
 	int32_t j = size - 1;
 	Field_info fields[size];
@@ -296,7 +336,14 @@ bool Leitor::setFields(){
 		fields[i].setAttributes(attributes);
 	}
 	return true;
+}*/
+
+u2 Leitor::getMethodsCount(){
+	return methods_count;
 }
+
+
+u2 Leitor::getAttributesCount(){return attributes_count;}
 
 bool Leitor::setMethodsCount() {
 	int32_t size = 2;
@@ -527,29 +574,6 @@ bool Leitor::setAttributes(){
 	return true;
 }
 
-u2 Leitor::getAcessFlags(){
-	return this->access_flags;
-}
-
-u2 Leitor::getThisClass()
-{
-	return this->this_class;
-}
-
-u2 Leitor::getSuperClass(){
-  return this->super_class;
-}
-
-vector<Field_info> Leitor::getFields(){
-	vector<Field_info> ret;
-
-	for (u2 i = 0; i < this->fields_count; ++i){
-		ret.push_back(this->fields[i]);
-	}
-
-	return ret;
-}
-
 vector<Method_info> Leitor::getMethods(){
 	vector<Method_info> ret;
 
@@ -569,31 +593,6 @@ vector<Attribute_info> Leitor::getAttributes(){
 
 	return ret;
 }
-
-vector<CONSTANT> Leitor::getConstantPoolElement(u2 num){
-	vector<Attribute_info> ret;
-	
-
-	return ret;
-}
-
-// bool Leitor::setAccessFlagCount() {
-// 	int32_t size = 2;
-// 	int32_t j = size -1;
-// 	int16_t buffer[size];
-// 	int16_t access_flags[size];
-
-// 	for (int32_t i = 0; i < size; i++) {
-// 		access_flags[j] = *(this->byte_array + this->current_size + i);
-// 		j--;
-// 	}
-
-// 	memcpy(buffer, &access_flags, sizeof(access_flags));
-// 	this->access_flags = *buffer;
-// 	this->current_size += sizeof(this->access_flags);
-// 	return true;
-// }
-
 
 /* EXIBIDOR */
 
