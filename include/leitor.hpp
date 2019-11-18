@@ -19,25 +19,22 @@ using namespace std;
 
 class Leitor {
 	private:
-		u4 magic;
-		u2 minor_version;
-		u2 major_version;
-		u2 constant_pool_count;
-		Cp_info *constant_pool;
-		//cp_info constant_pool[constant_pool_count - 1];
-		u2 access_flags;
-		u2 this_class;
-		u2 super_class;
-		u2 interfaces_count;
-		u2 * interfaces;
-		// u2 interfaces[interfaces_count];
-		u2 fields_count;
-		Field_info * fields;// field_info fields[fields_count];
-		u2 methods_count;
-		Method_info methods;
-		u2 attributes_count;
-		// attribute_info attributes[attributes_count];
-		Attribute_info* attributes;
+		u4 magic; // OK
+		u2 minor_version; //OK
+		u2 major_version; //OK
+		u2 constant_pool_count; //OK
+		Cp_info *constant_pool; //OK-
+		u2 access_flags; //OK-
+		u2 this_class; //OK
+		u2 super_class;//OK
+		u2 interfaces_count;//OK
+		u2 * interfaces; // Faltando
+		u2 fields_count; //  OK
+		Field_info * fields;// Faltando
+		u2 methods_count; // OK-
+		Method_info methods; // Faltando
+		u2 attributes_count; // OK -
+		Attribute_info* attributes; // Faltando
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
 
