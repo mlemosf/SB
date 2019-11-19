@@ -272,7 +272,54 @@ bool Leitor::setFieldsCount(){
 	return true;
 }
 
-vector<Field_info> Leitor::getFields(){
+void Leitor::printAccessFlags(){
+	char access[20];
+	switch (this->access_flags)
+	{
+	case ACC_PUBLIC:
+		memcpy(&access,"ACC_PUBLIC",sizeof("ACC_PUBLIC"));
+		break;
+	case ACC_FINAL:
+		memcpy(&access,"ACC_FINAL",sizeof("ACC_FINAL"));
+		break;
+	case ACC_SUPER:
+		memcpy(&access,"ACC_SUPER",sizeof("ACC_SUPER"));
+		break;
+	case ACC_INTERFACE:
+		memcpy(&access,"ACC_INTERFACE",sizeof("ACC_INTERFACE"));
+		break;
+	case ACC_ABSTRACT:
+		memcpy(&access,"ACC_ABSTRACT",sizeof("ACC_ABSTRACT"));
+		break;
+	case ACC_SYNTHETIC:
+		memcpy(&access,"ACC_SYNTHETIC",sizeof("ACC_SYNTHETIC"));
+	case ACC_ANNOTATION:
+		memcpy(&access,"ACC_ANNOTATION",sizeof("ACC_ANNOTATION"));
+		break;
+	default:
+		break;
+	}
+	printf("Access Flags: %x %s \n",this->access_flags,access);
+}
+void Leitor::printThisClass(){ // completar depois para buscar do CP
+	printf("ThisClass: %x\n", this->this_class);
+}
+void Leitor::printSuperClass(){ // completar depois para buscar do CP
+	printf("SuperClass: %x\n", this->super_class);
+}
+void Leitor::printInterfaceCont(){
+	printf("Interfaces Count : %x\n", this->interfaces_count);
+}
+void Leitor::printInterfaces(){
+	if(this->interfaces_count!=0){
+		printf("Interfaces: ");
+		for(int i=0;i<this->interfaces_count;i++){
+			printf("%x ",this->interfaces[i]);
+		}
+		printf("\n");
+	}
+}
+/*vector<Field_info> Leitor::getFields(){
 	vector<Field_info> ret;
 
 	for (u2 i = 0; i < this->fields_count; ++i){
@@ -305,7 +352,7 @@ bool Leitor::setFields(){
 		}
 	}
 	return true;
-}
+}*/
 
 /*bool Leitor::setFields(){ // refatora depois conferir attributes
 	uint16_t size = this->fields_count;
@@ -343,7 +390,7 @@ u2 Leitor::getMethodsCount(){
 }
 
 
-u2 Leitor::getAttributesCount(){return attributes_count;}
+/*u2 Leitor::getAttributesCount(){return attributes_count;}
 
 bool Leitor::setMethodsCount() {
 	int32_t size = 2;
@@ -592,7 +639,7 @@ vector<Attribute_info> Leitor::getAttributes(){
 	}
 
 	return ret;
-}
+}*/
 
 /* EXIBIDOR */
 

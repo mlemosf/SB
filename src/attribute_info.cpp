@@ -1,7 +1,7 @@
 #include "../include/attribute_info.hpp"
 using namespace std;
 
-bool Attribute_info::setAttributeNameIndex(u2 attribute_name_index){
+/*bool Attribute_info::setAttributeNameIndex(u2 attribute_name_index){
 	this->attribute_name_index = attribute_name_index;
 	return true;
 }
@@ -88,4 +88,4 @@ void Attribute_info::print(){
 	printf("Attribute name index: %d\n",attribute_name_index);
 	printf("Attribute length: %d\n",attribute_length);
 	printf("Specific Info:\n"); // colocar a lista de atributos
-}
+}*/

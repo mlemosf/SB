@@ -3,7 +3,7 @@
 #include "../include/leitor.hpp"
 using namespace std;
 
-bool Method_info::setAccessFlags(u2 access_flags){
+/*bool Method_info::setAccessFlags(u2 access_flags){
 	this->access_flags = access_flags;
 	return true;
 }
@@ -158,4 +158,4 @@ void Method_info::print(){
 		  break;
 	}
 	printf("\n");
-}
+}*/

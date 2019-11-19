@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
-
+#include "cp_info.hpp"
 #define u1 uint8_t
 #define u2 uint16_t
 #define u4 uint32_t
