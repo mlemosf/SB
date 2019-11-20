@@ -3,6 +3,7 @@
 #include "../include/attribute_info.hpp"
 using namespace std;
 
+
 u1 Leitor::read1byte(){
 	u1 ret;
 	ret = *(this->byte_array + this->current_size);
@@ -173,12 +174,11 @@ bool Leitor::setAccessFlags() {
 	int16_t access_flags[size];
 
 	for (int32_t i = 0; i < size; i++) {
-		access_flags[j] = *(this->byte_array + this->current_size + i);
+		access_flags[j] = read1byte();
 		j--;
 	}
 	memcpy(buffer, &access_flags, sizeof(access_flags));
 	this->access_flags = *buffer;
-	this->current_size += sizeof(this->access_flags);
 	return true;
 }
 
@@ -239,18 +239,23 @@ bool Leitor::setInterfacesCount(){
 u2 * Leitor::getInterfaces(){return this->interfaces;} 
 
 bool Leitor::setInterfaces(){
-	int32_t size = this->attributes_count;
-	int32_t j = size;
+	int32_t size = this->interfaces_count;
+	printf("sizeInterCount=%d\n",size);
+	u2  buffer;
 	u2 interfaces[size];
-	u2 buffer[size];
-	u1 aux[1];
-	for(int i=0;i< size-1; i++){
-		aux[0] = *(this->byte_array + this->current_size + i);
-		aux[1] = *(this->byte_array + this->current_size + i+1);
-		interfaces[j] = aux[0] + aux[1];
-		j--;
+	for(int i=0;i < size; i++){
+		buffer = read2byte(); 
+		printf("buffer=%x\n",buffer);
+		interfaces[i] = buffer;
+		printf("interfacces[%d] = %d\n",i,interfaces[i]);
 	}
-	this->interfaces = interfaces;
+	this->interfaces = (u2*)malloc(sizeof(interfaces));
+	for(int i=0;i<size;i++){
+		this->interfaces[i] = interfaces[i];
+	}
+	printf("this.interfaces[0]= %x\n",this->interfaces[0]);
+	printf("this.interfaces[1]= %x\n",this->interfaces[1]);
+	//this->current_size += sizeof(this->interfaces);
 	return true;
 }
 
@@ -273,48 +278,50 @@ bool Leitor::setFieldsCount(){
 }
 
 void Leitor::printAccessFlags(){
-	char access[20];
-	switch (this->access_flags)
-	{
+	char access[20];                 //resolver problemas das contantes ACC_*
+	int aux = (int)this->getAccessFlags();
+	switch (aux){
 	case ACC_PUBLIC:
-		memcpy(&access,"ACC_PUBLIC",sizeof("ACC_PUBLIC"));
+		strcpy(access,"ACC_PUBLIC");
 		break;
 	case ACC_FINAL:
-		memcpy(&access,"ACC_FINAL",sizeof("ACC_FINAL"));
+		strcpy(access,"ACC_FINAL");
 		break;
 	case ACC_SUPER:
-		memcpy(&access,"ACC_SUPER",sizeof("ACC_SUPER"));
+		strcpy(access,"ACC_SUPER");
 		break;
 	case ACC_INTERFACE:
-		memcpy(&access,"ACC_INTERFACE",sizeof("ACC_INTERFACE"));
+		strcpy(access,"ACC_INTERFACE");
 		break;
 	case ACC_ABSTRACT:
-		memcpy(&access,"ACC_ABSTRACT",sizeof("ACC_ABSTRACT"));
+		strcpy(access,"ACC_ABSTRACT");
 		break;
 	case ACC_SYNTHETIC:
-		memcpy(&access,"ACC_SYNTHETIC",sizeof("ACC_SYNTHETIC"));
+		strcpy(access,"ACC_SYNTHETIC");
 	case ACC_ANNOTATION:
-		memcpy(&access,"ACC_ANNOTATION",sizeof("ACC_ANNOTATION"));
+		strcpy(access,"ACC_ANNOTATION");
 		break;
 	default:
+		printf("To no Default\n");
 		break;
 	}
-	printf("Access Flags: %x %s \n",this->access_flags,access);
+	printf("Access Flags: %x ",aux);
+	printf("%s\n",access);
 }
 void Leitor::printThisClass(){ // completar depois para buscar do CP
-	printf("ThisClass: %x\n", this->this_class);
+	printf("ThisClass: %x\n", this->getThisClass());
 }
 void Leitor::printSuperClass(){ // completar depois para buscar do CP
-	printf("SuperClass: %x\n", this->super_class);
+	printf("SuperClass: %x\n", this->getSuperClass());
 }
 void Leitor::printInterfaceCont(){
-	printf("Interfaces Count : %x\n", this->interfaces_count);
+	printf("Interfaces Count : %x\n", this->getInterfacesCount());
 }
 void Leitor::printInterfaces(){
 	if(this->interfaces_count!=0){
-		printf("Interfaces: ");
+		printf("Interfaces[0..%d]: ",this->interfaces_count-1);
 		for(int i=0;i<this->interfaces_count;i++){
-			printf("%x ",this->interfaces[i]);
+			printf("%d ",this->interfaces[i]);
 		}
 		printf("\n");
 	}

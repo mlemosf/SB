@@ -1,0 +1,54 @@
+# Project: J10
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/auxiliar_functions.o" "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/class_printer.o" "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/class_reader.o" "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/instructions.o" "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_basic.o" "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_routine.o" "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_structs.o" "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/main.o" "../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/search_functions.o" $(RES)
+LINKOBJ  = "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/auxiliar_functions.o" "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/class_printer.o" "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/class_reader.o" "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/instructions.o" "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_basic.o" "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_routine.o" "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_structs.o" "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/main.o" "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/search_functions.o" $(RES)
+LIBS =   
+INCS = 
+CXXINCS = 
+BIN  = J10.exe
+CXXFLAGS = $(CXXINCS)  
+CFLAGS = $(INCS)  
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before J10.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o "J10.exe" $(LIBS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/auxiliar_functions.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/auxiliar_functions.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/auxiliar_functions.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/auxiliar_functions.o" $(CFLAGS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/class_printer.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/class_printer.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/class_printer.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/class_printer.o" $(CFLAGS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/class_reader.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/class_reader.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/class_reader.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/class_reader.o" $(CFLAGS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/instructions.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/instructions.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/instructions.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/instructions.o" $(CFLAGS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_basic.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_basic.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_basic.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_basic.o" $(CFLAGS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_routine.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_routine.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_routine.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_routine.o" $(CFLAGS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_structs.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/interpreter_structs.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_structs.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/interpreter_structs.o" $(CFLAGS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/main.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/main.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/main.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/main.o" $(CFLAGS)
+
+"../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/search_functions.o": ../../Documents\ and\ Settings/Rogier/Meus\ documentos/J10/JVM/search_functions.c
+	$(CC) -c "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/search_functions.c" -o "../../Documents and Settings/Rogier/Meus documentos/J10/JVM/search_functions.o" $(CFLAGS)

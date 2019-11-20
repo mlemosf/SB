@@ -6,6 +6,7 @@ int main(int argc, char ** argv) {
 	Leitor *leitor = new Leitor();
 
 	char* filename = argv[1];
+	u2 * interfaces;
 
 	leitor->loadFile(filename);
 	leitor->setMagicNumber();
@@ -14,27 +15,23 @@ int main(int argc, char ** argv) {
 	leitor->setConstantPoolCount();
 	leitor->exibir();
 	leitor->setConstantPool();
-
 	leitor->setAccessFlags();
 	leitor->setThisClass();
 	leitor->setSuperClass();
 	leitor->setInterfacesCount();
 	leitor->setInterfaces();
-
-	leitor->printAccessFlags();
+	//printf("Access Flags: %x\n",leitor->getAccessFlags());
+	leitor->printAccessFlags(); 
 	leitor->printThisClass();
 	leitor->printSuperClass();
 	leitor->printInterfaceCont();
-	leitor->printInterfaces();
-
-	// leitor->setInterfaces();
+	leitor->printInterfaces();	
 	//leitor->setFieldsCount();
 	// leitor->setFields();
 	//leitor->setMethodsCount();
 	// leitor->setMethods();
 	//leitor->setAttributesCount();
 	// leitor->setAttributes();
-
 	
 
 	delete(leitor);
