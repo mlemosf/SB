@@ -86,54 +86,21 @@ bool Leitor::setMagicNumber() {
 u4 Leitor::getMagicNumber(){return this->magic;}
 
 bool Leitor::setMinorVersion() {
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t minor_version[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		minor_version[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &minor_version, sizeof(minor_version));
-	this->minor_version = *buffer;
-	this->current_size += sizeof(this->minor_version);
+	this->minor_version = read2byte();
 	return true;
 }
 
 u2 Leitor::getMinorVersion(){return this->minor_version;}
 
 bool Leitor::setMajorVersion() {
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t major_version[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		major_version[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &major_version, sizeof(major_version));
-	this->major_version = *buffer;
-	this->current_size += sizeof(this->major_version);
+	this->major_version = read2byte();
 	return true;
 }
 
 u2 Leitor::getMajorVersion(){return this->major_version;}
 
 bool Leitor::setConstantPoolCount() {
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t constant_pool_count[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		constant_pool_count[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &constant_pool_count, sizeof(constant_pool_count));
-	this->constant_pool_count = *buffer;
-	this->current_size += sizeof(this->constant_pool_count);
+	this->constant_pool_count = read2byte();
 	return true;
 }
 
@@ -168,71 +135,28 @@ u2 Leitor::getAccessFlags(){
 }
 
 bool Leitor::setAccessFlags() {
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t access_flags[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		access_flags[j] = read1byte();
-		j--;
-	}
-	memcpy(buffer, &access_flags, sizeof(access_flags));
-	this->access_flags = *buffer;
+	this->access_flags = read2byte();
 	return true;
 }
 
 u2 Leitor::getThisClass(){return this->this_class;}
 
 bool Leitor::setThisClass(){
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t this_class[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		this_class[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &this_class, sizeof(this_class));
-	this->this_class = *buffer;
-	this->current_size += sizeof(this->this_class);
+	this->this_class= read2byte();
 	return true;
 }
 
 u2 Leitor::getSuperClass(){return this->super_class;}
 
 bool Leitor::setSuperClass() {
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t super_class[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		super_class[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &super_class, sizeof(super_class));
-	this->super_class = *buffer;
-	this->current_size += sizeof(this->super_class);
+	this->super_class = read2byte();
 	return true;
 }
 
 u2 Leitor::getInterfacesCount(){return interfaces_count;}
 
 bool Leitor::setInterfacesCount(){
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t interfaces_count[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		interfaces_count[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &interfaces_count, sizeof(interfaces_count));
-	this->interfaces_count = *buffer;
-	this->current_size += sizeof(this->interfaces_count);
+	this->interfaces_count = read2byte();
 	return true;
 }
 
@@ -240,73 +164,54 @@ u2 * Leitor::getInterfaces(){return this->interfaces;}
 
 bool Leitor::setInterfaces(){
 	int32_t size = this->interfaces_count;
-	printf("sizeInterCount=%d\n",size);
 	u2  buffer;
 	u2 interfaces[size];
 	for(int i=0;i < size; i++){
 		buffer = read2byte(); 
-		printf("buffer=%x\n",buffer);
 		interfaces[i] = buffer;
-		printf("interfacces[%d] = %d\n",i,interfaces[i]);
 	}
 	this->interfaces = (u2*)malloc(sizeof(interfaces));
 	for(int i=0;i<size;i++){
 		this->interfaces[i] = interfaces[i];
 	}
-	printf("this.interfaces[0]= %x\n",this->interfaces[0]);
-	printf("this.interfaces[1]= %x\n",this->interfaces[1]);
-	//this->current_size += sizeof(this->interfaces);
 	return true;
 }
 
 u2 Leitor::getFieldsCount(){return fields_count;}
 
 bool Leitor::setFieldsCount(){
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t fields_count[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		fields_count[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &fields_count, sizeof(fields_count));
-	this->fields_count = *buffer;
-	this->current_size += sizeof(this->fields_count);
+	this->fields_count = read2byte();
 	return true;
 }
 
 void Leitor::printAccessFlags(){
-	char access[20];                 //resolver problemas das contantes ACC_*
-	int aux = (int)this->getAccessFlags();
-	switch (aux){
-	case ACC_PUBLIC:
-		strcpy(access,"ACC_PUBLIC");
-		break;
-	case ACC_FINAL:
-		strcpy(access,"ACC_FINAL");
-		break;
-	case ACC_SUPER:
-		strcpy(access,"ACC_SUPER");
-		break;
-	case ACC_INTERFACE:
-		strcpy(access,"ACC_INTERFACE");
-		break;
-	case ACC_ABSTRACT:
-		strcpy(access,"ACC_ABSTRACT");
-		break;
-	case ACC_SYNTHETIC:
-		strcpy(access,"ACC_SYNTHETIC");
-	case ACC_ANNOTATION:
-		strcpy(access,"ACC_ANNOTATION");
-		break;
-	default:
-		printf("To no Default\n");
-		break;
+	uint16_t flags = (uint16_t)this->getAccessFlags();
+	uint8_t bits1 = flags & 0x000F;
+	uint8_t bits2 = flags & 0x00F0;
+	uint8_t bits3 = flags & 0x0F00;
+	uint8_t bits4 = flags & 0xF000;
+	printf("Access Flags: ");
+	if(bits1 == ACC_PUBLIC){
+		printf("[ACC_PUBLIC] ");
+	}else printf("[ACC_UNKNOWN]");
+
+	if(bits2!=0){
+		if(bits2==ACC_FINAL) printf("[ACC_FINAL] ");
+		else if(bits2==ACC_SUPER) printf("[ACC_SUPER] ");
+		else printf("[ACC_UNKNOWN]");
 	}
-	printf("Access Flags: %x ",aux);
-	printf("%s\n",access);
+	if(bits3!=0){
+		if(bits3==ACC_INTERFACE) printf("[ACC_INTERFACE] ");
+		else if(bits3==ACC_ABSTRACT) printf("[ACC_ABSTRACT] ");
+		else printf("[ACC_UNKNOWN]");
+	}
+	if(bits4!=0){
+		if(bits4==ACC_SYNTHETIC) printf("[ACC_SYNTHETIC] ");
+		else if(bits4==ACC_ANNOTATION) printf("[ACC_ANNOTATION] ");
+		else if(bits4==ACC_ENUM) printf("[ACC_ENUM] ");
+		else printf("[ACC_UNKNOWN]");
+	}
+	printf("\n");
 }
 void Leitor::printThisClass(){ // completar depois para buscar do CP
 	printf("ThisClass: %x\n", this->getThisClass());
