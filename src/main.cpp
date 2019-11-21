@@ -20,12 +20,13 @@ int main(int argc, char ** argv) {
 	leitor->setSuperClass();
 	leitor->setInterfacesCount();
 	leitor->setInterfaces();
-	//printf("Access Flags: %x\n",leitor->getAccessFlags());
+	leitor->setFieldsCount();
 	leitor->printAccessFlags(); 
 	leitor->printThisClass();
 	leitor->printSuperClass();
 	leitor->printInterfaceCont();
 	leitor->printInterfaces();
+	leitor->printFieldsCount();
 	//leitor->setFieldsCount();
 	// leitor->setFields();
 	//leitor->setMethodsCount();

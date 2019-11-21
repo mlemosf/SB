@@ -177,13 +177,14 @@ bool Leitor::setInterfaces(){
 	return true;
 }
 
-u2 Leitor::getFieldsCount(){return fields_count;}
+u2 Leitor::getFieldsCount(){return this->fields_count;}
 
 bool Leitor::setFieldsCount(){
 	this->fields_count = read2byte();
 	return true;
 }
 
+// Exibidor
 void Leitor::printAccessFlags(){
 	uint16_t flags = (uint16_t)this->getAccessFlags();
 	uint8_t bits1 = flags & 0x000F;
@@ -193,30 +194,30 @@ void Leitor::printAccessFlags(){
 	printf("Access Flags: ");
 	if(bits1 == ACC_PUBLIC){
 		printf("[ACC_PUBLIC] ");
-	}else printf("[ACC_UNKNOWN]");
+	}else printf("[ACC_UNKNOWN] ");
 
 	if(bits2!=0){
 		if(bits2==ACC_FINAL) printf("[ACC_FINAL] ");
 		else if(bits2==ACC_SUPER) printf("[ACC_SUPER] ");
-		else printf("[ACC_UNKNOWN]");
+		else printf("[ACC_UNKNOWN] ");
 	}
 	if(bits3!=0){
 		if(bits3==ACC_INTERFACE) printf("[ACC_INTERFACE] ");
 		else if(bits3==ACC_ABSTRACT) printf("[ACC_ABSTRACT] ");
-		else printf("[ACC_UNKNOWN]");
+		else printf("[ACC_UNKNOWN] ");
 	}
 	if(bits4!=0){
 		if(bits4==ACC_SYNTHETIC) printf("[ACC_SYNTHETIC] ");
 		else if(bits4==ACC_ANNOTATION) printf("[ACC_ANNOTATION] ");
 		else if(bits4==ACC_ENUM) printf("[ACC_ENUM] ");
-		else printf("[ACC_UNKNOWN]");
+		else printf("[ACC_UNKNOWN] ");
 	}
 	printf("\n");
 }
-void Leitor::printThisClass(){ // completar depois para buscar do CP
+void Leitor::printThisClass(){ // completar depois:fazer  buscar dos nomes no CP
 	printf("ThisClass: %x\n", this->getThisClass());
 }
-void Leitor::printSuperClass(){ // completar depois para buscar do CP
+void Leitor::printSuperClass(){ // completar depois:fazer  buscar dos nomes no CP
 	printf("SuperClass: %x\n", this->getSuperClass());
 }
 void Leitor::printInterfaceCont(){
@@ -231,16 +232,31 @@ void Leitor::printInterfaces(){
 		printf("\n");
 	}
 }
-/*vector<Field_info> Leitor::getFields(){
+void Leitor::printFieldsCount(){
+	printf("FieldsCount: %x\n",this->fields_count);
+}
+vector<Field_info> Leitor::getFields(){
 	vector<Field_info> ret;
 
 	for (u2 i = 0; i < this->fields_count; ++i){
 		ret.push_back(this->fields[i]);
 	}
-
 	return ret;
 }
-
+/*bool Leitor::setFields(){ setFields atual comentado ate terminar os attributes
+	Field_info buffer;
+	Attribute_info attributeAux;
+	for(int i=0;i<this->fields_count;i++){
+		buffer.setAcessFlags(read2byte());
+		buffer.setNameIndex(read2byte());
+		buffer.setDescriptorIndex(read2byte());
+		buffer.setAttributesCount(read2byte());
+		for(int j=0;j< buffer.getAttributesCount();j++){
+			// voltar quando attributes estiver pronto
+		}
+	}
+}*/
+/*
 bool Leitor::setFields(){
 	uint16_t size = this->fields_count;
 	vector<Field_info> fields;

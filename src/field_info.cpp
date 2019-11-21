@@ -3,25 +3,25 @@
 
 using namespace std;
 
-bool Field_info::setAcessFlags(u2 access_flags){
-    this->access_flags = access_flags;
+bool Field_info::setAcessFlags(u2 accessFlags){
+    this->access_flags = accessFlags;
     return true;
 }
 bool Field_info::setNameIndex(u2 nameIndex){
     this->name_index = name_index;
     return true;
 }
-bool Field_info::setAttributesCount(u2 attribute_count){
-    this->attributes_count = attributes_count;
+bool Field_info::setAttributesCount(u2 attributeCount){
+    this->attributes_count = attributeCount;
     return true;
 }
 bool Field_info::setDescriptorIndex(u2 descriptorIndex){
-    this->descriptor_index = descriptor_index;
+    this->descriptor_index = descriptorIndex;
     return true;
 }
-bool Field_info::setAttributes(Attribute_info * attributes){
+bool Field_info::setAttributes(Attribute_info * Attributes){
     for(int32_t i=0;i<this->attributes_count;i++){
-        this->attributes[i] = attributes[i];
+        this->attributes[i] = Attributes[i];
     }
     return true;
 }

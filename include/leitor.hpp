@@ -82,6 +82,7 @@ class Leitor {
 		void printSuperClass();
 		void printInterfaceCont();
 		void printInterfaces();
+		void printFieldsCount();
 		u1 read1byte();
 		u2 read2byte();
 		u4 read4byte();
