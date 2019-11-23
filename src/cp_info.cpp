@@ -10,7 +10,6 @@ void Cp_info::concatBytes(u1* buffer, u2 size, u1* bytes) {
 	}
 }
 
-
 u4 Cp_info::getConstantPoolTag(u2 tag, u4 utf8_size) {
 	int32_t size = 0;
 
@@ -100,8 +99,8 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 		case CONSTANT_Fieldref: {
 			CONSTANT_Fieldref_info *fieldref_info = new CONSTANT_Fieldref_info();
 			fieldref_info->tag = buffer[0];
-			fieldref_info->class_index = (buffer[1] << 16) + (buffer[2] << 8);
-			fieldref_info->name_and_type_index = (buffer[3] << 16) + (buffer[4] << 8);
+			fieldref_info->class_index = buffer[1] + buffer[2]; 
+			fieldref_info->name_and_type_index = buffer[3] + buffer[4];
 			element.constant_element.c3 = fieldref_info;
 			break;
 		}
@@ -116,7 +115,7 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 		case CONSTANT_String: {
 			CONSTANT_String_info *string_info = new CONSTANT_String_info();
 			string_info->tag = buffer[0];
-			string_info->string_index = (buffer[1] << 16) + (buffer[2] << 8);
+			string_info->string_index = buffer[1] + buffer[2];
 			element.constant_element.c5 = string_info;
 			break;
 		}
@@ -147,7 +146,6 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 			double_info->tag = buffer[0];
 			double_info->high_bytes = (buffer[1] << 24) + (buffer[2] << 16) + (buffer[3] << 8) + (buffer[4]);
 			double_info->low_bytes = (buffer[5] << 24) + (buffer[6] << 16) + (buffer[7] << 8) + (buffer[8]);
-
 			element.constant_element.c9 = double_info;
 			break;
 		}
@@ -196,11 +194,15 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 	this->constant_pool.push_back(element);
 }
 
+void printDoubleContinued(int32_t j) {
+	printf("[%d] large number continued\n", j);
+}
+
 void Cp_info::getConstantPool() {
 	vector<cp_info>::iterator i;
 	int32_t j = 1;
-	for (i = this->constant_pool.begin(); i != this->constant_pool.end(); ++i) {
-		printf("\t[%d] ", j);
+	for (i = this->constant_pool.begin();i!= this->constant_pool.end(); ++i) {
+		printf("[%d] ", j);
 		switch (i->tag) {
 			case CONSTANT_Class:
 				i->constant_element.c1->print();
@@ -228,6 +230,8 @@ void Cp_info::getConstantPool() {
 				break;
 			case CONSTANT_Double:
 				i->constant_element.c9->print();
+				printDoubleContinued(j + 1);
+				j++;
 				break;
 			case CONSTANT_NameAndType:
 				i->constant_element.c10->print();
@@ -251,23 +255,24 @@ void Cp_info::getConstantPool() {
 	}
 }
 
-void CONSTANT_Class_info::print(){ printf("\tTag: Class || Name index: %d\n", name_index); }
+void CONSTANT_Class_info::print(){ printf("Tag: Class || Name index: %d\n", name_index); }
 void CONSTANT_Methodref_info::print()			{ printf("Tag: Methodref || Class index: %d || Name and type index: %d\n", class_index, name_and_type_index); }
 void CONSTANT_Fieldref_info::print()			{ printf("Tag: Fieldref || Class index: %d || Name and type index: %d\n", class_index, name_and_type_index); }
 void CONSTANT_InterfaceMethodref_info::print()	{ printf("Tag: InterfaceMethodref || Class index: %d || Name and type index: %d\n", class_index, name_and_type_index); }
 void CONSTANT_String_info::print()				{ printf("Tag: String || String index: %d\n", string_index); }
-void CONSTANT_Integer_info::print()				{ printf("Tag: Integer || Bytes: %d\n", bytes); }
-void CONSTANT_Float_info::print()				{ printf("Tag: Float || Bytes: %d\n", bytes); }
+void CONSTANT_Integer_info::print()				{ printf("Tag: Integer || Bytes: %u\n", bytes); }
+void CONSTANT_Float_info::print()				{ printf("Tag: Float || Bytes: %u\n", bytes); }
 void CONSTANT_Long_info::print()				{ printf("Tag: Long || High bytes: 0x%x || Low bytes: 0x%x\n", high_bytes, low_bytes); }
 void CONSTANT_Double_info::print()				{ printf("Tag: Double || High bytes: 0x%x || Low bytes: 0x%x\n", high_bytes, low_bytes); }
 void CONSTANT_NameAndType_info::print()			{ printf("Tag: NameAndType || Name index: %d || Descriptor index: %d\n", name_index, descriptor_index); }
 void CONSTANT_Utf8_info::print() {
-	printf("\tTag: Utf8 || Length: %d, Bytes: [ ", length);
+	printf("Tag: Utf8 || Length: %d, String: ", length);
 	for (int32_t i = 0; i < length; i++) {
-		printf("%x ", bytes[i]);
+		printf("%c", bytes[i]);
 	} 
-	printf("]\n");
+	printf("\n");
 }
 void CONSTANT_MethodHandle_info::print()		{ printf("\tTag: MethodHandle || Reference kind: %d || Reference index: %d\n", reference_kind, reference_index); }
 void CONSTANT_MethodType_info::print()			{ printf("\tTag: MethodType || Descriptor index: %d\n", descriptor_index); }
 void CONSTANT_InvokeDynamic_info::print()		{ printf("\tTag: InvokeDynamic || Bootstrap Method Attributes Index: %d || Name and type index: %d\n", bootstrap_method_attr_index, name_and_type_index); }
+
