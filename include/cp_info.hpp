@@ -176,7 +176,7 @@ class Cp_info {
 		void addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned char* byte_array);
 		void concatBytes(u1* buffer, u2 size, u1* bytes); 
 		void getConstantPool();
-		u1* utf8ToAscii(u2 length, u1* bytes);
+		cp_info getCpInfoElement(u4 position);
 };
 
 #endif

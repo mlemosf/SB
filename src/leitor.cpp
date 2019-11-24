@@ -580,5 +580,6 @@ void Leitor::exibir() {
 	printf("Minor version: %x\n", this->minor_version);
 	printf("Major version: %x\n", this->major_version);
 	printf("Constant pool count: %d\n", this->constant_pool_count);
-	printf("Constant Pool:\n");
+	cp_info e = this->constant_pool->getCpInfoElement(4); 
+	printf("Tag do elemento 4 do cp: %d\n", e.tag);
 }

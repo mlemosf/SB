@@ -261,6 +261,12 @@ void Cp_info::getConstantPool() {
 		}
 		j++;
 	}
+	printf("\n");
+}
+
+
+cp_info Cp_info::getCpInfoElement(u4 position){
+	return this->constant_pool[position - 1];
 }
 
 void CONSTANT_Class_info::print(){ printf("Tag: Class || Name index: %d\n", name_index); }

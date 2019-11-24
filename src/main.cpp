@@ -15,7 +15,7 @@ int main(int argc, char ** argv) {
 	leitor->setConstantPoolCount();
 	leitor->setConstantPool();
 	leitor->setAccessFlags();
-	// leitor->exibir();
+	leitor->exibir();
 	// leitor->setThisClass();
 	// leitor->setSuperClass();
 	// leitor->setInterfacesCount();
