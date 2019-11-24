@@ -120,7 +120,11 @@ bool Leitor::setConstantPool() {
 		tag = *(this->byte_array + this->current_size + pos);
 		utf8_size = *(this->byte_array + this->current_size + pos + 2);
 		ret = cp_info->getConstantPoolTag(tag, utf8_size);
+
 		cp_info->addElement(tag, ret, pos, this->current_size,  this->byte_array);
+		if (tag == 6) {
+			cp_info->addElement(66, 0, 0, 0, 0);
+		}
 		pos += ret;
 		count += ret;
 	}

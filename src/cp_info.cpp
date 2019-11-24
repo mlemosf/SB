@@ -56,6 +56,9 @@ u4 Cp_info::getConstantPoolTag(u2 tag, u4 utf8_size) {
 		case CONSTANT_InvokeDynamic:
 			size = sizeof(CONSTANT_InvokeDynamic_info);
 			break;
+		case Large_NumericContinued:
+			size = sizeof(Large_Numeric_Continued_info);
+			break;
 		default:
 			printf("Tipo de dado inválido\n");
 			break;
@@ -79,7 +82,7 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 		position++;
 	}
 
-	element.tag = buffer[0];
+	element.tag = tag;
 	switch (tag) {
 		case CONSTANT_Class: {
 			CONSTANT_Class_info *class_info = new CONSTANT_Class_info();
@@ -143,9 +146,11 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 		}
 		case CONSTANT_Double: {
 			CONSTANT_Double_info *double_info = new CONSTANT_Double_info();
+			Large_Numeric_Continued_info *large_Numeric_Continued = new Large_Numeric_Continued_info();
 			double_info->tag = buffer[0];
 			double_info->high_bytes = (buffer[1] << 24) + (buffer[2] << 16) + (buffer[3] << 8) + (buffer[4]);
 			double_info->low_bytes = (buffer[5] << 24) + (buffer[6] << 16) + (buffer[7] << 8) + (buffer[8]);
+			large_Numeric_Continued->tag = 66;
 			element.constant_element.c9 = double_info;
 			break;
 		}
@@ -190,12 +195,14 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 			element.constant_element.c14 = invokedynamic_info;
 			break;
 		}
+		case Large_NumericContinued: {
+			Large_Numeric_Continued_info *large_Numeric_Continued = new Large_Numeric_Continued_info();
+			large_Numeric_Continued->tag = 66;
+			element.constant_element.c15 = large_Numeric_Continued;
+			break;
+		}
 	}
 	this->constant_pool.push_back(element);
-}
-
-void printDoubleContinued(int32_t j) {
-	printf("[%d] large number continued\n", j);
 }
 
 void Cp_info::getConstantPool() {
@@ -230,8 +237,6 @@ void Cp_info::getConstantPool() {
 				break;
 			case CONSTANT_Double:
 				i->constant_element.c9->print();
-				printDoubleContinued(j + 1);
-				j++;
 				break;
 			case CONSTANT_NameAndType:
 				i->constant_element.c10->print();
@@ -247,6 +252,9 @@ void Cp_info::getConstantPool() {
 				break;
 			case CONSTANT_InvokeDynamic:
 				i->constant_element.c14->print();
+				break;
+			case Large_NumericContinued:
+				i->constant_element.c15->print();
 				break;
 			default:
 				break;
@@ -264,6 +272,7 @@ void CONSTANT_Integer_info::print()				{ printf("Tag: Integer || Bytes: %u\n", b
 void CONSTANT_Float_info::print()				{ printf("Tag: Float || Bytes: %u\n", bytes); }
 void CONSTANT_Long_info::print()				{ printf("Tag: Long || High bytes: 0x%x || Low bytes: 0x%x\n", high_bytes, low_bytes); }
 void CONSTANT_Double_info::print()				{ printf("Tag: Double || High bytes: 0x%x || Low bytes: 0x%x\n", high_bytes, low_bytes); }
+void Large_Numeric_Continued_info::print()  	{ printf("Large numeric continued\n"); }
 void CONSTANT_NameAndType_info::print()			{ printf("Tag: NameAndType || Name index: %d || Descriptor index: %d\n", name_index, descriptor_index); }
 void CONSTANT_Utf8_info::print() {
 	printf("Tag: Utf8 || Length: %d, String: ", length);
