@@ -1,5 +1,6 @@
 #include "../include/leitor.hpp"
 #include "../include/field_info.hpp"
+#include  "field_info.cpp"
 #include "../include/attribute_info.hpp"
 using namespace std;
 
@@ -187,7 +188,27 @@ bool Leitor::setFieldsCount(){
 	this->fields_count = read2byte();
 	return true;
 }
-
+bool Leitor::setFields(){ 
+	Field_info  buffer;
+	Attribute_info attributeAux;
+	cp_info cpInfoAux;
+	u2 lengthNameIndex;
+	char nameIndexAttribute[50];
+	for(int i=0;i<this->fields_count;i++){
+		buffer.setAcessFlags(read2byte());
+		buffer.setNameIndex(read2byte());
+		buffer.setDescriptorIndex(read2byte());
+		buffer.setAttributesCount(read2byte());
+		for(int j=0;j< buffer.getAttributesCount();j++){ // read attributes
+			cpInfoAux = this->constant_pool->getCpInfoElement(read2byte());
+			lengthNameIndex = cpInfoAux.constant_element.c11->length;
+			strcpy(nameIndexAttribute,(const char *)cpInfoAux.constant_element.c11->bytes);
+			nameIndexAttribute[lengthNameIndex]= '\0';
+			
+		}
+	}
+	return true;
+}
 // Exibidor
 void Leitor::printAccessFlags(){
 	uint16_t flags = (uint16_t)this->getAccessFlags();
@@ -247,75 +268,6 @@ vector<Field_info> Leitor::getFields(){
 	}
 	return ret;
 }
-/*bool Leitor::setFields(){ setFields atual comentado ate terminar os attributes
-	Field_info buffer;
-	Attribute_info attributeAux;
-	for(int i=0;i<this->fields_count;i++){
-		buffer.setAcessFlags(read2byte());
-		buffer.setNameIndex(read2byte());
-		buffer.setDescriptorIndex(read2byte());
-		buffer.setAttributesCount(read2byte());
-		for(int j=0;j< buffer.getAttributesCount();j++){
-			// voltar quando attributes estiver pronto
-		}
-	}
-}*/
-/*
-bool Leitor::setFields(){
-	uint16_t size = this->fields_count;
-	vector<Field_info> fields;
-	vector<Attribute_info> attributes;
-	Field_info aux;
-	u2 access_flags;
-	u2 nameIndex;
-	u2 descriptor_index;
-	u2 attributes_count;
-	for(int i=0;i<size;i++){
-		access_flags = read2byte();
-		fields[i].setAcessFlags(access_flags);
-		nameIndex = read2byte();
-		fields[i].setNameIndex(nameIndex);
-		descriptor_index = read2byte();
-		fields[i].setDescriptorIndex(descriptor_index);
-		attributes_count = read2byte();
-		fields[i].setAttributesCount(attributes_count);
-		for(int j=0;j<attributes_count;j++){
-			// precisa terminar o attribute_info (Voltar aqui)
-		}
-	}
-	return true;
-}*/
-
-/*bool Leitor::setFields(){ // refatora depois conferir attributes
-	uint16_t size = this->fields_count;
-	int32_t j = size - 1;
-	Field_info fields[size];
-	int32_t sizeU2 =  2;
-	int32_t j_aux = sizeU2-1;
-	int16_t * buffer;
-	uint8_t access_flags[sizeU2];
-	uint8_t name_index[sizeU2]; 
-	uint8_t descriptor_index[sizeU2];
-	uint8_t attributes_count[sizeU2];
-	Attribute_info * attributes;
-	for(int32_t i =0;i<size;i++){
-		*buffer = read2byte();
-		fields[i].setAcessFlags(*buffer);
-		*buffer = read2byte();
-		fields[i].setNameIndex(*buffer);
-		*buffer = read2byte();
-		fields[i].setDescriptorIndex(*buffer);
-		*buffer = read2byte();
-		fields[i].setAttributesCount(*buffer);
-		for(int32_t k=0;k < this->attributes_count;k++){
-			attributes[k].setAttributeNameIndex(read2byte());
-			attributes[k].setAttributeLength(read2byte());
-			attributes[k].setInfo(this->byte_array);	
-		}
-		fields[i].setAttributes(attributes);
-	}
-	return true;
-}*/
 
 u2 Leitor::getMethodsCount(){
 	return methods_count;
@@ -576,10 +528,15 @@ vector<Attribute_info> Leitor::getAttributes(){
 /* EXIBIDOR */
 
 void Leitor::exibir() {
+	char nameIndex[50];
+	int aux;
 	printf("Magic number: %x\n", this->magic);
 	printf("Minor version: %x\n", this->minor_version);
 	printf("Major version: %x\n", this->major_version);
 	printf("Constant pool count: %d\n", this->constant_pool_count);
-	cp_info e = this->constant_pool->getCpInfoElement(4); 
-	printf("Tag do elemento 4 do cp: %d\n", e.tag);
+	cp_info e = this->constant_pool->getCpInfoElement(9); 
+	aux = e.constant_element.c11->length;
+	strcpy(nameIndex,(const char *)e.constant_element.c11->bytes);
+	nameIndex[aux]='\0';
+	printf("String do elemento 10 do cp: %s\n", nameIndex);
 }
