@@ -525,6 +525,76 @@ vector<Attribute_info> Leitor::getAttributes(){
 	return ret;
 }*/
 
+/*Set e Get*/
+
+bool set(int key)
+{
+	switch(key)
+	{
+		case MAGIC_NUMBER:
+		  return setMagicNumber();
+		case MINOR_VERSION:
+		  return setMinorVersion();
+		case MAJOR_VERSION:
+		  return setMajorVersion()
+		case CONSTANT_POOL_COUNT:
+			return setConstantPoolCount();
+		case CONSTANT_POOL:
+			return setConstantPool();
+		case ACCESS_FLAGS:
+			return setAccessFlags();
+		case THIS_CLASS:
+			return setThisClass();
+		case SUPER_CLASS:
+			return setSuperClass();
+		case INTERFACES_COUNT:
+			return setInterfacesCount();
+		case INTERFACES:
+			return setInterfaces();
+		case FIELDS:
+			return setFieldsCount();
+		case FIELDS_COUNT:
+			return setFields();
+		case METHODS:
+			return setMethodsCount();
+		case METHODS_COUNT:
+			return setMethods();
+		case ATTRIBUTES_COUNT:
+			return setAttributesCount();
+		case ATTRIBUTES:
+			return setAttributes();
+	}
+	return false;
+}
+
+u2 get(int key)
+{
+	switch(key)
+	{
+		case INTERFACES_COUNT:
+			return getInterfacesCount();
+		case MINOR_VERSION:
+			return getMinorVersion();
+		case MAJOR_VERSION:
+			return getMajorVersion();
+		case CONSTANT_POOL_COUNT:
+			return getConstantPoolCount();
+		case FIELDS_COUNT:
+			return getFieldsCount();
+		case METHODS_COUNT:
+			return getMethodsCount();
+		case ATTRIBUTES_COUNT:
+			return getAttributesCount();
+		case ACCESS_FLAGS:
+			return getAccessFlags();
+		case SUPER_CLASS:
+			return getSuperClass();
+		case THIS_CLASS:
+			return getThisClass();
+	}
+	return 0;
+}
+
 /* EXIBIDOR */
 
 void Leitor::exibir() {

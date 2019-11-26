@@ -21,22 +21,22 @@ void Exibidor::Mostrar()
 void Exibidor::GeneralInformation()
 {
 	printf("\nGeneral Information: \n\n");
-	printf("Minor version: %x\n", r.getMinorVersion());
-	printf("Major version: %x\n", r.getMajorVersion());
-	printf("Constant pool count: %d\n", r.getConstantPoolCount());
-	printf("Acess Flags: %x\n", r.getAccessFlags());
-	printf("This Class: %d\n", r.getThisClass());
-	printf("Super Class: %d\n", r.getSuperClass());
-	printf("Interfaces count: %d\n",r.getInterfacesCount());
-	printf("Fields Count: %d\n",r.getFieldsCount());
-	printf("Methods Count: %d\n",r.getMethodsCount());
-	printf("Attributes Count: %d\n",r.getAttributesCount());
+	printf("Minor version: %x\n", r.get(MINOR_VERSION));
+	printf("Major version: %x\n", r.get(MAJOR_VERSION));
+	printf("Constant pool count: %d\n", r.get(CONSTANT_POOL_COUNT));
+	printf("Acess Flags: %x\n", r.get(ACCESS_FLAGS));
+	printf("This Class: %d\n", r.get(THIS_CLASS));
+	printf("Super Class: %d\n", r.get(SUPER_CLASS));
+	printf("Interfaces count: %d\n",r.get(INTERFACES_COUNT));
+	printf("Fields Count: %d\n",r.get(FIELDS_COUNT));
+	printf("Methods Count: %d\n",r.get(METHODS_COUNT));
+	printf("Attributes Count: %d\n",r.get(ATTRIBUTES_COUNT));
 }
 
 void Exibidor::ConstantPool()
 {
 	printf("\nConstantPool: \n\n");
-	u2 qtd = r.getConstantPoolCount();
+	u2 qtd = r.get(CONSTANT_POOL_COUNT);
 	for(u2 i = 0; i<qtd; i++){
 		//CONSTANT c = r.getConstantPoolElement(i);
 		//c.print();
@@ -53,7 +53,7 @@ void Exibidor::ConstantPool()
 void Exibidor::Fields()
 {
 	printf("\nFields: \n\n");
-	int qtd = r.getFieldsCount();
+	int qtd = r.get(FIELDS_COUNT);
 	vector<Field_info> v = r.getFields();
 	for(int i =0;i<qtd;i++){
 		v[i].print();
@@ -63,7 +63,7 @@ void Exibidor::Fields()
 void Exibidor::Methods()
 {
 	printf("\nMethods: \n\n");
-	int qtd = r.getMethodsCount();
+	int qtd = r.get(METHODS_COUNT);
 	vector<Method_info> v = r.getMethods();
 	for (int i = 0; i < qtd; ++i)
 	{
@@ -75,7 +75,7 @@ void Exibidor::Methods()
 void Exibidor::Attributes()
 {
 	printf("\nAttributes: \n\n");
-	int qtd = r.getAttributesCount();
+	int qtd = r.get(ATTRIBUTES_COUNT);
 	vector<Attribute_info> v = r.getAttributes();
 	for (int i = 0; i < qtd; ++i)
 	{
