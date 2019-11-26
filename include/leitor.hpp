@@ -11,7 +11,24 @@
 #include "method_info.hpp"
 #include "field_info.hpp"
 
-
+enum ReturnTypesKey{
+	MAGIC_NUMBER,
+	MINOR_VERSION,
+	MAJOR_VERSION,
+	CONSTANT_POOL_COUNT,
+	CONSTANT_POOL,
+	ACCESS_FLAGS,
+	THIS_CLASS,
+	SUPER_CLASS,
+	INTERFACES_COUNT,
+	INTERFACES,
+	FIELDS,
+	FIELDS_COUNT,
+	METHODS,
+	METHODS_COUNT,
+	ATTRIBUTES_COUNT,
+	ATTRIBUTES
+};
 // #define u1 uint8_t
 // #define u2 uint16_t
 // #define u4 uint32_t
@@ -37,12 +54,7 @@ class Leitor {
 		vector< Attribute_info> attributes; // Faltando
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
-
-	public:
-		unsigned char* byte_array;
-		void loadFile(string filename);
 		bool setMagicNumber();
-		void exibir();
 		bool setMinorVersion();
 		bool setMajorVersion();
 		bool setConstantPoolCount();
@@ -50,7 +62,6 @@ class Leitor {
 		bool setAccessFlags();
 		bool setThisClass();
 		bool setSuperClass();
-
 		bool setInterfacesCount();
 		bool setInterfaces();
 		bool setFieldsCount();
@@ -59,12 +70,10 @@ class Leitor {
 		bool setMethods();
 		bool setAttributesCount();
 		bool setAttributes();
-
-		u4 getMagicNumber();
 		u2 getInterfacesCount();
 		u2 getMinorVersion();
 		u2 getMajorVersion();
-    	u2 getConstantPoolCount();
+    u2 getConstantPoolCount();
 		u2 getFieldsCount();
 		Cp_info * getConstantPool();
 		u2 getMethodsCount();
@@ -72,10 +81,19 @@ class Leitor {
 		u2 getAccessFlags();
 		u2 getThisClass();
 		u2 getSuperClass();
+	public:
+		unsigned char* byte_array;
+		void loadFile(string filename);
+		void exibir();
+		
+		bool set(int key);
+		u2 get(int key);
+		u4 getMagicNumber();
 		vector<Field_info> getFields();
 		vector<Method_info> getMethods();
 		u2 * getInterfaces();
 		vector<Attribute_info> getAttributes();
+		
 		// bool setAccessFlagCount();
 
 		void printAccessFlags();
