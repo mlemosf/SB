@@ -107,6 +107,7 @@ bool Leitor::setConstantPoolCount() {
 
 u2 Leitor::getConstantPoolCount(){return this->constant_pool_count;}
 
+
 bool Leitor::setConstantPool() {
 
 	int32_t size = this->constant_pool_count - 1;
@@ -134,7 +135,9 @@ bool Leitor::setConstantPool() {
 	this->current_size += count;
 	return true;
 }
-
+Cp_info * Leitor::getConstantPool(){
+	return this->getConstantPool();
+}
 u2 Leitor::getAccessFlags(){
 	return this->access_flags;
 }
@@ -200,11 +203,15 @@ bool Leitor::setFields(){
 		buffer.setDescriptorIndex(read2byte());
 		buffer.setAttributesCount(read2byte());
 		for(int j=0;j< buffer.getAttributesCount();j++){ // read attributes
+			attributeAux.setCP(this->constant_pool);
+			attributeAux.setAttributeNameIndex(read2byte());
+			attributeAux.setAttributeLength(read4byte());
+			// set info
 			cpInfoAux = this->constant_pool->getCpInfoElement(read2byte());
 			lengthNameIndex = cpInfoAux.constant_element.c11->length;
 			strcpy(nameIndexAttribute,(const char *)cpInfoAux.constant_element.c11->bytes);
 			nameIndexAttribute[lengthNameIndex]= '\0';
-			
+			this->current_size+=attributeAux.setInfo(nameIndexAttribute,lengthNameIndex,this->byte_array + this->constant_pool_count);
 		}
 	}
 	return true;

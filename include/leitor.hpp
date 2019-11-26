@@ -66,6 +66,7 @@ class Leitor {
 		u2 getMajorVersion();
     	u2 getConstantPoolCount();
 		u2 getFieldsCount();
+		Cp_info * getConstantPool();
 		u2 getMethodsCount();
 		u2 getAttributesCount();
 		u2 getAccessFlags();

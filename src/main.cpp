@@ -1,7 +1,6 @@
 #include <iostream>
 #include "../include/leitor.hpp"
 using namespace std;
-
 int main(int argc, char ** argv) {
 	Leitor *leitor = new Leitor();
 
@@ -15,6 +14,8 @@ int main(int argc, char ** argv) {
 	leitor->setConstantPool();
 	leitor->setAccessFlags();
 	leitor->exibir();
+
+
 	leitor->setThisClass();
 	leitor->setSuperClass();
 	leitor->setInterfacesCount();
