@@ -180,7 +180,7 @@ u2  Code_attribute::getAttributesCount(){
 	return this->attributes_count;
 }
 u4 Code_attribute::setAttributes(u1 * Attrs){
-	Attribute_info * attributes = (Attribute_info *)malloc(sizeof(Attribute_info));
+	Attribute_info * attributes = new Attribute_info();
 	cp_info Cp_infoAux;
 	char nameIndexAttribute[50];
 	u2 lengthNameIndex;
@@ -196,7 +196,6 @@ u4 Code_attribute::setAttributes(u1 * Attrs){
 		strcpy(nameIndexAttribute,(const char *)Cp_infoAux.constant_element.c11->bytes);
 		nameIndexAttribute[lengthNameIndex]= '\0';
 		i += attributes->setInfo(nameIndexAttribute,lengthNameIndex,Attrs+i);
-		this->attributes[j] = new Attribute_info();
 		this->attributes[j] = * attributes;
 		j++;
 	}
