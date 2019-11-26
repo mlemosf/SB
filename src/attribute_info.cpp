@@ -1,7 +1,6 @@
 #include "../include/attribute_info.hpp"
 #include <string.h>
 using namespace std;
-Cp_info * CP_global;
 u1 read1byteAtrr(u1 * byteArray){return *byteArray;}
 
 u2 read2bytesAtrr(u1 * byteArray){
@@ -154,8 +153,9 @@ u2 Code_attribute::getExceptionTableLength(){
 }
 
 bool Code_attribute::setException_table(u1 * ExceptTable){
+	//ExceptionCode_info * ExceptionTable;
 	uint32_t i=0,j=0;
-	while(j<this->exception_table_length){
+	while(i<this->exception_table_length){
 		this->exception_table[j].start_pc = read2bytesAtrr(ExceptTable+i);
 		i+=2;
 		this->exception_table[j].end_pc = read2bytesAtrr(ExceptTable+i);
@@ -180,7 +180,7 @@ u2  Code_attribute::getAttributesCount(){
 	return this->attributes_count;
 }
 u4 Code_attribute::setAttributes(u1 * Attrs){
-	Attribute_info * attributes = new Attribute_info();
+	Attribute_info * attributes = (Attribute_info *)malloc(sizeof(Attribute_info));
 	cp_info Cp_infoAux;
 	char nameIndexAttribute[50];
 	u2 lengthNameIndex;
@@ -196,8 +196,9 @@ u4 Code_attribute::setAttributes(u1 * Attrs){
 		strcpy(nameIndexAttribute,(const char *)Cp_infoAux.constant_element.c11->bytes);
 		nameIndexAttribute[lengthNameIndex]= '\0';
 		i += attributes->setInfo(nameIndexAttribute,lengthNameIndex,Attrs+i);
+		this->attributes[j] = new Attribute_info();
+		this->attributes[j] = * attributes;
 		j++;
-		this->attributes[j] = *attributes;
 	}
 	return i;
 }
