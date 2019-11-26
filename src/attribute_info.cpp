@@ -24,6 +24,7 @@ u4 read4bytesAtrr(u1 * byteArray){
 }
 bool Attribute_info::setCP(Cp_info * Cp){
 	this->ConstantPool = Cp;
+	return true;
 }
 bool Attribute_info::setAttributeNameIndex(u2 attribute_name_index){
 	this->attribute_name_index = attribute_name_index;
@@ -37,7 +38,7 @@ bool Attribute_info::setAttributeLength(u4 attribute_length){
 
 u4 Attribute_info::setInfo(char * typeAttribute,uint8_t sizeTypeAtrr, u1 * infoAttr){
 	string attributeName;
-	int i=0;
+	uint32_t i=0;
 	for(int i =0;i<sizeTypeAtrr;i++)attributeName.push_back(typeAttribute[i]);
 
 	if(attributeName== "Code"){
@@ -102,6 +103,7 @@ void Attribute_info::print(){
 // Code Attribute
 bool Code_attribute::setCP(Cp_info * Cp){
 	this->ConstantPool = Cp;
+	return true;
 }
 bool Code_attribute::setMax_stack(u2  Maxstack){
 	this->max_stack = Maxstack;
@@ -122,7 +124,7 @@ u2 Code_attribute::getMax_locals(){
 }
 
 bool Code_attribute::setCode_length(u4 CodeLength){
-	this->setCode_length = CodeLength;
+	this->code_length = CodeLength;
 	return true;
 }
 
@@ -132,7 +134,7 @@ u4 Code_attribute::getCode_length(){
 
 bool Code_attribute::setCode(u1 * Code){
 	this->code = (u1 *)malloc(this->code_length);
-	for(int i=0;i<this->code_length;i++){
+	for(uint32_t i=0;i<this->code_length;i++){
 		this->code[i] = Code[i];
 	}
 	return true;
@@ -144,6 +146,7 @@ u1 * Code_attribute::getCode(){
 
 bool Code_attribute::setExceptionTableLength(u2 ExceptTableLength){
 	this->exception_table_length = ExceptTableLength;
+	return true;
 }
 
 u2 Code_attribute::getExceptionTableLength(){
@@ -151,17 +154,17 @@ u2 Code_attribute::getExceptionTableLength(){
 }
 
 bool Code_attribute::setException_table(u1 * ExceptTable){
-	ExceptionCode_info * ExceptionTable;
-	int i=0;
-	while(i<(8 * this->exception_table_length)){
-		this->exception_table[i].start_pc = read2bytesAtrr(ExceptTable+i);
+	uint32_t i=0,j=0;
+	while(j<this->exception_table_length){
+		this->exception_table[j].start_pc = read2bytesAtrr(ExceptTable+i);
 		i+=2;
-		this->exception_table[i].end_pc = read2bytesAtrr(ExceptTable+i);
+		this->exception_table[j].end_pc = read2bytesAtrr(ExceptTable+i);
 		i+=2;
-		this->exception_table[i].handler_pc =read2bytesAtrr(ExceptTable+i);
+		this->exception_table[j].handler_pc =read2bytesAtrr(ExceptTable+i);
 		i+=2;
-		this->exception_table[i].catch_type = read2bytesAtrr(ExceptTable+i);
+		this->exception_table[j].catch_type = read2bytesAtrr(ExceptTable+i);
 		i+=2;
+		j++;
 	}
 	return true;
 }
@@ -177,7 +180,7 @@ u2  Code_attribute::getAttributesCount(){
 	return this->attributes_count;
 }
 u4 Code_attribute::setAttributes(u1 * Attrs){
-	Attribute_info * attributes = (Attribute_info *)malloc(sizeof(Attribute_info));
+	Attribute_info * attributes = new Attribute_info();
 	cp_info Cp_infoAux;
 	char nameIndexAttribute[50];
 	u2 lengthNameIndex;
@@ -194,6 +197,7 @@ u4 Code_attribute::setAttributes(u1 * Attrs){
 		nameIndexAttribute[lengthNameIndex]= '\0';
 		i += attributes->setInfo(nameIndexAttribute,lengthNameIndex,Attrs+i);
 		j++;
+		this->attributes[j] = *attributes;
 	}
 	return i;
 }
