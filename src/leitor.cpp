@@ -328,21 +328,7 @@ bool Leitor::setMethods(){
 	return true;
 }
 
-bool Leitor::setAttributesCount() {
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t attributes_count[size];
 
-	for (int32_t i = 0; i < size; i++) {
-		attributes_count[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &attributes_count, sizeof(attributes_count));
-	this->attributes_count = *buffer;
-	this->current_size += sizeof(this->attributes_count);
-	return true;
-}
 
 bool Leitor::setAttributes(){
 	int32_t size = 2;
