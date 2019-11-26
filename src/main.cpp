@@ -27,8 +27,8 @@ int main(int argc, char ** argv) {
 	leitor->printSuperClass();
 	leitor->printInterfaceCont();
 	leitor->printInterfaces();
-	leitor->printFieldsCount();*/
-	// leitor->setFields();
+	leitor->printFieldsCount();
+	*/// leitor->setFields();
 	//leitor->setMethodsCount();
 	// leitor->setMethods();
 	//leitor->setAttributesCount();

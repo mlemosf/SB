@@ -1,7 +1,6 @@
 #include "../include/attribute_info.hpp"
 #include <string.h>
 using namespace std;
-Cp_info * CP_global;
 u1 read1byteAtrr(u1 * byteArray){return *byteArray;}
 
 u2 read2bytesAtrr(u1 * byteArray){
@@ -38,14 +37,14 @@ bool Attribute_info::setAttributeLength(u4 attribute_length){
 
 u4 Attribute_info::setInfo(char * typeAttribute,uint8_t sizeTypeAtrr, u1 * infoAttr){
 	string attributeName;
-	unsigned int i;
-	for(i =0;i<sizeTypeAtrr;i++)attributeName.push_back(typeAttribute[i]);
+	uint32_t i=0;
+	for(int i =0;i<sizeTypeAtrr;i++)attributeName.push_back(typeAttribute[i]);
 
 	if(attributeName== "Code"){
 		this->info.codeAttr->setCP(this->ConstantPool);// setando o CP no CodeAttribute
 		this->info.codeAttr = new Code_attribute();
 		i = 0;
-		while(i < this->attribute_length){
+		while(i<this->attribute_length){
 			this->info.codeAttr->setMax_stack(read2bytesAtrr(infoAttr+i));
 			i+=2;
 			this->info.codeAttr->setMax_locals(read2bytesAtrr(infoAttr+i));
@@ -134,7 +133,7 @@ u4 Code_attribute::getCode_length(){
 
 bool Code_attribute::setCode(u1 * Code){
 	this->code = (u1 *)malloc(this->code_length);
-	for(unsigned int i=0;i<this->code_length;i++){
+	for(uint32_t i=0;i<this->code_length;i++){
 		this->code[i] = Code[i];
 	}
 	return true;
@@ -154,17 +153,18 @@ u2 Code_attribute::getExceptionTableLength(){
 }
 
 bool Code_attribute::setException_table(u1 * ExceptTable){
-	//ExceptionCode_info * ExceptionTable; variavel nao utilizada
-	int i=0;
-	while(i<(8 * this->exception_table_length)){
-		this->exception_table[i].start_pc = read2bytesAtrr(ExceptTable+i);
+	//ExceptionCode_info * ExceptionTable;
+	uint32_t i=0,j=0;
+	while(i<this->exception_table_length){
+		this->exception_table[j].start_pc = read2bytesAtrr(ExceptTable+i);
 		i+=2;
-		this->exception_table[i].end_pc = read2bytesAtrr(ExceptTable+i);
+		this->exception_table[j].end_pc = read2bytesAtrr(ExceptTable+i);
 		i+=2;
-		this->exception_table[i].handler_pc =read2bytesAtrr(ExceptTable+i);
+		this->exception_table[j].handler_pc =read2bytesAtrr(ExceptTable+i);
 		i+=2;
-		this->exception_table[i].catch_type = read2bytesAtrr(ExceptTable+i);
+		this->exception_table[j].catch_type = read2bytesAtrr(ExceptTable+i);
 		i+=2;
+		j++;
 	}
 	return true;
 }
@@ -180,7 +180,7 @@ u2  Code_attribute::getAttributesCount(){
 	return this->attributes_count;
 }
 u4 Code_attribute::setAttributes(u1 * Attrs){
-	Attribute_info * attributes = (Attribute_info *)malloc(sizeof(Attribute_info));
+	Attribute_info * attributes = new Attribute_info();
 	cp_info Cp_infoAux;
 	char nameIndexAttribute[50];
 	u2 lengthNameIndex;
@@ -196,6 +196,7 @@ u4 Code_attribute::setAttributes(u1 * Attrs){
 		strcpy(nameIndexAttribute,(const char *)Cp_infoAux.constant_element.c11->bytes);
 		nameIndexAttribute[lengthNameIndex]= '\0';
 		i += attributes->setInfo(nameIndexAttribute,lengthNameIndex,Attrs+i);
+		this->attributes[j] = * attributes;
 		j++;
 	}
 	return i;
