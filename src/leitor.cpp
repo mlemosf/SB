@@ -534,7 +534,7 @@ vector<Attribute_info> Leitor::getAttributes(){
 
 /*Set e Get*/
 
-bool set(int key)
+bool Leitor::set(int key)
 {
 	switch(key)
 	{
@@ -543,7 +543,7 @@ bool set(int key)
 		case MINOR_VERSION:
 		  return setMinorVersion();
 		case MAJOR_VERSION:
-		  return setMajorVersion()
+		  return setMajorVersion();
 		case CONSTANT_POOL_COUNT:
 			return setConstantPoolCount();
 		case CONSTANT_POOL:
@@ -563,18 +563,22 @@ bool set(int key)
 		case FIELDS_COUNT:
 			return setFields();
 		case METHODS:
-			return setMethodsCount();
+			break;
+			//return setMethodsCount(); metodos comentados
 		case METHODS_COUNT:
-			return setMethods();
+			break;
+			//return setMethods();
 		case ATTRIBUTES_COUNT:
-			return setAttributesCount();
+			break;
+			//return setAttributesCount();
 		case ATTRIBUTES:
-			return setAttributes();
+			break;
+			//return setAttributes();
 	}
 	return false;
 }
 
-u2 get(int key)
+u2 Leitor::get(int key)
 {
 	switch(key)
 	{
@@ -591,7 +595,8 @@ u2 get(int key)
 		case METHODS_COUNT:
 			return getMethodsCount();
 		case ATTRIBUTES_COUNT:
-			return getAttributesCount();
+			break;
+			//return getAttributesCount(); metodo comentado
 		case ACCESS_FLAGS:
 			return getAccessFlags();
 		case SUPER_CLASS:

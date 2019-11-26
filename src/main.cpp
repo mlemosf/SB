@@ -7,7 +7,7 @@ int main(int argc, char ** argv) {
 	char* filename = argv[1];
 
 	leitor->loadFile(filename);
-	leitor->setMagicNumber();
+	/*leitor->setMagicNumber();
 	leitor->setMinorVersion();
 	leitor->setMajorVersion();
 	leitor->setConstantPoolCount();
@@ -27,7 +27,7 @@ int main(int argc, char ** argv) {
 	leitor->printSuperClass();
 	leitor->printInterfaceCont();
 	leitor->printInterfaces();
-	leitor->printFieldsCount();
+	leitor->printFieldsCount();*/
 	// leitor->setFields();
 	//leitor->setMethodsCount();
 	// leitor->setMethods();
