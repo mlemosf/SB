@@ -311,35 +311,13 @@ bool Leitor::setMethods(){
 		attribute_name_index = read2byte();
 		size = read4byte();
 
-		// for (int j = 0; j < attributes_count; j++) {
 		Attribute_info* att = this->setAttributes(attribute_name_index, size);		
-		// info_element* element = att->getInfoElement();
-		// printf("\tminor version: %d\n", element->codeAttr->minor_version);
-		// printf("\tmax local variables: %d\n", element->codeAttr->max_locals);
-		// printf("\tcode length: %d\n", element->codeAttr->code_length);
-		// printf("\tcode: ");
-		// // u1* code = 
-		// for (int j = 0; j < element->codeAttr->code_length; j++) {
-		// 	printf("%x ", *(element->codeAttr->code + j));
-		// }
-		// printf("\n");
-		// Attribute_info* inner_attributes = element->codeAttr->attributes;
-		
-		// printf("\t\tInner name index: %d\n", inner_attributes->getAttributeNameIndex());
-		// printf("\t\tInner length: %d\n", inner_attributes->getAttributeLength());
-		// printf("\t\tInner info: ");
-		// u1* info = inner_attributes->getInfo();
-		// for (int j =  0; j < inner_attributes->getAttributeLength(); j++){
-		// 	printf("%x ", *(info + j));
-		// }
-		// printf("\n");
 		
 		e->access_flags = access_flags;
 		e->name_index = name_index;
 		e->descriptor_index = descriptor_index;
 		e->attributes_count = attributes_count;
 		e->attributes = att;
-		printf("NAME INDEX: %d\n", e->name_index);
 		a->methods.push_back(e);
 		this->current_size += size;
 	}
@@ -372,9 +350,6 @@ Attribute_info* Leitor::setAttributes(u2 attribute_name_index, u4 attribute_leng
 	info_element *element = (info_element*)malloc(sizeof(info_element));
 	attribute->setAttributeNameIndex(attribute_name_index);
 	attribute->setAttributeLength(attribute_length);
-
-	printf("attribute name_index: %d\n", attribute->getAttributeNameIndex());
-	printf("attribute length: %d\n", attribute->getAttributeLength());
 
 	// Pega o tipo de attribute
 	cp_info attribute_type = this->constant_pool->getCpInfoElement(attribute_name_index);

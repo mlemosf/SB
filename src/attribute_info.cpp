@@ -56,7 +56,7 @@ bool Code_attribute::set(u4 code_size, u1* byteArray, u2 attribute_name_index) {
 
 	// code
 	u1* code = (u1*)malloc((this->code_length) * sizeof(u1));
-	for (int i = 0; i < this->code_length; i++) {
+	for (uint32_t i = 0; i < this->code_length; i++) {
 		code[i] = *(byteArray + i);
 	}
 	this->code = code;
@@ -84,40 +84,10 @@ bool Code_attribute::set(u4 code_size, u1* byteArray, u2 attribute_name_index) {
 	u1* info = (u1*)malloc(length * sizeof(info));
 	for (int i = 0; i < length; i++) {
 		info[i] = *(byteArray + i);
-		// printf("%x ", info[i]);
 	}
 	att->setInfo(info);
-
-	// for (int i = 0; i < att->getAttributeLength();i++){
-	// 	printf("%x ", info[i]);
-	// }
 	this->attributes = att;
-	
-
-	// printf("\n");
-
-
-	// printf("minor: %d\n", this->minor_version);
-	// printf("max locals: %d\n", this->max_locals);
-	// printf("code length: %d\n", this->code_length);
-	// printf("code: ");
-	// for (int i = 0; i < this->code_length; i++) {
-	// 	printf("%x ", *(this->code + i));
-	// }
-	// printf("\n");
-	// printf("exception table length: %d\n", this->exception_table_length);
-	// printf("attributes_count: %d\n", this->attributes_count);
-	// printf("Attributes: \n");
-	// printf("  Attribute name index: %d\n", this->attributes->getAttributeNameIndex());
-	// printf("  Attribute length: %d\n", this->attributes->getAttributeLength());
-	// printf("  Info: ");
-	// u1* printInfo = this->attributes->getInfo();
-	// for (int i = 0; i < this->attributes->getAttributeLength(); i++) {
-	// 	printf("%x ", *(printInfo + i));
-	// }
-	// printf("\n\n");
 	return true;
-	// free(code);
 }
 
 bool Attribute_info::setInfoElement(char* op, info_element* element) {

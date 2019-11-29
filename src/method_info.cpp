@@ -29,7 +29,7 @@ void Method_info::getMethodInfo() {
 		printf("Attribute count: %d\n", (*i)->attributes_count);
 		printf("Attributes: \n");
 		info_element* element = (*i)->attributes->getInfoElement();
-		for (int j = 0; j < (*i)->attributes_count; j++) {
+		for (uint32_t j = 0; j < (*i)->attributes_count; j++) {
 			printf("  Attribute name index: %d\n", element->codeAttr->attribute_name_index);
 			printf("  Attribute length: %d\n", element->codeAttr->attribute_length);
 			printf("  Minor version: %d\n", element->codeAttr->minor_version);
@@ -37,7 +37,7 @@ void Method_info::getMethodInfo() {
 			printf("  Code length: %d\n", element->codeAttr->code_length);
 			printf("  Bytecode: ");
 			u1* bytecode = element->codeAttr->code;
-			for (int k = 0; k < element->codeAttr->code_length; k++) {
+			for (uint32_t k = 0; k < element->codeAttr->code_length; k++) {
 				printf("%x ", *(bytecode + k));
 			}
 			printf("\n");
@@ -47,12 +47,10 @@ void Method_info::getMethodInfo() {
 			printf("\tAttribute length: %d\n", line_number_table->getAttributeLength());
 			printf("\tSpecific info: ");
 			u1 *info = line_number_table->getInfo();
-			for (int l = 0; l < line_number_table->getAttributeLength(); l++) {
+			for (uint32_t l = 0; l < line_number_table->getAttributeLength(); l++) {
 				printf("%x ", *(info + l));
 			}
 			printf("\n");
-
-
 		}
 		printf("=====================\n");
 		j++;
