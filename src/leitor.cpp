@@ -2,6 +2,7 @@
 #include "../include/field_info.hpp"
 #include  "field_info.cpp"
 #include "../include/attribute_info.hpp"
+#include "../include/method_info.hpp"
 using namespace std;
 
 
@@ -17,7 +18,6 @@ u2 Leitor::read2byte(){
 	u1 ret[2];
 	ret[1] = read1byte();
 	ret[0] = read1byte();
-	// printf("%x %x\n", ret[0], ret[1]);
 	memcpy(b, &ret, sizeof(u2));
 	return *b;
 }
@@ -286,53 +286,37 @@ u2 Leitor::getMethodsCount(){
 bool Leitor::setMethodsCount() {
 	this->methods_count = read2byte();
 	return true;
-	// int32_t size = 2;
-	// int32_t j = size - 1;
-	// int16_t buffer[size];
-	// int16_t methods_count[size];
-
-	// for (int32_t i = 0; i < size; i++) {
-	// 	methods_count[j] = *(this->byte_array + this->current_size + i);
-	// 	j--;
-	// }
-	// memcpy(buffer, &methods_count, sizeof(methods_count));
-	// this->methods_count = *buffer;
-	// this->current_size += sizeof(this->methods_count);
-	// return true;
 }
-/**
-
 
 
 bool Leitor::setMethods(){
 	printf("methods_count: %d\n", this->methods_count);
-	int16_t access_flags;
-	int16_t name_index;
-	int16_t descriptor_index;
-	int16_t attributes_count;
+	uint16_t access_flags;
+	uint16_t name_index;
+	uint16_t descriptor_index;
+	uint16_t attributes_count;
+	uint16_t attribute_cp;
+	int32_t size;
+	// printf("")
 
+	Method_info *a = new Method_info();
+	method_info_element *e = (method_info_element*)malloc(sizeof(method_info_element));
 	for (int i = 0; i < this->methods_count; ++i){
-		Method_info a;
-		access_flags = read2byte();
-		a.setAccessFlags(access_flags);
-
-		//printf("access_flags: 0x%04x\n", *access_flags);
+		access_flags = read2byte();		
 		name_index = read2byte();
-		a.setNameIndex(name_index);
-		
 		descriptor_index = read2byte();
-		a.setDescriptorIndex(descriptor_index);
-		
 		attributes_count = read2byte();
-		a.setAttributeCount(attributes_count);
+		attribute_cp = read2byte();
+		size = read4byte();
 
-		a.setAttributes(this->constant_pool);
-	
-		this->methods[i] = a;
+		a->setFields(access_flags, name_index, descriptor_index, attributes_count);
+		e = a->getMethod(i);
+		this->current_size += size;
 	}
+	this->methods = a;
 	return true;
 }
-
+/*
 bool Leitor::setAttributesCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -535,8 +519,8 @@ vector<Attribute_info> Leitor::getAttributes(){
 	}
 
 	return ret;
-}*/
-
+}
+*/
 /*Set e Get*/
 
 bool Leitor::set(int key)
@@ -573,8 +557,8 @@ bool Leitor::set(int key)
 		case METHODS_COUNT:
 			return setMethodsCount(); //metodos comentados
 		case METHODS:
-			//return setMethods();
-			break;
+			return setMethods();
+			// break;
 		case ATTRIBUTES_COUNT:
 			break;
 			//return setAttributesCount();
@@ -629,6 +613,9 @@ void Leitor::exibir() {
 	printf("Interfaces count: %d\n", this->interfaces_count);
 	printf("Fields count: %d\n", this->fields_count);
 	printf("Methods count: %d\n", this->methods_count);
+	printf("Methods:\n\n");
+	this->methods->getMethodInfo();
+	// method_info_element* e = this->methods->getMethod(0);
 	// printf("Methods count: %d\n", this->methods_count);
 
 }

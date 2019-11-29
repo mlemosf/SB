@@ -3,11 +3,39 @@
 #include "../include/leitor.hpp"
 using namespace std;
 
-/*bool Method_info::setAccessFlags(u2 access_flags){
-	this->access_flags = access_flags;
+bool Method_info::setFields(u2 access_flags, u2 name_index, u2 descriptor_index, u2 attributes_count) {
+	method_info_element *element = (method_info_element*)malloc(sizeof(method_info_element));
+	element->access_flags = access_flags;
+	element->name_index = name_index;
+	element->descriptor_index = descriptor_index;
+	element->attributes_count = attributes_count;
+	methods.push_back(element);
 	return true;
 }
 
+method_info_element* Method_info::getMethod(u2 index) {
+	return this->methods[index];
+}
+
+void Method_info::getMethodInfo() {
+	vector<method_info_element*>::iterator i;
+	int j = 0;
+	for (i = this->methods.begin(); i != this->methods.end(); ++i) {
+		printf("========== [%d] ===========\n", j);
+		printf("Access_flags: 0x000%x\n", (*i)->access_flags);
+		printf("Name index: %d\n", (*i)->name_index);
+		printf("Descriptor index: %d\n", (*i)->descriptor_index);
+		printf("Attribute count: %d\n", (*i)->attributes_count);
+		printf("=====================\n");
+		j++;
+	}
+}
+
+// bool Method_info::setAccessFlags(u2 access_flags){
+// 	this->access_flags = access_flags;
+// 	return true;
+// }
+/*
 bool Method_info::setNameIndex(u2 name_index){
 	this->name_index = name_index;
 	return true;

@@ -19,7 +19,7 @@ int main(int argc, char ** argv) {
 	leitor->set(FIELDS_COUNT);
 	// leitor->set(FIELDS);
 	leitor->set(METHODS_COUNT);
-	// leitor->set(METHODS_COUNT);
+	leitor->set(METHODS);
 	// leitor->set(METHODS);
 	// leitor->set(ATTRIBUTES_COUNT);
 	// leitor->set(ATTRIBUTES);

@@ -49,7 +49,7 @@ class Leitor {
 		u2 fields_count; //  OK
 		vector<Field_info> fields;// Faltando
 		u2 methods_count; // 
-		Method_info methods; // Faltando
+		Method_info *methods; // Faltando
 		u2 attributes_count; // 
 		vector< Attribute_info> attributes; // Faltando
 

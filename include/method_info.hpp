@@ -22,27 +22,19 @@
 #define ACC_STRICT 0x0800
 #define ACC_SYNTHETIC 0x1000
 
+struct method_info_element {
+    u2 access_flags;
+    u2 name_index;
+    u2 descriptor_index;
+    u2 attributes_count;
+    // Attribute_info * attributes; //attribute_info attributes[attributes_count];
+};
+
 class Method_info{
-    private:
-        u2 access_flags;
-        u2 name_index;
-        u2 descriptor_index;
-        u2 attributes_count;
-        Attribute_info * attributes; //attribute_info attributes[attributes_count];
     public:
-        bool setAccessFlags(u2 access_flags);
-        bool setNameIndex(u2 name_index);
-        bool setDescriptorIndex(u2 descriptor_index);
-        bool setAttributeCount(u2 attributes_count);
-        bool setAttributes(Cp_info constant_pool);
-
-        void print();
-
-        u2 getAccessFlags();
-        u2 getNameIndex();
-        u2 getDescriptorIndex();
-        u2 getAttributeCount();
-        Attribute_info * getAttributes();
-
+        vector<method_info_element*> methods;
+        bool setFields(u2 access_flags, u2 name_index, u2 descriptor_index, u2 attributes_count);
+        method_info_element* getMethod(u2 index);
+        void getMethodInfo();
 };
 #endif
