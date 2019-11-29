@@ -2,7 +2,7 @@
 #include "../include/cp_info.hpp"
 using namespace std;
 
-Exibidor::Exibidor(Leitor l)
+/*Exibidor::Exibidor(Leitor l)
 {
 	r = l;
 }
@@ -16,14 +16,15 @@ void Exibidor::Mostrar()
 	Fields();
 	Methods();
 }
-
+*/
+/*
 void Exibidor::GeneralInformation()
 {
 	printf("\nGeneral Information: \n\n");
 	printf("Minor version: %x\n", r.getMinorVersion());
 	printf("Major version: %x\n", r.getMajorVersion());
 	printf("Constant pool count: %d\n", r.getConstantPoolCount());
-	printf("Acess Flags: %x\n", r.getAcessFlags());
+	printf("Acess Flags: %x\n", r.getAccessFlags());
 	printf("This Class: %d\n", r.getThisClass());
 	printf("Super Class: %d\n", r.getSuperClass());
 	printf("Interfaces count: %d\n",r.getInterfacesCount());
@@ -37,23 +38,18 @@ void Exibidor::ConstantPool()
 	printf("\nConstantPool: \n\n");
 	u2 qtd = r.getConstantPoolCount();
 	for(u2 i = 0; i<qtd; i++){
-		CONSTANT c = r.getConstantPoolElement(i);
-		c.print();
+		//CONSTANT c = r.getConstantPoolElement(i);
+		//c.print();
 	}
 }
+*/
 
-void Exibidor::Interfaces()
+/*void Exibidor::Interfaces()
 {
 	printf("\nInterfaces: \n\n");
-	/*
-	int qtd = r.getInterfacesCount();
-	vector<Interface_info> v = r.getInterfaces();
-	for (int i = 0; i < qtd; ++i)
-	{
-		v[i].print();
-	}*/
-}
 
+}*/
+/*
 void Exibidor::Fields()
 {
 	printf("\nFields: \n\n");
@@ -85,4 +81,4 @@ void Exibidor::Attributes()
 	{
 		v[i].print();
 	}
-}
+}*/

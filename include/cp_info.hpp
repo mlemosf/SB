@@ -23,6 +23,7 @@
 #define CONSTANT_MethodHandle 15
 #define CONSTANT_MethodType  16
 #define CONSTANT_InvokeDynamic 18
+#define Large_NumericContinued 66
 
 using namespace std;
 
@@ -99,6 +100,12 @@ class CONSTANT_Double_info : public CONSTANT {
 		void print();
 };
 
+class Large_Numeric_Continued_info: public CONSTANT {
+	public:
+		u1 tag;
+		void print();
+};
+
 class CONSTANT_NameAndType_info : public CONSTANT {
 	public:
 		u1 tag;
@@ -154,6 +161,7 @@ union cp_info_element {
 	CONSTANT_MethodHandle_info *c12;
 	CONSTANT_MethodType_info *c13;
 	CONSTANT_InvokeDynamic_info *c14;
+	Large_Numeric_Continued_info *c15;
 };
 
 struct cp_info {
@@ -168,6 +176,7 @@ class Cp_info {
 		void addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned char* byte_array);
 		void concatBytes(u1* buffer, u2 size, u1* bytes); 
 		void getConstantPool();
+		cp_info getCpInfoElement(u4 position);
 };
 
 #endif

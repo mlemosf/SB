@@ -1,34 +1,30 @@
 #include <iostream>
 #include "../include/leitor.hpp"
 using namespace std;
-
 int main(int argc, char ** argv) {
 	Leitor *leitor = new Leitor();
 
 	char* filename = argv[1];
 
 	leitor->loadFile(filename);
-	leitor->setMagicNumber();
-	leitor->setMinorVersion();
-	leitor->setMajorVersion();
-	leitor->setConstantPoolCount();
+	leitor->set(MAGIC_NUMBER);
+	leitor->set(MINOR_VERSION);
+	leitor->set(MAJOR_VERSION);
+	leitor->set(CONSTANT_POOL_COUNT);
+	leitor->set(CONSTANT_POOL);
+	leitor->set(ACCESS_FLAGS);
+	leitor->set(THIS_CLASS);
+	leitor->set(SUPER_CLASS);
+	leitor->set(INTERFACES_COUNT);
+	leitor->set(FIELDS_COUNT);
+	// leitor->set(FIELDS);
+	leitor->set(METHODS_COUNT);
+	leitor->set(METHODS);
+	// leitor->set(METHODS);
+	// leitor->set(ATTRIBUTES_COUNT);
+	// leitor->set(ATTRIBUTES);
+
 	leitor->exibir();
-	leitor->setConstantPool();
-
-	leitor->setAccessFlags();
-	leitor->setThisClass();
-	leitor->setSuperClass();
-
-	leitor->setInterfacesCount();
-	// leitor->setInterfaces();
-	leitor->setFieldsCount();
-	// leitor->setFields();
-	leitor->setMethodsCount();
-	// leitor->setMethods();
-	leitor->setAttributesCount();
-	// leitor->setAttributes();
-
-	
 
 	delete(leitor);
 	return 0;
