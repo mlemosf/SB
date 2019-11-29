@@ -208,6 +208,7 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 void Cp_info::getConstantPool() {
 	vector<cp_info>::iterator i;
 	int32_t j = 1;
+	printf("Constant pool\n");
 	for (i = this->constant_pool.begin();i!= this->constant_pool.end(); ++i) {
 		printf("[%d] ", j);
 		switch (i->tag) {

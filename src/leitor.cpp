@@ -17,6 +17,7 @@ u2 Leitor::read2byte(){
 	u1 ret[2];
 	ret[1] = read1byte();
 	ret[0] = read1byte();
+	// printf("%x %x\n", ret[0], ret[1]);
 	memcpy(b, &ret, sizeof(u2));
 	return *b;
 }
@@ -170,20 +171,20 @@ bool Leitor::setInterfacesCount(){
 
 u2 * Leitor::getInterfaces(){return this->interfaces;} 
 
-bool Leitor::setInterfaces(){
-	int32_t size = this->interfaces_count;
-	u2  buffer;
-	u2 interfaces[size];
-	for(int i=0;i < size; i++){
-		buffer = read2byte(); 
-		interfaces[i] = buffer;
-	}
-	this->interfaces = (u2*)malloc(sizeof(interfaces));
-	for(int i=0;i<size;i++){
-		this->interfaces[i] = interfaces[i];
-	}
-	return true;
-}
+// bool Leitor::setInterfaces(){
+// 	int32_t size = this->interfaces_count;
+// 	u2  buffer;
+// 	u2 interfaces[size];
+// 	for(int i=0;i < size; i++){
+// 		buffer = read2byte(); 
+// 		interfaces[i] = buffer;
+// 	}
+// 	this->interfaces = (u2*)malloc(sizeof(interfaces));
+// 	for(int i=0;i<size;i++){
+// 		this->interfaces[i] = interfaces[i];
+// 	}
+// 	return true;
+// }
 
 u2 Leitor::getFieldsCount(){return this->fields_count;}
 
@@ -191,31 +192,31 @@ bool Leitor::setFieldsCount(){
 	this->fields_count = read2byte();
 	return true;
 }
-bool Leitor::setFields(){ 
-	Field_info  buffer;
-	Attribute_info attributeAux;
-	cp_info cpInfoAux;
-	u2 lengthNameIndex;
-	char nameIndexAttribute[50];
-	for(int i=0;i<this->fields_count;i++){
-		buffer.setAcessFlags(read2byte());
-		buffer.setNameIndex(read2byte());
-		buffer.setDescriptorIndex(read2byte());
-		buffer.setAttributesCount(read2byte());
-		for(int j=0;j< buffer.getAttributesCount();j++){ // read attributes
-			attributeAux.setCP(this->constant_pool);
-			attributeAux.setAttributeNameIndex(read2byte());
-			attributeAux.setAttributeLength(read4byte());
-			// set info
-			cpInfoAux = this->constant_pool->getCpInfoElement(read2byte());
-			lengthNameIndex = cpInfoAux.constant_element.c11->length;
-			strcpy(nameIndexAttribute,(const char *)cpInfoAux.constant_element.c11->bytes);
-			nameIndexAttribute[lengthNameIndex]= '\0';
-			this->current_size+=attributeAux.setInfo(nameIndexAttribute,lengthNameIndex,this->byte_array + this->constant_pool_count);
-		}
-	}
-	return true;
-}
+// bool Leitor::setFields(){ 
+// 	Field_info  buffer;
+// 	Attribute_info attributeAux;
+// 	cp_info cpInfoAux;
+// 	u2 lengthNameIndex;
+// 	char nameIndexAttribute[50];
+// 	for(int i=0;i<this->fields_count;i++){
+// 		buffer.setAcessFlags(read2byte());
+// 		buffer.setNameIndex(read2byte());
+// 		buffer.setDescriptorIndex(read2byte());
+// 		buffer.setAttributesCount(read2byte());
+// 		for(int j=0;j< buffer.getAttributesCount();j++){ // read attributes
+// 			attributeAux.setCP(this->constant_pool);
+// 			attributeAux.setAttributeNameIndex(read2byte());
+// 			attributeAux.setAttributeLength(read4byte());
+// 			// set info
+// 			cpInfoAux = this->constant_pool->getCpInfoElement(read2byte());
+// 			lengthNameIndex = cpInfoAux.constant_element.c11->length;
+// 			strcpy(nameIndexAttribute,(const char *)cpInfoAux.constant_element.c11->bytes);
+// 			nameIndexAttribute[lengthNameIndex]= '\0';
+// 			this->current_size+=attributeAux.setInfo(nameIndexAttribute,lengthNameIndex,this->byte_array + this->constant_pool_count);
+// 		}
+// 	}
+// 	return true;
+// }
 // Exibidor
 void Leitor::printAccessFlags(){
 	uint16_t flags = (uint16_t)this->getAccessFlags();
@@ -276,28 +277,32 @@ vector<Field_info> Leitor::getFields(){
 	return ret;
 }
 
+// u2 Leitor::getAttributesCount(){return attributes_count;}
+
 u2 Leitor::getMethodsCount(){
 	return methods_count;
 }
 
-
-/*u2 Leitor::getAttributesCount(){return attributes_count;}
-
 bool Leitor::setMethodsCount() {
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t methods_count[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		methods_count[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &methods_count, sizeof(methods_count));
-	this->methods_count = *buffer;
-	this->current_size += sizeof(this->methods_count);
+	this->methods_count = read2byte();
 	return true;
+	// int32_t size = 2;
+	// int32_t j = size - 1;
+	// int16_t buffer[size];
+	// int16_t methods_count[size];
+
+	// for (int32_t i = 0; i < size; i++) {
+	// 	methods_count[j] = *(this->byte_array + this->current_size + i);
+	// 	j--;
+	// }
+	// memcpy(buffer, &methods_count, sizeof(methods_count));
+	// this->methods_count = *buffer;
+	// this->current_size += sizeof(this->methods_count);
+	// return true;
 }
+/**
+
+
 
 bool Leitor::setMethods(){
 	printf("methods_count: %d\n", this->methods_count);
@@ -557,17 +562,19 @@ bool Leitor::set(int key)
 		case INTERFACES_COUNT:
 			return setInterfacesCount();
 		case INTERFACES:
-			return setInterfaces();
+			// return setInterfaces();
+			break;
 		case FIELDS:
-			return setFieldsCount();
+			break;
+			// return setFields();
 		case FIELDS_COUNT:
-			return setFields();
-		case METHODS:
-			break;
-			//return setMethodsCount(); metodos comentados
+			return setFieldsCount();
+			// break;
 		case METHODS_COUNT:
-			break;
+			return setMethodsCount(); //metodos comentados
+		case METHODS:
 			//return setMethods();
+			break;
 		case ATTRIBUTES_COUNT:
 			break;
 			//return setAttributesCount();
@@ -610,15 +617,18 @@ u2 Leitor::get(int key)
 /* EXIBIDOR */
 
 void Leitor::exibir() {
-	char nameIndex[50];
-	int aux;
+	// char nameIndex[50];
+	// int aux;
 	printf("Magic number: %x\n", this->magic);
-	printf("Minor version: %x\n", this->minor_version);
-	printf("Major version: %x\n", this->major_version);
+	printf("Minor version: %d\n", this->minor_version);
+	printf("Major version: %d\n", this->major_version);
 	printf("Constant pool count: %d\n", this->constant_pool_count);
-	cp_info e = this->constant_pool->getCpInfoElement(9); 
-	aux = e.constant_element.c11->length;
-	strcpy(nameIndex,(const char *)e.constant_element.c11->bytes);
-	nameIndex[aux]='\0';
-	printf("String do elemento 10 do cp: %s\n", nameIndex);
+	printf("Access flags: 0x00%x\n", this->access_flags);
+	printf("This class: %d\n", this->this_class);
+	printf("Super class: %d\n", this->super_class);
+	printf("Interfaces count: %d\n", this->interfaces_count);
+	printf("Fields count: %d\n", this->fields_count);
+	printf("Methods count: %d\n", this->methods_count);
+	// printf("Methods count: %d\n", this->methods_count);
+
 }

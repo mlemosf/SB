@@ -9,7 +9,7 @@ CXXFLAGS=-std=c++11 -Wall -g
 
 TARGET=main
 
-all: $(TARGET) clean
+all: $(TARGET)
 
 $(TARGET): $(SRC)/$(TARGET).cpp exibidor.o leitor.o cp_info.o method_info.o attribute_info.o
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)/$(TARGET).cpp exibidor.o leitor.o cp_info.o method_info.o attribute_info.o
