@@ -168,7 +168,7 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 			utf8_info->tag = buffer[0];
 			utf8_info->length = utf8_size;
 			utf8_info->bytes = new uint8_t[utf8_size];
-			concatBytes(buffer, utf8_info->length + 2, utf8_info->bytes);
+			concatBytes(buffer, utf8_info->length + 3, utf8_info->bytes);
 			element.constant_element.c11 = utf8_info;
 			break;
 		}

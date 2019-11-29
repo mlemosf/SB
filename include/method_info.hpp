@@ -27,13 +27,13 @@ struct method_info_element {
     u2 name_index;
     u2 descriptor_index;
     u2 attributes_count;
-    // Attribute_info * attributes; //attribute_info attributes[attributes_count];
+    Attribute_info *attributes; //attribute_info attributes[attributes_count];
 };
 
 class Method_info{
     public:
         vector<method_info_element*> methods;
-        bool setFields(u2 access_flags, u2 name_index, u2 descriptor_index, u2 attributes_count);
+        bool setFields(u2 access_flags, u2 name_index, u2 descriptor_index, u2 attributes_count, Attribute_info* attributes);
         method_info_element* getMethod(u2 index);
         void getMethodInfo();
 };

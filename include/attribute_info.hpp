@@ -39,35 +39,42 @@ struct LocalVariableTable_info{
 
 // Attributes obrigatorios (dos slides)
 class Code_attribute{
-    private:
+    public:
+        u2 minor_version;
+        u2 attribute_name_index;
+        u2 attribute_length;
         u2 max_stack;
         u2 max_locals;
         u4 code_length;
-        u1 * code; // u1 code[code_length]
+        u1 *code; // u1 code[code_length]
         u2 exception_table_length;
         ExceptionCode_info * exception_table;
         u2 attributes_count;
         Attribute_info * attributes;
+        // vector<Attribute_info*> attributes;
         Cp_info * ConstantPool; // CP extra para attributes de tamanho variável
-    public:
-        bool setMax_stack(u2  Maxstack);
-        bool setMax_locals(u2 MaxLocals);
-        bool setCode_length(u4 CodeLength);
-        bool setCode(u1 * Code);
-        bool setExceptionTableLength(u2 ExceptTableLength);
-        bool setException_table(u1 * ExceptTable);
-        bool setAttributeCount(u2 AttrCount);
-        u4 setAttributes(u1 * Attrs);
-        bool setCP(Cp_info * ConstantPool);
+    // public:
+        bool set(u4 code_size, u1* byteArray, u2 attribute_name_index);
+        // bool setAttribute_name_index(u2 attribute_name_index);
+        // bool setAttribute_length(u2 attribute_length);
+        // bool setMax_stack(u2  Maxstack);
+        // bool setMax_locals(u2 MaxLocals);
+        // bool setCode_length(u4 CodeLength);
+        // bool setCode(u1 * Code);
+        // bool setExceptionTableLength(u2 ExceptTableLength);
+        // bool setException_table(u1 * ExceptTable);
+        // bool setAttributeCount(u2 AttrCount);
+        // u4 setAttributes(u1 * Attrs);
+        // bool setCP(Cp_info * ConstantPool);
 
-        u2 getMax_stack();
-        u2 getMax_locals();
-        u4 getCode_length();
-        u1 *  getCode();
-        u2 getExceptionTableLength();
-        ExceptionCode_info * getExceptionTable();
-        u2 getAttributesCount();
-        Attribute_info * getAttributes();
+        // u2 getMax_stack();
+        // u2 getMax_locals();
+        // u4 getCode_length();
+        // u1 *  getCode();
+        // u2 getExceptionTableLength();
+        // ExceptionCode_info * getExceptionTable();
+        // u2 getAttributesCount();
+        // Attribute_info * getAttributes();
 };
 class ConstantValue_attribute{
     private:
@@ -171,17 +178,22 @@ class Attribute_info{
         bool setAttributeLength(u4 attribute_length);
         void print();
         //bool setAttributeType(char * attribute_name_index);// seta info e attributeType
-        u4 setInfo(char * typeAttribute,uint8_t sizeTypeAtrr, u1 * infoAttr);// seta info e attributeType(OBS: retorna o numero de bytes percorridos)
+        // u4 setInfo(char *typeAttribute, u1 sizeTypeAtrr, u1 * infoAttr);// seta info e attributeType(OBS: retorna o numero de bytes percorridos)
+        bool setInfo(u1* info);
+        bool setInfoElement(char* op, info_element* element);
 
         u2 getAttributeNameIndex();
         u4 getAttributeLength();
-        char * getAttributeType();
-        u1 * getAttributeInfo();
+        char *getAttributeType();
+        u1 *getAttributeInfo();
         bool setCP(Cp_info * ConstantPool);
+        u1* getInfo();
+        info_element* getInfoElement();
     private:
         u2 attribute_name_index;
         u4 attribute_length;
-        info_element info;
+        info_element* infoElement;
+        u1* info;
         Cp_info * ConstantPool; // CP extra para attributes de tamanho variável
         char * attributeType; // atributo extra para guardar o attributeName recuperado do CP
 };

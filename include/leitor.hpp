@@ -69,7 +69,7 @@ class Leitor {
 		bool setMethodsCount();
 		bool setMethods();
 		bool setAttributesCount();
-		bool setAttributes();
+		Attribute_info* setAttributes(u2 attribute_name_index, u4 attribute_length);
 		u2 getInterfacesCount();
 		u2 getMinorVersion();
 		u2 getMajorVersion();

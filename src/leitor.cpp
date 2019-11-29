@@ -290,33 +290,64 @@ bool Leitor::setMethodsCount() {
 
 
 bool Leitor::setMethods(){
-	printf("methods_count: %d\n", this->methods_count);
+	// printf("methods_count: %d\n", this->methods_count);
 	uint16_t access_flags;
 	uint16_t name_index;
 	uint16_t descriptor_index;
 	uint16_t attributes_count;
-	uint16_t attribute_cp;
+	uint16_t attribute_name_index;
 	int32_t size;
 	// printf("")
 
 	Method_info *a = new Method_info();
-	method_info_element *e = (method_info_element*)malloc(sizeof(method_info_element));
 	for (int i = 0; i < this->methods_count; ++i){
+		method_info_element *e = (method_info_element*)malloc(sizeof(method_info_element));
+		// Relativo ao método
 		access_flags = read2byte();		
 		name_index = read2byte();
 		descriptor_index = read2byte();
 		attributes_count = read2byte();
-		attribute_cp = read2byte();
+		
+		attribute_name_index = read2byte();
 		size = read4byte();
 
-		a->setFields(access_flags, name_index, descriptor_index, attributes_count);
-		e = a->getMethod(i);
+		// for (int j = 0; j < attributes_count; j++) {
+		Attribute_info* att = this->setAttributes(attribute_name_index, size);		
+		// info_element* element = att->getInfoElement();
+		// printf("\tminor version: %d\n", element->codeAttr->minor_version);
+		// printf("\tmax local variables: %d\n", element->codeAttr->max_locals);
+		// printf("\tcode length: %d\n", element->codeAttr->code_length);
+		// printf("\tcode: ");
+		// // u1* code = 
+		// for (int j = 0; j < element->codeAttr->code_length; j++) {
+		// 	printf("%x ", *(element->codeAttr->code + j));
+		// }
+		// printf("\n");
+		// Attribute_info* inner_attributes = element->codeAttr->attributes;
+		
+		// printf("\t\tInner name index: %d\n", inner_attributes->getAttributeNameIndex());
+		// printf("\t\tInner length: %d\n", inner_attributes->getAttributeLength());
+		// printf("\t\tInner info: ");
+		// u1* info = inner_attributes->getInfo();
+		// for (int j =  0; j < inner_attributes->getAttributeLength(); j++){
+		// 	printf("%x ", *(info + j));
+		// }
+		// printf("\n");
+		
+		e->access_flags = access_flags;
+		e->name_index = name_index;
+		e->descriptor_index = descriptor_index;
+		e->attributes_count = attributes_count;
+		e->attributes = att;
+		printf("NAME INDEX: %d\n", e->name_index);
+		a->methods.push_back(e);
 		this->current_size += size;
 	}
 	this->methods = a;
+	// free(e);
 	return true;
 }
-/*
+
 bool Leitor::setAttributesCount() {
 	int32_t size = 2;
 	int32_t j = size - 1;
@@ -333,173 +364,204 @@ bool Leitor::setAttributesCount() {
 	return true;
 }
 
-bool Leitor::setAttributes(){
-	int32_t size = 2;
-	u4 j = size-1;
-	int16_t attribute_name_index;
-	int32_t attribute_length;
 
-	for (u4 i = 0; i < this->attributes_count; ++i){
-		attribute_name_index = read2byte();
-		attribute_length = read4byte();
+Attribute_info* Leitor::setAttributes(u2 attribute_name_index, u4 attribute_length) {
+	// int32_t size = 2;
+	char string[20] = "";
+	Attribute_info *attribute = new Attribute_info();
+	info_element *element = (info_element*)malloc(sizeof(info_element));
+	attribute->setAttributeNameIndex(attribute_name_index);
+	attribute->setAttributeLength(attribute_length);
 
+	printf("attribute name_index: %d\n", attribute->getAttributeNameIndex());
+	printf("attribute length: %d\n", attribute->getAttributeLength());
 
-		string op = "";
-		u2 length = this->constant_pool.constant_pool[attribute_name_index].c11.length;
-		for (int i = 0; i < length; ++i){
-			op += constant_pool.constant_pool[attribute_name_index].c11.bytes[i];
-		}
-
-		switch(op){
-			case "ConstantValue":
-				ConstantValue_attribute cv_aux;
-				cv_aux.attribute_name_index = attribute_name_index;
-				cv_aux.attribute_length = attribute_length;
-				cv_aux.constantvalue_index = read2byte();
-				this->attributes[i] = cv_aux;
-				break;
-			case "Code":
-				Code_attribute code_aux;
-				code_aux.attribute_name_index = attribute_name_index;
-				code_aux.attribute_length = attribute_length;
-				code_aux.max_stack = read2byte();
-				code_aux.max_locals = read2byte();
-				code_aux.code_length = read4byte();
-
-				for (u2 k = 0; k < code_aux.code_length; ++k){
-					code_aux.code[k] = read1byte();
-				}
-
-				code_aux.exception_table_length = read2byte();
-
-				for (int k = 0; k < code_aux.exception_table_length; ++k){
-					ExceptionCode_info b;
-					b.start_pc = read2byte();
-					b.end_pc = read2byte();
-					b.handler_pc = read2byte();
-					b.catch_type = read2byte();
-
-					code_aux.exception_table[k] = b;
-				}
-
-				code_aux.attributes_count = read2byte();
-
-				code_aux.setAttributes(this->constant_pool);
-				this->attributes[i] = cv_aux;
-				break;
-
-			case "Exceptions":
-				j = 3;
-				Exceptions_attribute exc_aux;
-				exc_aux.attribute_name_index = attribute_name_index;
-				exc_aux.attribute_length = attribute_length;
-
-				exc_aux.number_of_exceptions = read2byte();
-
-				for (int k = 0; k < exc_aux.number_of_exceptions; ++k){
-					exc_aux.exception_index_table[k] = read2byte();
-				}
-
-				this->attributes[i] = exc_aux;
-				break;
-
-			case "InnerClasses":
-				InnerClasses_attribute in_aux;
-				in_aux.attribute_name_index = attribute_name_index;
-				in_aux.attribute_length = attribute_length;
-
-				in_aux.number_of_classes = read2byte();
-				
-
-				for (int k = 0; k < in_aux.number_of_classes; ++k){
-					ClassInners_info c;
-					
-					c.inner_class_info_index = read2byte();
-					c.outer_class_info_index = read2byte();
-					c.inner_name_index = read2byte();
-					c.inner_class_access_flags = read2byte();
-
-					in_aux.classes[k] = c;	
-				}
-				this->attributes[i] = in_aux;
-				break;
-
-			case "Synthetic":
-				Synthetic_attribute syn_aux;
-				syn_aux.attribute_name_index = attribute_name_index;
-				syn_aux.attribute_length = attribute_length;
-
-				this->attributes[i] = syn_aux;
-				break;
-
-			case "SourceFile":
-				SourceFile_attribute source_aux;
-				source_aux.attribute_name_index = attribute_name_index;
-				source_aux.attribute_length = attribute_length;
-
-				source_aux.sourcefile_index = read2byte();
-
-				this->attributes[i] = source_aux;
-				break;
-			
-			case "LineNumberTable":
-				LineNumberTable_attribute lnt_aux;
-				lnt_aux.attribute_name_index = attribute_name_index;
-				lnt_aux.attribute_length = attribute_length;
-
-				lnt_aux.line_number_table_length = read2byte();
-
-				for (u2 k = 0; k < lnt_aux.line_number_table_length; ++k){
-					LineNumber_info d;
-
-					d.start_pc = read2byte();
-					d.line_number = read2byte();
-
-					lnt_aux.line_number_table[k] = d;
-				}
-
-				this->attributes[i] = lnt_aux;
-				break;
-
-			case "LocalVariableTable":
-				LocalVariableTable_attribute local_aux;
-				local_aux.attribute_name_index = attribute_name_index;
-				local_aux.attribute_length = attribute_length;
-
-				local_aux.local_variable_table_length = read2byte();
-
-				for (int k = 0; k < local_aux.local_variable_table_length; ++k){
-					LocalVariableTable_info e;
-
-					e.start_pc = read2byte();
-					e.length = read2byte();
-					e.name_index = read2byte();
-					e.descriptor_index = read2byte();
-					e.index = read2byte();
-
-					local_aux.local_variable_table[k] = e;
-				}
-
-				this->attributes[i] = local_aux;
-				break;
-
-			case "Deprecated":
-				Deprecated_attribute dep_aux;
-				dep_aux.attribute_name_index = attribute_name_index;
-				dep_aux.attribute_length = attribute_length;
-
-				this->attributes[i] = dep_aux;
-				break;
-
-			default:
-				printf("invalido\n");
-
-		}
-
+	// Pega o tipo de attribute
+	cp_info attribute_type = this->constant_pool->getCpInfoElement(attribute_name_index);
+	CONSTANT_Utf8_info* utf8 = attribute_type.constant_element.c11;
+	// Converte a string do utf8 pra um char normal para usar no if
+	for (int i = 0; i < utf8->length; i++) {
+		string[i] = utf8->bytes[i];
 	}
 
-	return true;
+	if (!strcmp(string, "Code")) {
+		Code_attribute *code = new Code_attribute();
+		code->set(attribute->getAttributeLength(), this->byte_array + this->current_size, attribute_name_index);
+		element->codeAttr = code;
+		attribute->setInfoElement(string, element);
+	}
+	return attribute;
+
+
 }
+
+// bool Leitor::setAttributes(){
+// 	int32_t size = 2;
+// 	u4 j = size-1;
+// 	int16_t attribute_name_index;
+// 	int32_t attribute_length;
+
+// 	for (u4 i = 0; i < this->attributes_count; ++i){
+// 		attribute_name_index = read2byte();
+// 		attribute_length = read4byte();
+
+
+// 		string op = "";
+// 		u2 length = this->constant_pool.constant_pool[attribute_name_index].c11.length;
+// 		for (int i = 0; i < length; ++i){
+// 			op += constant_pool.constant_pool[attribute_name_index].c11.bytes[i];
+// 		}
+
+// 		switch(op){
+// 			case "ConstantValue":
+// 				ConstantValue_attribute cv_aux;
+// 				cv_aux.attribute_name_index = attribute_name_index;
+// 				cv_aux.attribute_length = attribute_length;
+// 				cv_aux.constantvalue_index = read2byte();
+// 				this->attributes[i] = cv_aux;
+// 				break;
+// 			case "Code":
+// 				Code_attribute code_aux;
+// 				code_aux.attribute_name_index = attribute_name_index;
+// 				code_aux.attribute_length = attribute_length;
+// 				code_aux.max_stack = read2byte();
+// 				code_aux.max_locals = read2byte();
+// 				code_aux.code_length = read4byte();
+
+// 				for (u2 k = 0; k < code_aux.code_length; ++k){
+// 					code_aux.code[k] = read1byte();
+// 				}
+
+// 				code_aux.exception_table_length = read2byte();
+
+// 				for (int k = 0; k < code_aux.exception_table_length; ++k){
+// 					ExceptionCode_info b;
+// 					b.start_pc = read2byte();
+// 					b.end_pc = read2byte();
+// 					b.handler_pc = read2byte();
+// 					b.catch_type = read2byte();
+
+// 					code_aux.exception_table[k] = b;
+// 				}
+
+// 				code_aux.attributes_count = read2byte();
+
+// 				code_aux.setAttributes(this->constant_pool);
+// 				this->attributes[i] = cv_aux;
+// 				break;
+
+// 			case "Exceptions":
+// 				j = 3;
+// 				Exceptions_attribute exc_aux = new Exceptions_attribute();
+// 				exc_aux.attribute_name_index = attribute_name_index;
+// 				exc_aux.attribute_length = attribute_length;
+
+// 				exc_aux.number_of_exceptions = read2byte();
+
+// 				for (int k = 0; k < exc_aux.number_of_exceptions; ++k){
+// 					exc_aux.exception_index_table[k] = read2byte();
+// 				}
+
+// 				this->attributes[i] = exc_aux;
+// 				break;
+
+// 			case "InnerClasses":
+// 				InnerClasses_attribute in_aux;
+// 				in_aux.attribute_name_index = attribute_name_index;
+// 				in_aux.attribute_length = attribute_length;
+
+// 				in_aux.number_of_classes = read2byte();
+				
+
+// 				for (int k = 0; k < in_aux.number_of_classes; ++k){
+// 					ClassInners_info c;
+					
+// 					c.inner_class_info_index = read2byte();
+// 					c.outer_class_info_index = read2byte();
+// 					c.inner_name_index = read2byte();
+// 					c.inner_class_access_flags = read2byte();
+
+// 					in_aux.classes[k] = c;	
+// 				}
+// 				this->attributes[i] = in_aux;
+// 				break;
+
+// 			case "Synthetic":
+// 				Synthetic_attribute syn_aux;
+// 				syn_aux.attribute_name_index = attribute_name_index;
+// 				syn_aux.attribute_length = attribute_length;
+
+// 				this->attributes[i] = syn_aux;
+// 				break;
+
+// 			case "SourceFile":
+// 				SourceFile_attribute source_aux;
+// 				source_aux.attribute_name_index = attribute_name_index;
+// 				source_aux.attribute_length = attribute_length;
+
+// 				source_aux.sourcefile_index = read2byte();
+
+// 				this->attributes[i] = source_aux;
+// 				break;
+			
+// 			case "LineNumberTable":
+// 				LineNumberTable_attribute lnt_aux;
+// 				lnt_aux.attribute_name_index = attribute_name_index;
+// 				lnt_aux.attribute_length = attribute_length;
+
+// 				lnt_aux.line_number_table_length = read2byte();
+
+// 				for (u2 k = 0; k < lnt_aux.line_number_table_length; ++k){
+// 					LineNumber_info d;
+
+// 					d.start_pc = read2byte();
+// 					d.line_number = read2byte();
+
+// 					lnt_aux.line_number_table[k] = d;
+// 				}
+
+// 				this->attributes[i] = lnt_aux;
+// 				break;
+
+// 			case "LocalVariableTable":
+// 				LocalVariableTable_attribute local_aux;
+// 				local_aux.attribute_name_index = attribute_name_index;
+// 				local_aux.attribute_length = attribute_length;
+
+// 				local_aux.local_variable_table_length = read2byte();
+
+// 				for (int k = 0; k < local_aux.local_variable_table_length; ++k){
+// 					LocalVariableTable_info e;
+
+// 					e.start_pc = read2byte();
+// 					e.length = read2byte();
+// 					e.name_index = read2byte();
+// 					e.descriptor_index = read2byte();
+// 					e.index = read2byte();
+
+// 					local_aux.local_variable_table[k] = e;
+// 				}
+
+// 				this->attributes[i] = local_aux;
+// 				break;
+
+// 			case "Deprecated":
+// 				Deprecated_attribute dep_aux;
+// 				dep_aux.attribute_name_index = attribute_name_index;
+// 				dep_aux.attribute_length = attribute_length;
+
+// 				this->attributes[i] = dep_aux;
+// 				break;
+
+// 			default:
+// 				printf("invalido\n");
+
+// 		}
+
+// 	}
+
+// 	return true;
+// }
 
 vector<Method_info> Leitor::getMethods(){
 	vector<Method_info> ret;
@@ -520,7 +582,7 @@ vector<Attribute_info> Leitor::getAttributes(){
 
 	return ret;
 }
-*/
+
 /*Set e Get*/
 
 bool Leitor::set(int key)

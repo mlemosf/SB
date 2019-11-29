@@ -3,12 +3,13 @@
 #include "../include/leitor.hpp"
 using namespace std;
 
-bool Method_info::setFields(u2 access_flags, u2 name_index, u2 descriptor_index, u2 attributes_count) {
+bool Method_info::setFields(u2 access_flags, u2 name_index, u2 descriptor_index, u2 attributes_count, Attribute_info* attributes) {
 	method_info_element *element = (method_info_element*)malloc(sizeof(method_info_element));
 	element->access_flags = access_flags;
 	element->name_index = name_index;
 	element->descriptor_index = descriptor_index;
 	element->attributes_count = attributes_count;
+	element->attributes = attributes;
 	methods.push_back(element);
 	return true;
 }
@@ -26,6 +27,33 @@ void Method_info::getMethodInfo() {
 		printf("Name index: %d\n", (*i)->name_index);
 		printf("Descriptor index: %d\n", (*i)->descriptor_index);
 		printf("Attribute count: %d\n", (*i)->attributes_count);
+		printf("Attributes: \n");
+		info_element* element = (*i)->attributes->getInfoElement();
+		for (int j = 0; j < (*i)->attributes_count; j++) {
+			printf("  Attribute name index: %d\n", element->codeAttr->attribute_name_index);
+			printf("  Attribute length: %d\n", element->codeAttr->attribute_length);
+			printf("  Minor version: %d\n", element->codeAttr->minor_version);
+			printf("  Maximum local variables: %d\n", element->codeAttr->max_locals);
+			printf("  Code length: %d\n", element->codeAttr->code_length);
+			printf("  Bytecode: ");
+			u1* bytecode = element->codeAttr->code;
+			for (int k = 0; k < element->codeAttr->code_length; k++) {
+				printf("%x ", *(bytecode + k));
+			}
+			printf("\n");
+			printf("  Line number table:\n");
+			Attribute_info* line_number_table = element->codeAttr->attributes;
+			printf("\tAttribute name index: %d\n", line_number_table->getAttributeNameIndex());
+			printf("\tAttribute length: %d\n", line_number_table->getAttributeLength());
+			printf("\tSpecific info: ");
+			u1 *info = line_number_table->getInfo();
+			for (int l = 0; l < line_number_table->getAttributeLength(); l++) {
+				printf("%x ", *(info + l));
+			}
+			printf("\n");
+
+
+		}
 		printf("=====================\n");
 		j++;
 	}
