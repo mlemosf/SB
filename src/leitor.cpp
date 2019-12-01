@@ -1,6 +1,6 @@
 #include "../include/leitor.hpp"
 #include "../include/field_info.hpp"
-#include  "field_info.cpp"
+#include "field_info.cpp"
 #include "../include/attribute_info.hpp"
 #include "../include/method_info.hpp"
 using namespace std;
@@ -560,8 +560,7 @@ vector<Attribute_info> Leitor::getAttributes(){
 
 /*Set e Get*/
 
-bool Leitor::set(int key)
-{
+bool Leitor::set(int key){
 	switch(key)
 	{
 		case MAGIC_NUMBER:
@@ -606,8 +605,7 @@ bool Leitor::set(int key)
 	return false;
 }
 
-u2 Leitor::get(int key)
-{
+u2 Leitor::get(int key){
 	switch(key)
 	{
 		case INTERFACES_COUNT:
@@ -633,6 +631,35 @@ u2 Leitor::get(int key)
 			return getThisClass();
 	}
 	return 0;
+}
+
+std::string Leitor::getUTF8(u2 name_index){
+	cp_info cp_entry;
+    u2 length;
+    char* name;
+    std::string typeName;
+ 
+    // Busca a referência na CP
+    cp_entry = constant_pool->getCpInfoElement(name_index-1);
+   
+    // Verifica o tamanho da string UTF-8
+    length = cp_entry.constant_element.c11->length;
+   
+    // Aloca de acordo com o tamanho 'length' retornado
+    name = (char*)malloc(sizeof(char)*length);
+ 
+    // Recupera os bytes UTF-8
+    for(u2 i = 0; i < length; i++)
+        name[i] = cp_entry.constant_element.c11->bytes[i];
+ 
+    // Passa os bytes de char* para string
+    for(u2 i = 0; i < length; i++)
+        typeName += name[i];
+   
+    // Desaloca os bytes char*
+    free(name);
+ 
+    return typeName;
 }
 
 /* EXIBIDOR */

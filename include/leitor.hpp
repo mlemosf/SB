@@ -75,7 +75,6 @@ class Leitor {
 		u2 getMajorVersion();
     u2 getConstantPoolCount();
 		u2 getFieldsCount();
-		Cp_info * getConstantPool();
 		u2 getMethodsCount();
 		u2 getAttributesCount();
 		u2 getAccessFlags();
@@ -89,11 +88,13 @@ class Leitor {
 		bool set(int key);
 		u2 get(int key);
 		u4 getMagicNumber();
+		Cp_info * getConstantPool();
 		vector<Field_info> getFields();
 		vector<Method_info> getMethods();
 		u2 * getInterfaces();
 		vector<Attribute_info> getAttributes();
-		
+		std::string getUTF8(u2);
+
 		// bool setAccessFlagCount();
 
 		void printAccessFlags();

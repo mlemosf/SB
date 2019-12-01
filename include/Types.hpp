@@ -31,7 +31,7 @@ typedef struct bytecode {
 } bytecode;
 
 //! Foward Declaration da classe JavaClass.
-class JavaClass;
+class Leitor;
 //! Foward Declaration da union PrimitiveTypes.
 union PrimitiveTypes;
 //! Foward Declaration da struct JavaClassInstance.
@@ -114,7 +114,7 @@ typedef union PrimitiveTypes {
     da classe.
  */
 typedef struct JavaClassInstance {
-    JavaClass *javaClass;                                                       //!< Armazena as informações carregadas a partir de um arquivo .class
+    Leitor *javaClass;                                                       //!< Armazena as informações carregadas a partir de um arquivo .class
     std::unordered_map<std::string, Variable*> *fieldVariables;                 //!< Armazena os Fields inicializados da classe.
 } JavaClassInstance;
 
