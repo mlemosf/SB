@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../include/leitor.hpp"
 #include "../include/Frame.hpp"
+#include "../include/Heap.hpp"
 using namespace std;
 int main(int argc, char ** argv) {
 	bool EXECUTAR = true;
@@ -28,6 +29,9 @@ int main(int argc, char ** argv) {
 
 	if(EXECUTAR){
 		Frame::setOpcodes();
+		Heap *hp;
+		hp = Heap::getInstance();
+		hp->runMain(leitor);
 	} else {
 		leitor->exibir();
 	}
