@@ -2925,55 +2925,55 @@ void Frame::setOpcodes(){
     };
 }
 
-Frame::Frame(Leitor *jClass, cp_info *cp, u2 methodIndex, JavaClassInstance *jClassInstance, std::vector<Variable*> *args){
+Frame::Frame(Leitor *jClass, Cp_info *cp, u2 methodIndex, JavaClassInstance *jClassInstance, std::vector<Variable*> *args){
     // Recebe a referência do método
     u2 i;
-    for(i = 0; i < jClass->constant_pool_count; i++){
-        if(jClass->constant_pool[i].tag == CONSTANT_Methodref){
-            if((jClass->methods[methodIndex].name_index == jClass->constant_pool[jClass->constant_pool[i].info.methodrefInfo.name_and_type_index - 1].info.nameAndTypeInfo.name_index)
-                && (jClass->methods[methodIndex].type_index == jClass->constant_pool[jClass->constant_pool[i].info.methodrefInfo.name_and_type_index - 1].info.nameAndTypeInfo.descriptor_index))
+    for(i = 0; i < jClass->get(CONSTANT_POOL_COUNT); i++){
+        if(jClass->getConstantPool()->getCpInfoElement(i).tag == CONSTANT_Methodref){
+            if((jClass->getMethods()[0].methods[methodIndex]->name_index == jClass->getConstantPool()->getCpInfoElement(jClass->getConstantPool()->getCpInfoElement(i).constant_element.c2->name_and_type_index - 1).constant_element.c10->name_index)
+                && (jClass->getMethods()[0].methods[methodIndex]->descriptor_index == jClass->getConstantPool()->getCpInfoElement(jClass->getConstantPool()->getCpInfoElement(i).constant_element.c2->name_and_type_index - 1).constant_element.c10->descriptor_index))
                 break;
         }
     }
-    cp_info *method = &cp[i];
+    //@@ cp_info *method = &cp[i];
     _pc = 0;
 
-    std::string methodName = jClass->getUtf8(cp[method->info.methodrefInfo.name_and_type_index -1].info.nameAndTypeInfo.name_index);
-    std::string methodType = jClass->getUtf8(cp[method->info.methodrefInfo.name_and_type_index -1].info.nameAndTypeInfo.descriptor_index);
+    std::string methodName = jClass->getUTF8(cp->getCpInfoElement(cp->getCpInfoElement(i).constant_element.c2->name_and_type_index -1).constant_element.c10->name_index);
+    std::string methodType = jClass->getUTF8(cp->getCpInfoElement(cp->getCpInfoElement(i).constant_element.c2->name_and_type_index -1).constant_element.c10->descriptor_index);
     
     _jClass = jClass;
     _classInstance = jClassInstance;
 
     // Procura pelo método na classe
-    for(_methodIndex = 0; _methodIndex < jClass->methods_count; ++_methodIndex){
-        std::string name = jClass->getUtf8(jClass->methods[_methodIndex].name_index);
-        std::string type = jClass->getUtf8(jClass->methods[_methodIndex].type_index);
+    for(_methodIndex = 0; _methodIndex < jClass->get(METHODS_COUNT); ++_methodIndex){
+        std::string name = jClass->getUTF8(jClass->getMethods()[0].methods[_methodIndex]->name_index);
+        std::string type = jClass->getUTF8(jClass->getMethods()[0].methods[_methodIndex]->descriptor_index);
 
         if(name.compare(methodName) == 0 && type.compare(methodType) == 0)
             break;    
     }
 
-    if(_methodIndex == jClass->methods_count)
+    if(_methodIndex == jClass->get(METHODS_COUNT))
         return;
 
     // Procura pelo código do método
     // Pode não haver exeções
     _exceptions = NULL;
-    for(u2 i = 0; i < jClass->methods[_methodIndex].attributes_count; i++){
-        std::string aux = jClass->getUtf8(jClass->methods[_methodIndex].attributes[i].attribute_name_index);
+    for(u2 i = 0; i < jClass->getMethods()[0].methods[_methodIndex]->attributes_count; i++){
+        std::string aux = jClass->getUTF8(jClass->getMethods()[0].methods[_methodIndex]->attributes[i].getAttributeNameIndex());
         if(aux.compare("Code") == 0)
-            _code = &jClass->methods[_methodIndex].attributes[i];
+            _code = &jClass->getMethods()[0].methods[_methodIndex]->attributes[i];
         if(aux.compare("Exceptions") == 0)
-            *_exceptions = jClass->methods[_methodIndex].attributes[i];
+            *_exceptions = jClass->getMethods()[0].methods[_methodIndex]->attributes[i];
     }
 
     // Define o tamanho do array e as variáveis locais
-    this->_localVariables.resize(_code->info.code.max_locals);
+    this->_localVariables.resize(_code->getInfoElement()->codeAttr->max_locals);
     for(unsigned int i = 0; i < args->size(); i++)
         _localVariables[i] = args->at(i);
 }
 
-Frame::Frame(Leitor *jClass, cp_info *cp, u2 method_index, JavaClassInstance *jClassInstance){
+Frame::Frame(Leitor *jClass, Cp_info *cp, u2 method_index, JavaClassInstance *jClassInstance){
     _jClass = jClass;
     _methodIndex = method_index;
     _pc = 0;
@@ -2981,18 +2981,18 @@ Frame::Frame(Leitor *jClass, cp_info *cp, u2 method_index, JavaClassInstance *jC
     // Procura pelo código do método
     // Pode não haver exeções
     _exceptions = NULL;
-    for(u2 i = 0; i < jClass->methods[_methodIndex].attributes_count; i++){
-        std::string aux = jClass->getUtf8(jClass->methods[_methodIndex].attributes[i].attribute_name_index);
+    for(u2 i = 0; i < jClass->getMethods()[0].methods[_methodIndex]->attributes_count; i++){
+        std::string aux = jClass->getUTF8(jClass->getMethods()[0].methods[_methodIndex]->attributes[i].getAttributeNameIndex());
         if(aux.compare("Code") == 0)
-            _code = &jClass->methods[_methodIndex].attributes[i];
+            _code = &jClass->getMethods()[0].methods[_methodIndex]->attributes[i];
         if(aux.compare("Exceptions") == 0)
-            *_exceptions = jClass->methods[_methodIndex].attributes[i];
+            *_exceptions = jClass->getMethods()[0].methods[_methodIndex]->attributes[i];
     }
     
     // Define o tamanho do array e as variáveis locais
-    _localVariables.resize(_code->info.code.max_locals);
-    for(u2 i = 0; i < jClass->fields_count; i++)
-        _localVariables[i] = new Variable(jClass->getUtf8(jClass->fields[i].type_index));
+    _localVariables.resize(_code->getInfoElement()->codeAttr->max_locals);
+    for(u2 i = 0; i < jClass->get(FIELDS_COUNT); i++)
+        _localVariables[i] = new Variable(jClass->getUTF8(jClass->getFields()[i].getDescriptorIndex()));
 
     _classInstance = jClassInstance;
 }
@@ -3005,14 +3005,14 @@ void Frame::executeFrame(){
     op_func_cb current_cb_func_ptr;
     u1 current_opcode;
 
-    current_opcode = *(_code.getInfoElement()->codeAttr->code + _pc);
+    current_opcode = *(_code->getInfoElement()->codeAttr->code + _pc);
     current_cb_func_ptr = op_impl_set[current_opcode];
 
     if (current_cb_func_ptr != nullptr){
         if (dbgpExecFlow){
             printf("(I) PC: %d, OPC: %x \n", _pc, current_opcode);
         }
-        current_cb_func_ptr(_code.getInfoElement()->codeAttr->code, &_pc, &_operandStack, &_localVariables, _jClass->getConstantPool(), _classInstance);
+        current_cb_func_ptr(_code->getInfoElement()->codeAttr->code, &_pc, &_operandStack, &_localVariables, _jClass->getConstantPool(), _classInstance);
     } else {
         printf("(E) Opcode %x not implemented\n", current_opcode);
         throw std::runtime_error("OpcodeNotImplementedError");

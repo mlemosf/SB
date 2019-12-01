@@ -18,8 +18,8 @@
  */
 class Frame {
     public:
-        Frame(Leitor*, cp_info, u2, JavaClassInstance*, std::vector<Variable*>*);
-        Frame(Leitor*, cp_info, u2, JavaClassInstance*);
+        Frame(Leitor*, Cp_info*, u2, JavaClassInstance*, std::vector<Variable*>*);
+        Frame(Leitor*, Cp_info*, u2, JavaClassInstance*);
         ~Frame();
 
         void                    executeFrame();
@@ -34,8 +34,8 @@ class Frame {
         std::stack<Variable*>   _operandStack;      //!< Stack de operandos do Frame em execução.
         JavaClassInstance       *_classInstance;    //!< Instância da classe.
         Leitor                  *_jClass;           //!< Informação da classe.
-        Attribute_info          _code;             //!< Código do método associado ao Frame.
-        Attribute_info          _exceptions;       //!< Exceptions do método.
+        Attribute_info          *_code;             //!< Código do método associado ao Frame.
+        Attribute_info          *_exceptions;       //!< Exceptions do método.
         u4                      _pc;                //!< Program Counter referente ao Frame em execução.
         u2                      _codeIndex;         //!< Código do método associado ao Frame.
         u2                      _methodIndex;       //!< Index do método.
