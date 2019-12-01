@@ -11,6 +11,7 @@
 #include "method_info.hpp"
 #include "field_info.hpp"
 
+
 enum ReturnTypesKey{
 	MAGIC_NUMBER,
 	MINOR_VERSION,

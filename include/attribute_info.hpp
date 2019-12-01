@@ -4,16 +4,19 @@
 #include <iostream>
 #include <vector>
 #include "cp_info.hpp"
-#define u1 uint8_t /**< tipo unsigned int de 8bits*/
-#define u2 uint16_t /**< tipo unsigned int de 16bits*/
-#define u4 uint32_t /**< tipo unsigned int de 32bits*/
+/** @define tipo unsigned int de 8bits*/
+#define u1 uint8_t 
+/** @define tipo unsigned int de 16bits*/
+#define u2 uint16_t
+/** @define tipo unsigned int de 32bits*/
+#define u4 uint32_t 
 
 class Attribute_info;
 class Code_attribute;
 
 
 // structs auxiliares
-/** struct auxiliar de informações de classe
+/** @struct struct auxiliar de informações de classe
   possuem informações relacionadas às classes java
 */
 struct ClassInners_info{ 
@@ -22,13 +25,13 @@ struct ClassInners_info{
     u2 inner_name_index; /**< informação do indice do nome interno da classe*/
     u2 inner_class_access_flags;/**< informação referente às flags de acesso da classe*/
 };
-/** struct auxiliar de informações do numero de linhas da classe java
+/** @struct struct auxiliar de informações do numero de linhas da classe java
 */
 struct LineNumber_info{ 
     u2 start_pc; /**< Inicio da contagem de linhas*/
     u2 line_number; /**< Número de linhas*/
 };
-/** struct auxiliar de informações referentes ao código de exceção java
+/** @struct struct auxiliar de informações referentes ao código de exceção java
 */
 struct ExceptionCode_info{ 
     u2 start_pc; /**< Inicio do bloco de exceção*/
@@ -36,7 +39,7 @@ struct ExceptionCode_info{
     u2 handler_pc; /**< handler do contador de instrução onde ocorreu a exceção*/
     u2 catch_type; /**< Pegador de tipo*/
 };
-/** struct auxiliar referente à tabela de variavel local
+/** @struct struct auxiliar referente à tabela de variavel local
 */
 struct LocalVariableTable_info{ 
     u2 start_pc; /**< Inicio do bloco de variaveis*/
@@ -46,7 +49,7 @@ struct LocalVariableTable_info{
     u2 index; /**< indice da variavel local*/
 };
 
-/** \brief classe de identificação de atribuições
+/** @brief classe de identificação de atribuições
 * possuem a finalidade de atribuir identificadores de informações do arquivo .class
 */
 // Attributes obrigatorios (dos slides)
@@ -279,7 +282,7 @@ class LocalVariableTable_attribute {
         bool setCP(Cp_info * ConstantPool);
 
 };
-/** União de elementos relacionadas às informações referêntes aos atributos java
+/** @union União de elementos relacionadas às informações referêntes aos atributos java
 */
 union info_element{ 
             Code_attribute * codeAttr; /**< referência ao código do atributo*/
@@ -293,6 +296,7 @@ union info_element{
             LocalVariableTable_attribute  * LocalVariableTableAttr; /**< referência à tabela de váriaveis locais*/
 };
 /** Classe referênte às informações de atributos
+Com ela é possível manipular dados referentes aos atributos
 */
 class Attribute_info{
     public:
