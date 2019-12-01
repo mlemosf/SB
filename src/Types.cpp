@@ -1,5 +1,7 @@
-#include "include/Types.hpp"
-#include "include/Heap.hpp"
+#include "../include/Types.hpp"
+#include "../include/cp_info.hpp"
+#include "../include/leitor.hpp"
+// #include "include/Heap.hpp"
 
 Variable::Variable(std::string descriptor, void* init_val){
     std::string aux(descriptor);
@@ -70,7 +72,7 @@ Variable::Variable(std::string descriptor, void* init_val){
         for(unsigned int i = 1; i < aux.length()-1; i++)
             name += aux.at(i);
         this->object = (JavaClassInstance*)malloc(sizeof(JavaClassInstance));
-        this->object->javaClass = Heap::getInstance()->getClass(name);
+        // this->object->javaClass = Heap::getInstance()->getClass(name);
     }
     else if(aux.compare("RA") == 0){
 		tag = _returnAddress;
@@ -116,8 +118,9 @@ Variable* copyVariable(Variable *_var) {
     } else if (_var->tag == Variable::_classInstance){
         std::string aux = "L";
         
-        cp_info *cp = &var->object->javaClass->constant_pool[var->object->javaClass->this_class - 1];
-        aux += var->object->javaClass->getUtf8(cp->info.classInfo.name_index);
+        //@@ Cp_info *cp = &var->object->javaClass->getConstantPool()->getCpInfoElement(var->object->javaClass->get(THIS_CLASS) - 1);
+        aux += var->object->javaClass->getUTF8(
+            var->object->javaClass->getConstantPool()->getCpInfoElement(var->object->javaClass->get(THIS_CLASS) - 1).constant_element.c1->name_index);
 
         var = new Variable(aux);
     } else if (_var->tag == Variable::_array){
