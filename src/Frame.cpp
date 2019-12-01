@@ -1,4 +1,4 @@
-// #include "include/Heap.hpp"
+#include "../include/Heap.hpp"
 #include "../include/Frame.hpp"
 #include "../include/leitor.hpp"
 #include <math.h>
@@ -2149,53 +2149,53 @@ void Frame::setOpcodes(){
         (*pc)++;
         Variable *var = operands->top();
         operands->pop();
-        // Heap::getInstance()->popFrame();
-        // Frame *top = Heap::getInstance()->frameTop();
-        // operands = top->getStack();
-        // Heap::getInstance()->frameTop()->pushOpStack(operands, var);
+        Heap::getInstance()->popFrame();
+        Frame *top = Heap::getInstance()->frameTop();
+        operands = top->getStack();
+        Heap::getInstance()->frameTop()->pushOpStack(operands, var);
     };
     OPCODE_CB(0xAD){
         // LRETURN
         (*pc)++;
         Variable *var = operands->top();
         operands->pop();
-        // Heap::getInstance()->popFrame();
-        // Frame *top = Heap::getInstance()->frameTop();
-        // operands = top->getStack();
-        // Heap::getInstance()->frameTop()->pushOpStack(operands, var);
+        Heap::getInstance()->popFrame();
+        Frame *top = Heap::getInstance()->frameTop();
+        operands = top->getStack();
+        Heap::getInstance()->frameTop()->pushOpStack(operands, var);
     };
     OPCODE_CB(0xAE){
         // FRETURN
         (*pc)++;
         Variable *var = operands->top();
         operands->pop();
-        // Heap::getInstance()->popFrame();
-        // Frame *top = Heap::getInstance()->frameTop();
-        // operands = top->getStack();
-        // Heap::getInstance()->frameTop()->pushOpStack(operands, var);
+        Heap::getInstance()->popFrame();
+        Frame *top = Heap::getInstance()->frameTop();
+        operands = top->getStack();
+        Heap::getInstance()->frameTop()->pushOpStack(operands, var);
     };
     OPCODE_CB(0xAF){
         // DRETURN
         (*pc)++;
         Variable *var = operands->top();
-        // Heap::getInstance()->popFrame();
-        // Frame *top = Heap::getInstance()->frameTop();
-        // operands = top->getStack();
-        // Heap::getInstance()->frameTop()->pushOpStack(operands, var);
+        Heap::getInstance()->popFrame();
+        Frame *top = Heap::getInstance()->frameTop();
+        operands = top->getStack();
+        Heap::getInstance()->frameTop()->pushOpStack(operands, var);
     };
     OPCODE_CB(0xB0){
         // ARETURN
         (*pc)++;
         Variable *var = operands->top();
-        // Heap::getInstance()->popFrame();
-        // Frame *top = Heap::getInstance()->frameTop();
-        // operands = top->getStack();
-        // Heap::getInstance()->frameTop()->pushOpStack(operands, var);
+        Heap::getInstance()->popFrame();
+        Frame *top = Heap::getInstance()->frameTop();
+        operands = top->getStack();
+        Heap::getInstance()->frameTop()->pushOpStack(operands, var);
     };
     OPCODE_CB(0xB1){
         // RETURN
         PCINC(1);
-        // Heap::getInstance()->popFrame();
+        Heap::getInstance()->popFrame();
     };
     OPCODE_CB(0xB2){
         // GETSTATIC
@@ -2212,11 +2212,11 @@ void Frame::setOpcodes(){
 
         std::string s((char *)cp->getCpInfoElement(className - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className - 1).constant_element.c11->length);
         if (s != "java/lang/System") {
-            // Heap::getInstance()->getClass(s);
+            Heap::getInstance()->getClass(s);
             std::string s1((char *)cp->getCpInfoElement(className - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className - 1).constant_element.c11->length);
             std::string s2((char *)cp->getCpInfoElement(fieldName - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(fieldName - 1).constant_element.c11->length);
-            // Variable *value = Heap::getInstance()->getStaticInfo(s1, s2);
-            // operands->push(value);
+            Variable *value = Heap::getInstance()->getStaticInfo(s1, s2);
+            operands->push(value);
         }
     };
     OPCODE_CB(0xB3){
@@ -2234,61 +2234,61 @@ void Frame::setOpcodes(){
 
         std::string s1((char *)cp->getCpInfoElement(className - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className - 1).constant_element.c11->length);
         std::string s2((char *)cp->getCpInfoElement(fieldName - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(fieldName - 1).constant_element.c11->length);
-        // Heap::getInstance()->getClass(s1);
-        // Variable *value = Heap::getInstance()->getStaticInfo(s1, s2);
+        Heap::getInstance()->getClass(s1);
+        Variable *value = Heap::getInstance()->getStaticInfo(s1, s2);
 
-        // switch (value->tag) {
-        //     case Variable::type::_byte:
-        //         *value->variable->byteValue = *operands->top()->variable->byteValue;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_bool:
-        //         *value->variable->booleanValue = *operands->top()->variable->booleanValue;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_char:
-        //         *value->variable->charValue = *operands->top()->variable->charValue;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_short:
-        //         *value->variable->shortValue = *operands->top()->variable->shortValue;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_int:
-        //         *value->variable->intValue = *operands->top()->variable->intValue;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_float:
-        //         *value->variable->floatValue = *operands->top()->variable->floatValue;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_long:
-        //         *value->variable->longValue = *operands->top()->variable->longValue;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_double:
-        //         *value->variable->doubleValue = *operands->top()->variable->doubleValue;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_classInstance:
-        //         *value->object = *operands->top()->object;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_array:
-        //         *value->array = *operands->top()->array;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_string:
-        //         *value->string = *operands->top()->string;
-        //         operands->pop();
-        //         break;
-        //     case Variable::type::_returnAddress:
-        //         *value->returnAddress = *operands->top()->returnAddress;
-        //         operands->pop();
-        //         break;
-        //     default:
-        //         std::cout << "Check putstatic instruction, maybe something bad happened.\n";
-        // }
+        switch (value->tag) {
+            case Variable::type::_byte:
+                *value->variable->byteValue = *operands->top()->variable->byteValue;
+                operands->pop();
+                break;
+            case Variable::type::_bool:
+                *value->variable->booleanValue = *operands->top()->variable->booleanValue;
+                operands->pop();
+                break;
+            case Variable::type::_char:
+                *value->variable->charValue = *operands->top()->variable->charValue;
+                operands->pop();
+                break;
+            case Variable::type::_short:
+                *value->variable->shortValue = *operands->top()->variable->shortValue;
+                operands->pop();
+                break;
+            case Variable::type::_int:
+                *value->variable->intValue = *operands->top()->variable->intValue;
+                operands->pop();
+                break;
+            case Variable::type::_float:
+                *value->variable->floatValue = *operands->top()->variable->floatValue;
+                operands->pop();
+                break;
+            case Variable::type::_long:
+                *value->variable->longValue = *operands->top()->variable->longValue;
+                operands->pop();
+                break;
+            case Variable::type::_double:
+                *value->variable->doubleValue = *operands->top()->variable->doubleValue;
+                operands->pop();
+                break;
+            case Variable::type::_classInstance:
+                *value->object = *operands->top()->object;
+                operands->pop();
+                break;
+            case Variable::type::_array:
+                *value->array = *operands->top()->array;
+                operands->pop();
+                break;
+            case Variable::type::_string:
+                *value->string = *operands->top()->string;
+                operands->pop();
+                break;
+            case Variable::type::_returnAddress:
+                *value->returnAddress = *operands->top()->returnAddress;
+                operands->pop();
+                break;
+            default:
+                std::cout << "Check putstatic instruction, maybe something bad happened.\n";
+        }
     };
     OPCODE_CB(0xB4){
         // GETFIELD
@@ -2547,7 +2547,7 @@ void Frame::setOpcodes(){
             args.insert(args.begin(), val);
 
             Frame *newFrame = new Frame(val->object->javaClass, cp, name_type_idx, val->object, &args);
-            // Heap::getInstance()->pushFrame(newFrame);
+            Heap::getInstance()->pushFrame(newFrame);
         }
     };
     OPCODE_CB(0xB7){
@@ -2575,7 +2575,7 @@ void Frame::setOpcodes(){
                 operands->pop();
             }
             else if(methodName == "<init>"){
-                // Heap::getInstance()->addInstanceFields(localVariables->at(0)->object);
+                Heap::getInstance()->addInstanceFields(localVariables->at(0)->object);
             }
             return;
         }
@@ -2631,7 +2631,7 @@ void Frame::setOpcodes(){
                     break;
             }
             Frame* nextFrame = new Frame(newJClass, newJClass->getConstantPool(), aux, objectValue->object, &args);
-            // Heap::getInstance()->pushFrame(nextFrame);
+            Heap::getInstance()->pushFrame(nextFrame);
         }
     };
     OPCODE_CB(0xB8){
@@ -2685,19 +2685,19 @@ void Frame::setOpcodes(){
                 }
             }
 
-            // JavaClassInstance *staticInstance = Heap::getInstance()->getInstantiatedClass(cl_name);
+            JavaClassInstance *staticInstance = Heap::getInstance()->getInstantiatedClass(cl_name);
 
-            // JavaClass *jClass = staticInstance->javaClass;
-            // u2 aux;
-            // for(aux = 0; aux < jClass->methods_count; aux++){
-            //     std::string name = jClass->getUtf8(jClass->methods[aux].name_index);
-            //     std::string desc = jClass->getUtf8(jClass->methods[aux].type_index);
-            //     if(name.compare(meth_name) == 0 && desc.compare(meth_desc) == 0)
-            //         break;
-            // }
+            Leitor *jClass = staticInstance->javaClass;
+            u2 aux;
+            for(aux = 0; aux < jClass->get(METHODS_COUNT); aux++){
+                std::string name = jClass->getUTF8(jClass->getMethods()[0].methods[aux]->name_index);
+                std::string desc = jClass->getUTF8(jClass->getMethods()[0].methods[aux]->descriptor_index);
+                if(name.compare(meth_name) == 0 && desc.compare(meth_desc) == 0)
+                    break;
+            }
 
-            // Frame *newFrame = new Frame(staticInstance->javaClass, cp, aux, staticInstance, &args);
-            // Heap::getInstance()->pushFrame(newFrame);
+            Frame *newFrame = new Frame(staticInstance->javaClass, cp, aux, staticInstance, &args);
+            Heap::getInstance()->pushFrame(newFrame);
         }
         else {
             // se nao foi implementada
@@ -2734,8 +2734,8 @@ void Frame::setOpcodes(){
             std::string className = "";
             for(unsigned int i = 1; i < s.length()-1; i++)
                 className += s.at(i);
-            // JavaClassInstance *javaInstance = Heap::getInstance()->getInstantiatedClass(className);
-            // Heap::getInstance()->addInstanceFields(javaInstance);
+            JavaClassInstance *javaInstance = Heap::getInstance()->getInstantiatedClass(className);
+            Heap::getInstance()->addInstanceFields(javaInstance);
             // TODO: maybe throw an exception if var->object is NULL
 
             operands->push(var);
