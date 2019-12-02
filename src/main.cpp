@@ -2,12 +2,30 @@
 #include "../include/leitor.hpp"
 #include "../include/Frame.hpp"
 #include "../include/Heap.hpp"
+
+#define EXECUTAR '1'
+#define LEITOR '0'
 using namespace std;
+
+
+void showHelp() {
+	printf("Execucão: ./main ARQUIVO OPCÃO\n");
+	printf("opcões:\n");
+	printf(" 0 (leitor/exibidor)\n");
+	printf(" 1 (execucão)\n");
+}
+
 int main(int argc, char ** argv) {
-	bool EXECUTAR = true;
+	// bool EXECUTAR = argv[1];
 	Leitor *leitor = new Leitor();
 
+	if (argc <= 2) {
+		showHelp();
+		delete(leitor);
+		return 0;
+	}
 	char* filename = argv[1];
+	char option = *argv[2];
 
 	leitor->loadFile(filename);
 	leitor->set(MAGIC_NUMBER);
@@ -27,7 +45,8 @@ int main(int argc, char ** argv) {
 	// leitor->set(ATTRIBUTES_COUNT);
 	// leitor->set(ATTRIBUTES);
 
-	if(EXECUTAR){
+	if(option == EXECUTAR){
+		printf("here");
 		Frame::setOpcodes();
 		Heap *hp;
 		hp = Heap::getInstance();

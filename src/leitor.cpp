@@ -132,7 +132,7 @@ bool Leitor::setConstantPool() {
 		count += ret;
 	}
 	this->constant_pool = cp_info;
-	this->constant_pool->getConstantPool();
+	// this->constant_pool->getConstantPool();
 	this->current_size += count;
 	return true;
 }
@@ -670,6 +670,8 @@ void Leitor::exibir() {
 	printf("Magic number: %x\n", this->magic);
 	printf("Minor version: %d\n", this->minor_version);
 	printf("Major version: %d\n", this->major_version);
+	printf("Constant pool:\n");
+	this->constant_pool->getConstantPool();
 	printf("Constant pool count: %d\n", this->constant_pool_count);
 	printf("Access flags: 0x00%x\n", this->access_flags);
 	printf("This class: %d\n", this->this_class);
@@ -679,7 +681,5 @@ void Leitor::exibir() {
 	printf("Methods count: %d\n", this->methods_count);
 	printf("Methods:\n\n");
 	this->methods->getMethodInfo();
-	// method_info_element* e = this->methods->getMethod(0);
-	// printf("Methods count: %d\n", this->methods_count);
 
 }
