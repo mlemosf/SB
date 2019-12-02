@@ -3006,6 +3006,7 @@ void Frame::executeFrame(){
     u1 current_opcode;
 
     current_opcode = *(_code->getInfoElement()->codeAttr->code + _pc);
+    printf("opcode: %x\n", current_opcode);
     current_cb_func_ptr = op_impl_set[current_opcode];
 
     if (current_cb_func_ptr != nullptr){

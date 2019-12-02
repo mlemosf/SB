@@ -175,7 +175,8 @@ class Cp_info {
 		u4 getConstantPoolTag(u2 tag, u4 size);
 		void addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned char* byte_array);
 		void concatBytes(u1* buffer, u2 size, u1* bytes); 
-		void getConstantPool();
+		vector<cp_info> getConstantPool();
+		void printConstantPool();
 		cp_info getCpInfoElement(u4 position);
 };
 

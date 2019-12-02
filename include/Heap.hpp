@@ -22,7 +22,7 @@ class Heap {
         static Heap* getInstance();
         virtual ~Heap();
         Heap(const Heap&) = delete;
-        Heap& operator=(const Heap&) = delete;
+        // Heap& operator=(const Heap&) = delete;
 
         void setPath(std::string);
         std::string getPath() const;
@@ -39,8 +39,8 @@ class Heap {
         static void addStaticFields(JavaClassInstance*);
         static void addInstanceFields(JavaClassInstance*);
         
-    private:
         Heap();
+    private:
         static Heap* _heap;                                                         //!< Instância da classe Heap.
         std::string path;                                                           //!< Path para eventuais arquivos .class necessários para execução do programa Java.
 

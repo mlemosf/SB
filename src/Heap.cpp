@@ -27,6 +27,7 @@ void Heap::runMain(Leitor *mainClass){
     JavaClassInstance* mainInstance = new JavaClassInstance();
     mainInstance->javaClass = mainClass;
 
+
     /* will search for a public method in the entrypoint class: "public void main(String[])"
     see: https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-5.html#jvms-5.2
     */
@@ -34,8 +35,9 @@ void Heap::runMain(Leitor *mainClass){
     bool found_main_index = false;
     std::string method_name, method_descriptor;
     for(index = 0; index < mainClass->get(METHODS_COUNT); index++){
-        method_name = mainClass->getUTF8(mainClass->getMethods()[0].methods[index]->name_index);
-        method_descriptor = mainClass->getUTF8(mainClass->getMethods()[0].methods[index]->descriptor_index);
+        method_name = mainClass->getUTF8(mainClass->getMethods()->methods[index]->name_index);
+        method_descriptor = mainClass->getUTF8(mainClass->getMethods()->methods[index]->descriptor_index);
+        
         if(
             method_name.compare("main") == 0 &&
             method_descriptor.compare("([Ljava/lang/String;)V") == 0
@@ -58,10 +60,12 @@ void Heap::runMain(Leitor *mainClass){
     _instantiatedClasses[key] = mainInstance;
     
     // Carrega os Fields associados à classe.
-    addStaticFields(mainInstance);
+    // addStaticFields(mainInstance);
 
     Frame *frame = new Frame(mainClass, mainClass->getConstantPool(), index, mainInstance);
     _executionFrames.push(frame);
+    // _executionFrames.top()->executeFrame();
+
 
     while(!_executionFrames.empty()){
         _executionFrames.top()->executeFrame();

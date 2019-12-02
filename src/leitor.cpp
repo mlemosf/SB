@@ -136,8 +136,8 @@ bool Leitor::setConstantPool() {
 	this->current_size += count;
 	return true;
 }
-Cp_info * Leitor::getConstantPool(){
-	return this->getConstantPool();
+Cp_info* Leitor::getConstantPool(){
+	return this->constant_pool;
 }
 u2 Leitor::getAccessFlags(){
 	return this->access_flags;
@@ -538,25 +538,26 @@ Attribute_info* Leitor::setAttributes(u2 attribute_name_index, u4 attribute_leng
 // 	return true;
 // }
 
-vector<Method_info> Leitor::getMethods(){
-	vector<Method_info> ret;
+Method_info* Leitor::getMethods(){
+	return this->methods;
+	// vector<Method_info> ret;
 
-	for (u2 i = 0; i < this->methods_count; ++i){
-		ret.push_back(this->methods[i]);
-	}
+	// for (u2 i = 0; i < this->methods_count; ++i){
+	// 	ret.push_back(this->methods[i]);
+	// }
 
-	return ret;
+	// return ret;
 }
 
-vector<Attribute_info> Leitor::getAttributes(){
-	vector<Attribute_info> ret;
+// vector<Attribute_info> Leitor::getAttributes(){
+// 	vector<Attribute_info> ret;
 
-	for (u2 i = 0; i < this->attributes_count; ++i){
-		ret.push_back(this->attributes[i]);
-	}
+// 	for (u2 i = 0; i < this->attributes_count; ++i){
+// 		ret.push_back(this->attributes[i]);
+// 	}
 
-	return ret;
-}
+// 	return ret;
+// }
 
 /*Set e Get*/
 
@@ -620,6 +621,8 @@ u2 Leitor::get(int key){
 			return getFieldsCount();
 		case METHODS_COUNT:
 			return getMethodsCount();
+		// case METHODS:
+			// return getMethods();
 		case ATTRIBUTES_COUNT:
 			break;
 			//return getAttributesCount(); metodo comentado
@@ -638,24 +641,23 @@ std::string Leitor::getUTF8(u2 name_index){
     u2 length;
     char* name;
     std::string typeName;
- 
+ 	// printf("free\n");
     // Busca a referência na CP
-    cp_entry = constant_pool->getCpInfoElement(name_index-1);
+    cp_entry = constant_pool->getCpInfoElement(name_index);
    
     // Verifica o tamanho da string UTF-8
     length = cp_entry.constant_element.c11->length;
-   
     // Aloca de acordo com o tamanho 'length' retornado
     name = (char*)malloc(sizeof(char)*length);
  
     // Recupera os bytes UTF-8
-    for(u2 i = 0; i < length; i++)
+    for(u2 i = 0; i < length; i++) {
         name[i] = cp_entry.constant_element.c11->bytes[i];
- 
+ 	}
     // Passa os bytes de char* para string
-    for(u2 i = 0; i < length; i++)
+    for(u2 i = 0; i < length; i++) {
         typeName += name[i];
-   
+    }
     // Desaloca os bytes char*
     free(name);
  
@@ -671,7 +673,7 @@ void Leitor::exibir() {
 	printf("Minor version: %d\n", this->minor_version);
 	printf("Major version: %d\n", this->major_version);
 	printf("Constant pool:\n");
-	this->constant_pool->getConstantPool();
+	this->constant_pool->printConstantPool();
 	printf("Constant pool count: %d\n", this->constant_pool_count);
 	printf("Access flags: 0x00%x\n", this->access_flags);
 	printf("This class: %d\n", this->this_class);

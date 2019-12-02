@@ -205,7 +205,7 @@ void Cp_info::addElement(u2 tag, u4 size, u4 position, u4 currentSize, unsigned 
 	this->constant_pool.push_back(element);
 }
 
-void Cp_info::getConstantPool() {
+void Cp_info::printConstantPool() {
 	vector<cp_info>::iterator i;
 	int32_t j = 1;
 	for (i = this->constant_pool.begin();i!= this->constant_pool.end(); ++i) {
@@ -264,6 +264,9 @@ void Cp_info::getConstantPool() {
 	printf("\n");
 }
 
+vector<cp_info> Cp_info::getConstantPool() {
+	return this->constant_pool;
+}
 
 cp_info Cp_info::getCpInfoElement(u4 position){
 	return this->constant_pool[position - 1];

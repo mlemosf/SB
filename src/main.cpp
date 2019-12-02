@@ -16,7 +16,6 @@ void showHelp() {
 }
 
 int main(int argc, char ** argv) {
-	// bool EXECUTAR = argv[1];
 	Leitor *leitor = new Leitor();
 
 	if (argc <= 2) {
@@ -46,14 +45,15 @@ int main(int argc, char ** argv) {
 	// leitor->set(ATTRIBUTES);
 
 	if(option == EXECUTAR){
-		printf("here");
 		Frame::setOpcodes();
 		Heap *hp;
 		hp = Heap::getInstance();
 		hp->runMain(leitor);
+		delete(hp);
 	} else {
 		leitor->exibir();
 	}
+
 	delete(leitor);
 	return 0;
 

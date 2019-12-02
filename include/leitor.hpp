@@ -49,7 +49,7 @@ class Leitor {
 		u2 fields_count; //  OK
 		vector<Field_info> fields;// Faltando
 		u2 methods_count; // 
-		Method_info *methods; // Faltando
+		Method_info *methods; // OK
 		u2 attributes_count; // 
 		vector< Attribute_info> attributes; // Faltando
 
@@ -90,7 +90,7 @@ class Leitor {
 		u4 getMagicNumber();
 		Cp_info * getConstantPool();
 		vector<Field_info> getFields();
-		vector<Method_info> getMethods();
+		Method_info* getMethods();
 		u2 * getInterfaces();
 		vector<Attribute_info> getAttributes();
 		std::string getUTF8(u2);
