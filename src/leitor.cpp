@@ -43,7 +43,7 @@ void Leitor::loadFile(const string filename) {
 	int32_t filesize = classfile.tellg();
 
 	char buffer;
-	unsigned char *fileContent = new unsigned char[filesize];
+	unsigned char *fileContent = (unsigned char *)malloc(filesize);
 	classfile.seekg(0, ios::beg);
 	
 	if (classfile.is_open()) {

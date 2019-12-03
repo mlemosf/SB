@@ -25,33 +25,35 @@ int main(int argc, char ** argv) {
 	}
 	char* filename = argv[1];
 	char option = *argv[2];
-
+	bool validFile = false;
 	leitor->loadFile(filename);
-	leitor->set(MAGIC_NUMBER);
-	leitor->set(MINOR_VERSION);
-	leitor->set(MAJOR_VERSION);
-	leitor->set(CONSTANT_POOL_COUNT);
-	leitor->set(CONSTANT_POOL);
-	leitor->set(ACCESS_FLAGS);
-	leitor->set(THIS_CLASS);
-	leitor->set(SUPER_CLASS);
-	leitor->set(INTERFACES_COUNT);
-	leitor->set(FIELDS_COUNT);
-	// leitor->set(FIELDS);
-	leitor->set(METHODS_COUNT);
-	leitor->set(METHODS);
-	// leitor->set(METHODS);
-	// leitor->set(ATTRIBUTES_COUNT);
-	// leitor->set(ATTRIBUTES);
+	validFile=leitor->set(MAGIC_NUMBER);
+	if(validFile){
+		leitor->set(MINOR_VERSION);
+		leitor->set(MAJOR_VERSION);
+		leitor->set(CONSTANT_POOL_COUNT);
+		leitor->set(CONSTANT_POOL);
+		leitor->set(ACCESS_FLAGS);
+		leitor->set(THIS_CLASS);
+		leitor->set(SUPER_CLASS);
+		leitor->set(INTERFACES_COUNT);
+		leitor->set(FIELDS_COUNT);
+		// leitor->set(FIELDS);
+		leitor->set(METHODS_COUNT);
+		leitor->set(METHODS);
+		// leitor->set(METHODS);
+		// leitor->set(ATTRIBUTES_COUNT);
+		// leitor->set(ATTRIBUTES);
 
-	if(option == EXECUTAR){
-		Frame::setOpcodes();
-		Heap *hp;
-		hp = Heap::getInstance();
-		hp->runMain(leitor);
-		delete(hp);
-	} else {
-		leitor->exibir();
+		if(option == EXECUTAR){
+			Frame::setOpcodes();
+			Heap *hp;
+			hp = Heap::getInstance();
+			hp->runMain(leitor);
+			delete(hp);
+		} else {
+			leitor->exibir();
+		}
 	}
 
 	delete(leitor);
