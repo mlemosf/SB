@@ -1,6 +1,5 @@
 #include "../include/leitor.hpp"
 #include "../include/field_info.hpp"
-#include "field_info.cpp"
 #include "../include/attribute_info.hpp"
 #include "../include/method_info.hpp"
 using namespace std;
@@ -684,4 +683,15 @@ void Leitor::exibir() {
 	printf("Methods:\n\n");
 	this->methods->getMethodInfo();
 
+}
+
+bool Leitor::isMethodAccessFlagSet(u2 method_index , int search_flag){
+	u2 access_value = methods[0].methods[method_index].access_flags;
+    switch(search_flag){
+        case ACC_PUBLIC:
+            return (access_value & 0x0001);
+        default: break;
+    }
+
+    return false;
 }

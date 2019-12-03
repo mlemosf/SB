@@ -2375,9 +2375,9 @@ void Frame::setOpcodes(){
         // std::cout << "what" << std::endl;
     };
     OPCODE_CB(0xB6){
+        // INVOKEVIRTUAL
         double dStream;
         float  fStream;
-        // INVOKEVIRTUAL
         (*pc)++;
 
         uint16_t aux = code[(*pc)++];
