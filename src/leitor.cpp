@@ -712,7 +712,7 @@ void Leitor::exibir() {
 	// int aux;
 	printf("Magic number: %x\n", this->magic);
 	printf("Minor version: %d\n", this->minor_version);
-	printf("Major version: %d [%s]\n", this->major_version,versionJVM(this->major_version));
+	printf("Major version: %d [%s]\n", this->major_version,versionJVM(this->major_version).c_str());
 	printf("Constant pool:\n");
 	this->constant_pool->printConstantPool();
 	printf("Constant pool count: %d\n", this->constant_pool_count);
