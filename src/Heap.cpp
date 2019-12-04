@@ -41,7 +41,7 @@ void Heap::runMain(Leitor *mainClass){
         if(
             method_name.compare("main") == 0 &&
             method_descriptor.compare("([Ljava/lang/String;)V") == 0
-            //@@ && mainClass->isMethodAccessFlagSet(index, ACC_PUBLIC)
+            && mainClass->isMethodAccessFlagSet(index, ACC_PUBLIC)
         ){
             found_main_index = true;
             break;

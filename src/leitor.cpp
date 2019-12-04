@@ -1,11 +1,51 @@
 #include "../include/leitor.hpp"
 #include "../include/field_info.hpp"
-#include "field_info.cpp"
 #include "../include/attribute_info.hpp"
 #include "../include/method_info.hpp"
 using namespace std;
 
-
+const char * versionJVM(u2 major){
+	const char * version =(const char *)malloc(4);
+	switch (major) {
+    case 46:
+        version = "1.2";
+        break;
+    case 47:
+        version = "1.3";
+        break;
+    case 48:
+        version = "1.4";
+        break;
+    case 49:
+        version = "1.5";
+        break;
+    case 50:
+        version = "1.6";
+        break;
+    case 51:
+        version = "1.7";
+        break;
+    case 52:
+        version = "1.8";
+        break;
+    case 53:
+        version = "1.9";
+        break;
+    case 54:
+        version = "1.10";
+        break;
+    case 55:
+        version = "1.11";
+        break;
+    case 56:
+        version = "1.12";
+        break;
+    case 57:
+        version = "1.13";
+        break;
+    }
+	return version;
+}
 u1 Leitor::read1byte(){
 	u1 ret;
 	ret = *(this->byte_array + this->current_size);
@@ -674,7 +714,7 @@ void Leitor::exibir() {
 	int aux;
 	printf("Magic number: %x\n", this->magic);
 	printf("Minor version: %d\n", this->minor_version);
-	printf("Major version: %d\n", this->major_version);
+	printf("Major version: %d [%s]\n", this->major_version,versionJVM(this->major_version));
 	printf("Constant pool:\n");
 	this->constant_pool->printConstantPool();
 	printf("Constant pool count: %d\n", this->constant_pool_count);
@@ -688,3 +728,15 @@ void Leitor::exibir() {
 	this->methods->getMethodInfo();
 
 }
+
+bool Leitor::isMethodAccessFlagSet(u2 method_index , int search_flag){
+	u2 access_value = methods[0].methods[method_index].access_flags;
+    switch(search_flag){
+        case ACC_PUBLIC:
+            return (access_value & 0x0001);
+        default: break;
+    }
+
+    return false;
+}
+

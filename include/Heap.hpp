@@ -3,6 +3,7 @@
 // #include "JavaClass.hpp"
 #include "Frame.hpp"
 #include "leitor.hpp"
+#include "method_info.hpp"
 
 #include <iostream>
 #include <vector>

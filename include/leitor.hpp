@@ -106,6 +106,8 @@ class Leitor {
 		u1 read1byte();
 		u2 read2byte();
 		u4 read4byte();
+		
+		bool isMethodAccessFlagSet(u2, int);
 };
 
 #endif
