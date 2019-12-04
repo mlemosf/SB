@@ -161,11 +161,12 @@ bool Leitor::setConstantPool() {
 	int32_t utf8_size = 0;
 	Cp_info *cp_info = new Cp_info();
 
+	// printf("size: %d\n", size);
 	for (int32_t i = 0; i < size; i++) {
 		tag = *(this->byte_array + this->current_size + pos);
 		utf8_size = *(this->byte_array + this->current_size + pos + 2);
 		ret = cp_info->getConstantPoolTag(tag, utf8_size);
-
+		// printf("%d %d\n", i+1, tag);
 		cp_info->addElement(tag, ret, pos, this->current_size,  this->byte_array);
 		if (tag == 6 || tag == 5) {
 			cp_info->addElement(66, 0, 0, 0, 0);
@@ -175,8 +176,8 @@ bool Leitor::setConstantPool() {
 		count += ret;
 	}
 	this->constant_pool = cp_info;
-	// this->constant_pool->getConstantPool();
 	this->current_size += count;
+	// printf("here\n");
 	return true;
 }
 Cp_info* Leitor::getConstantPool(){
@@ -235,7 +236,19 @@ bool Leitor::setFieldsCount(){
 	this->fields_count = read2byte();
 	return true;
 }
-// bool Leitor::setFields(){ 
+bool Leitor::setFields(){ 
+	Field_info* field = new Field_info();
+	for (int i = 0; i < this->fields_count; i++) {
+		u2 access_flags = read2byte();
+		u2 name_index = read2byte();
+		u2 descriptor_index = read2byte();
+		u2 attributes_count = read2byte();
+		field->setFields(access_flags, name_index, descriptor_index, attributes_count);
+	}
+	this->fields = field;
+	return true;	
+	// printf("%d")
+
 // 	Field_info  buffer;
 // 	Attribute_info attributeAux;
 // 	cp_info cpInfoAux;
@@ -258,8 +271,8 @@ bool Leitor::setFieldsCount(){
 // 			this->current_size+=attributeAux.setInfo(nameIndexAttribute,lengthNameIndex,this->byte_array + this->constant_pool_count);
 // 		}
 // 	}
-// 	return true;
-// }
+	// return true;
+}
 // Exibidor
 void Leitor::printAccessFlags(){
 	uint16_t flags = (uint16_t)this->getAccessFlags();
@@ -629,8 +642,7 @@ bool Leitor::set(int key){
 			// return setInterfaces();
 			break;
 		case FIELDS:
-			break;
-			// return setFields();
+			return setFields();
 		case FIELDS_COUNT:
 			return setFieldsCount();
 			// break;
@@ -710,13 +722,9 @@ std::string Leitor::getUTF8(u2 name_index){
 /* EXIBIDOR */
 
 void Leitor::exibir() {
-	char nameIndex[50];
-	int aux;
 	printf("Magic number: %x\n", this->magic);
 	printf("Minor version: %d\n", this->minor_version);
 	printf("Major version: %d [%s]\n", this->major_version,versionJVM(this->major_version));
-	printf("Constant pool:\n");
-	this->constant_pool->printConstantPool();
 	printf("Constant pool count: %d\n", this->constant_pool_count);
 	printf("Access flags: 0x00%x\n", this->access_flags);
 	printf("This class: %d\n", this->this_class);
@@ -724,7 +732,11 @@ void Leitor::exibir() {
 	printf("Interfaces count: %d\n", this->interfaces_count);
 	printf("Fields count: %d\n", this->fields_count);
 	printf("Methods count: %d\n", this->methods_count);
-	printf("Methods:\n\n");
+	printf("\nConstant pool:\n");
+	this->constant_pool->printConstantPool();
+	printf("\nFields:\n");
+	this->fields->printFieldsInfo();
+	printf("\nMethods:\n");
 	this->methods->getMethodInfo();
 
 }

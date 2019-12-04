@@ -47,11 +47,12 @@ class Leitor {
 		u2 interfaces_count;//OK
 		u2 * interfaces; // OK
 		u2 fields_count; //  OK
-		vector<Field_info> fields;// Faltando
-		u2 methods_count; // 
+		// vector<Field_info> fields;// Faltando
+		Field_info* fields;
+		u2 methods_count; // OK
 		Method_info *methods; // OK
 		u2 attributes_count; // 
-		vector< Attribute_info> attributes; // Faltando
+		vector<Attribute_info> attributes; // Faltando
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
 		bool setMagicNumber();

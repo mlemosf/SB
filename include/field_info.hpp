@@ -3,11 +3,12 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
+#include <cstring>
 #include "attribute_info.hpp"
 
-//#define u1 uint8_t
-//#define u2 uint16_t
-//#define u4 uint32_t
+#define u1 uint8_t
+#define u2 uint16_t
+#define u4 uint32_t
 
 #define ACC_PUBLIC 0x0001
 #define ACC_PRIVATE 0x0002
@@ -24,28 +25,36 @@
 #define ACC_ANNOTATION 0x2000
 using namespace std;
 
+
+struct field_info_element {
+    u2 access_flags;
+    u2 name_index;
+    u2 descriptor_index;
+    u2 attributes_count;
+};
+
 class Field_info{
     public:
-            bool setAcessFlags(u2 acess_flags);
-            bool setNameIndex(u2 name_index);
-            bool setDescriptorIndex(u2 descriptor_index);
-            bool setAttributesCount(u2 attributes_count);
-            bool setAttributes(Attribute_info * attributes);
+        bool setFields(u2 access_flags, u2 name_index, u2 descriptor_index, u2 attributes_count);
+        void printFieldsInfo();
+            // bool setAcessFlags(u2 acess_flags);
+            // bool setNameIndex(u2 name_index);
+            // bool setDescriptorIndex(u2 descriptor_index);
+            // bool setAttributesCount(u2 attributes_count);
+            // bool setAttributes(Attribute_info * attributes);
 
-            u2 getAcessFlags();
-            u2 getNameIndex();
-            u2 getDescriptorIndex();
-            u2 getAttributesCount();
-            Attribute_info * getAttributes();
+            // u2 getAcessFlags();
+            // u2 getNameIndex();
+            // u2 getDescriptorIndex();
+            // u2 getAttributesCount();
+            // void printFieldsInfo();
+            // Attribute_info * getAttributes();
 
-            void print();
+            // void print();
 
     private:
-            u2 access_flags;
-            u2 name_index;
-            u2 descriptor_index;
-            u2 attributes_count;
-            Attribute_info * attributes; //Attribute_info attributes[attributes_count];
+        vector<field_info_element*> fields;
+            // Attribute_info * attributes; //Attribute_info attributes[attributes_count];
 };
 
 

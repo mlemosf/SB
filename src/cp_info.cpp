@@ -31,10 +31,10 @@ u4 Cp_info::getConstantPoolTag(u2 tag, u4 utf8_size) {
 			size = sizeof(CONSTANT_String_info);
 			break;
 		case CONSTANT_Integer:
-			size = sizeof(CONSTANT_Integer_info);
+			size = sizeof(CONSTANT_Integer_info) -2 ;
 			break;
 		case CONSTANT_Float:
-			size = sizeof(CONSTANT_Float_info);
+			size = sizeof(CONSTANT_Float_info) - 2;
 			break;
 		case CONSTANT_Long:
 			size = sizeof(CONSTANT_Long_info) - 2;
@@ -279,7 +279,7 @@ void CONSTANT_Fieldref_info::print()			{ printf("Tag: Fieldref || Class index: %
 void CONSTANT_InterfaceMethodref_info::print()	{ printf("Tag: InterfaceMethodref || Class index: %d || Name and type index: %d\n", class_index, name_and_type_index); }
 void CONSTANT_String_info::print()				{ printf("Tag: String || String index: %d\n", string_index); }
 void CONSTANT_Integer_info::print()				{ printf("Tag: Integer || Bytes: %u\n", bytes); }
-void CONSTANT_Float_info::print()				{ printf("Tag: Float || Bytes: %u\n", bytes); }
+void CONSTANT_Float_info::print()				{ printf("Tag: Float || Bytes: 0x%x\n", bytes); }
 void CONSTANT_Long_info::print()				{ printf("Tag: Long || High bytes: 0x%x || Low bytes: 0x%x\n", high_bytes, low_bytes); }
 void CONSTANT_Double_info::print()				{ printf("Tag: Double || High bytes: 0x%x || Low bytes: 0x%x\n", high_bytes, low_bytes); }
 void Large_Numeric_Continued_info::print()  	{ printf("Large numeric continued\n"); }

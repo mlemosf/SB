@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../include/leitor.hpp"
-#include "../include/Frame.hpp"
+// #include "../include/Frame.hpp"
 #include "../include/Heap.hpp"
 
 #define EXECUTAR '1'
@@ -38,19 +38,16 @@ int main(int argc, char ** argv) {
 		leitor->set(SUPER_CLASS);
 		leitor->set(INTERFACES_COUNT);
 		leitor->set(FIELDS_COUNT);
-		// leitor->set(FIELDS);
+		leitor->set(FIELDS);
 		leitor->set(METHODS_COUNT);
 		leitor->set(METHODS);
-		// leitor->set(METHODS);
-		// leitor->set(ATTRIBUTES_COUNT);
-		// leitor->set(ATTRIBUTES);
 
 		if(option == EXECUTAR){
-			Frame::setOpcodes();
-			Heap *hp;
-			hp = Heap::getInstance();
-			hp->runMain(leitor);
-			delete(hp);
+			// Frame::setOpcodes();
+			// Heap *hp;
+			// hp = Heap::getInstance();
+			// hp->runMain(leitor);
+			// delete(hp);
 		} else {
 			leitor->exibir();
 		}

@@ -52,7 +52,6 @@ void Method_info::getMethodInfo() {
 			}
 			printf("\n");
 		}
-		printf("=====================\n");
 		j++;
 	}
 }
