@@ -167,7 +167,7 @@ bool Leitor::setConstantPool() {
 		ret = cp_info->getConstantPoolTag(tag, utf8_size);
 
 		cp_info->addElement(tag, ret, pos, this->current_size,  this->byte_array);
-		if (tag == 6) {
+		if (tag == 6 || tag == 5) {
 			cp_info->addElement(66, 0, 0, 0, 0);
 			i++;
 		}
@@ -730,7 +730,7 @@ void Leitor::exibir() {
 }
 
 bool Leitor::isMethodAccessFlagSet(u2 method_index , int search_flag){
-	u2 access_value = methods[0].methods[method_index].access_flags;
+	u2 access_value = methods[0].methods[method_index]->access_flags;
     switch(search_flag){
         case ACC_PUBLIC:
             return (access_value & 0x0001);
