@@ -33,6 +33,8 @@ u4 Leitor::read4byte(){
 	return *b;
 }
 
+// u2 getUtf8Size()
+
 /* LEITOR */
 
 void Leitor::loadFile(const string filename) {
@@ -127,6 +129,7 @@ bool Leitor::setConstantPool() {
 		cp_info->addElement(tag, ret, pos, this->current_size,  this->byte_array);
 		if (tag == 6) {
 			cp_info->addElement(66, 0, 0, 0, 0);
+			i++;
 		}
 		pos += ret;
 		count += ret;
@@ -667,8 +670,8 @@ std::string Leitor::getUTF8(u2 name_index){
 /* EXIBIDOR */
 
 void Leitor::exibir() {
-	// char nameIndex[50];
-	// int aux;
+	char nameIndex[50];
+	int aux;
 	printf("Magic number: %x\n", this->magic);
 	printf("Minor version: %d\n", this->minor_version);
 	printf("Major version: %d\n", this->major_version);

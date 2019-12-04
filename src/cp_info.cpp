@@ -13,6 +13,7 @@ void Cp_info::concatBytes(u1* buffer, u2 size, u1* bytes) {
 u4 Cp_info::getConstantPoolTag(u2 tag, u4 utf8_size) {
 	int32_t size = 0;
 
+	// printf("tag: %d\n", tag);
 	switch (tag) {
 		case CONSTANT_Class:
 			size = sizeof(CONSTANT_Class_info);
