@@ -5,7 +5,10 @@ Heap* Heap::_heap = NULL;
 Heap::Heap(){}
 
 Heap::~Heap(){
+    printf("Heap::~Heap()\n"); // printou isso
     free(this->_heap);
+    printf("Liberou heap\n"); // printou isso
+    return;
 }
 
 Heap* Heap::getInstance(){
@@ -24,7 +27,7 @@ std::string Heap::getPath() const {
 }
 
 void Heap::runMain(Leitor *mainClass){
-    printf("Heap::runMain()\n");
+    // printf("Heap::runMain()\n");
     JavaClassInstance* mainInstance = new JavaClassInstance();
     mainInstance->javaClass = mainClass;
 
@@ -62,16 +65,16 @@ void Heap::runMain(Leitor *mainClass){
     printf("Achou a main... Prosseguindo...\n");
     // Caso exista um método "main", adiciona a classe ao unordered_map de instâncias.
     std::string key(mainClass->getUTF8(mainClass->getConstantPool()->getCpInfoElement(mainClass->get(THIS_CLASS)).constant_element.c1->name_index));
-    printf("Criou a chave\n");
+    // printf("Criou a chave\n");
     key += ".class";
-    printf("Adicionou .class\n");
+    // printf("Adicionou .class\n");
     _instantiatedClasses[key] = mainInstance;
-    printf("Deu mainInstance à _instantiatedClasses[key]\n");
+    // printf("Deu mainInstance à _instantiatedClasses[key]\n");
     
     // Carrega os Fields associados à classe.
     // addStaticFields(mainInstance);
 
-    printf("Criação da Frame\n");
+    // printf("Criação da Frame\n");
     Frame *frame = new Frame(mainClass, mainClass->getConstantPool(), index, mainInstance);
     _executionFrames.push(frame);
     // _executionFrames.top()->executeFrame();
@@ -79,10 +82,13 @@ void Heap::runMain(Leitor *mainClass){
 
     printf("Rodando as frames...\n");
     while(!_executionFrames.empty()){
-        printf("Executando frame::::   ");
+        // printf("Executando frame::::   ");
         _executionFrames.top()->executeFrame();
-        printf("     :::: done.\n");
+        // printf("     :::: done.\n");
+        // std::cout << "executeFrame: " << _executionFrames.empty() << std::endl;
     }
+    printf("Frames rodadas com sucesso (?)\n");
+    return;
 }
 
 void Heap::pushFrame(Frame* frame){
@@ -90,9 +96,9 @@ void Heap::pushFrame(Frame* frame){
 }
 
 void Heap::popFrame(){
-    printf("Poppando frame\n");
+    // printf("Poppando frame\n");
     _executionFrames.pop();
-    printf("Frame poppado\n");
+    // printf("Frame poppado\n");
 }
 
 Leitor* Heap::getClass(std::string className){

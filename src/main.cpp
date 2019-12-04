@@ -47,13 +47,17 @@ int main(int argc, char ** argv) {
 			Heap *hp;
 			hp = Heap::getInstance();
 			hp->runMain(leitor);
+			printf("Main:: rodou o hp->runMain()\n"); // printou isso
 			delete(hp);
+			printf("Deletou o hp\n"); // não printou isso
 		} else {
 			leitor->exibir();
 		}
 	}
 
+	printf("Deletar leitor\n");
 	delete(leitor);
+	printf("Deletou leitor\n");
 	return 0;
 
 }
