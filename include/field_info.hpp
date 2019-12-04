@@ -51,9 +51,9 @@ class Field_info{
             // Attribute_info * getAttributes();
 
             // void print();
+        vector<field_info_element*> fields;
 
     private:
-        vector<field_info_element*> fields;
             // Attribute_info * attributes; //Attribute_info attributes[attributes_count];
 };
 

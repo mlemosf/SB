@@ -47,7 +47,6 @@ class Leitor {
 		u2 interfaces_count;//OK
 		u2 * interfaces; // OK
 		u2 fields_count; //  OK
-		// vector<Field_info> fields;// Faltando
 		Field_info* fields;
 		u2 methods_count; // OK
 		Method_info *methods; // OK
@@ -90,7 +89,7 @@ class Leitor {
 		u2 get(int key);
 		u4 getMagicNumber();
 		Cp_info * getConstantPool();
-		vector<Field_info> getFields();
+		Field_info* getFields();
 		Method_info* getMethods();
 		u2 * getInterfaces();
 		vector<Attribute_info> getAttributes();
@@ -108,7 +107,7 @@ class Leitor {
 		u2 read2byte();
 		u4 read4byte();
 		
-		bool isMethodAccessFlagSet(u2, int);
+		bool isMethodAccessFlagSet(u2, u2);
 };
 
 #endif

@@ -324,13 +324,14 @@ void Leitor::printInterfaces(){
 void Leitor::printFieldsCount(){
 	printf("FieldsCount: %x\n",this->fields_count);
 }
-vector<Field_info> Leitor::getFields(){
-	vector<Field_info> ret;
+Field_info* Leitor::getFields(){
+	return this->fields;
+	//vector<Field_info> ret;
 
-	for (u2 i = 0; i < this->fields_count; ++i){
-		ret.push_back(this->fields[i]);
-	}
-	return ret;
+	//for (u2 i = 0; i < this->fields_count; ++i){
+	//	ret.push_back(this->fields[i]);
+	//}
+	//return ret;
 }
 
 // u2 Leitor::getAttributesCount(){return attributes_count;}
@@ -741,8 +742,8 @@ void Leitor::exibir() {
 
 }
 
-bool Leitor::isMethodAccessFlagSet(u2 method_index , int search_flag){
-	u2 access_value = methods[0].methods[method_index]->access_flags;
+bool Leitor::isMethodAccessFlagSet(u2 method_index , u2 search_flag){
+	u2 access_value = methods->methods[method_index]->access_flags;
     switch(search_flag){
         case ACC_PUBLIC:
             return (access_value & 0x0001);

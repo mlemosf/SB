@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../include/leitor.hpp"
-// #include "../include/Frame.hpp"
+ #include "../include/Frame.hpp"
 #include "../include/Heap.hpp"
 
 #define EXECUTAR '1'
@@ -43,11 +43,11 @@ int main(int argc, char ** argv) {
 		leitor->set(METHODS);
 
 		if(option == EXECUTAR){
-			// Frame::setOpcodes();
-			// Heap *hp;
-			// hp = Heap::getInstance();
-			// hp->runMain(leitor);
-			// delete(hp);
+			Frame::setOpcodes();
+			Heap *hp;
+			hp = Heap::getInstance();
+			hp->runMain(leitor);
+			delete(hp);
 		} else {
 			leitor->exibir();
 		}

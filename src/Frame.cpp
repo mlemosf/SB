@@ -2204,17 +2204,17 @@ void Frame::setOpcodes(){
         uint16_t aux = code[(*pc)++];
         uint16_t idx = (aux << 8) + code[(*pc)++];
 
-        aux = cp->getCpInfoElement(idx - 1).constant_element.c3->class_index;
-        uint16_t className = cp->getCpInfoElement(aux - 1).constant_element.c1->name_index;
+        aux = cp->getCpInfoElement(idx).constant_element.c3->class_index;
+        uint16_t className = cp->getCpInfoElement(aux).constant_element.c1->name_index;
 
-        aux = cp->getCpInfoElement(idx - 1).constant_element.c3->name_and_type_index;
-        uint16_t fieldName = cp->getCpInfoElement(aux - 1).constant_element.c10->name_index;
+        aux = cp->getCpInfoElement(idx).constant_element.c3->name_and_type_index;
+        uint16_t fieldName = cp->getCpInfoElement(aux).constant_element.c10->name_index;
 
-        std::string s((char *)cp->getCpInfoElement(className - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className - 1).constant_element.c11->length);
+        std::string s((char *)cp->getCpInfoElement(className).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className).constant_element.c11->length);
         if (s != "java/lang/System") {
             Heap::getInstance()->getClass(s);
-            std::string s1((char *)cp->getCpInfoElement(className - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className - 1).constant_element.c11->length);
-            std::string s2((char *)cp->getCpInfoElement(fieldName - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(fieldName - 1).constant_element.c11->length);
+            std::string s1((char *)cp->getCpInfoElement(className).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className).constant_element.c11->length);
+            std::string s2((char *)cp->getCpInfoElement(fieldName).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(fieldName).constant_element.c11->length);
             Variable *value = Heap::getInstance()->getStaticInfo(s1, s2);
             operands->push(value);
         }
@@ -2226,14 +2226,14 @@ void Frame::setOpcodes(){
         uint16_t aux = code[(*pc)++];
         uint16_t idx = (aux << 8) + code[(*pc)++];
 
-        aux = cp->getCpInfoElement(idx - 1).constant_element.c3->class_index;
-        uint16_t className = cp->getCpInfoElement(aux - 1).constant_element.c1->name_index;
+        aux = cp->getCpInfoElement(idx).constant_element.c3->class_index;
+        uint16_t className = cp->getCpInfoElement(aux).constant_element.c1->name_index;
 
-        aux = cp->getCpInfoElement(idx - 1).constant_element.c3->name_and_type_index;
-        uint16_t fieldName = cp->getCpInfoElement(aux - 1).constant_element.c10->name_index;
+        aux = cp->getCpInfoElement(idx).constant_element.c3->name_and_type_index;
+        uint16_t fieldName = cp->getCpInfoElement(aux).constant_element.c10->name_index;
 
-        std::string s1((char *)cp->getCpInfoElement(className - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className - 1).constant_element.c11->length);
-        std::string s2((char *)cp->getCpInfoElement(fieldName - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(fieldName - 1).constant_element.c11->length);
+        std::string s1((char *)cp->getCpInfoElement(className).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className).constant_element.c11->length);
+        std::string s2((char *)cp->getCpInfoElement(fieldName).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(fieldName).constant_element.c11->length);
         Heap::getInstance()->getClass(s1);
         Variable *value = Heap::getInstance()->getStaticInfo(s1, s2);
 
@@ -2306,7 +2306,7 @@ void Frame::setOpcodes(){
             
             // u2 className  = runtime->info.fieldrefInfo.class_index;
             //@@ u2 fieldName  = cp[runtime.constant_element.c3->name_and_type_index - 1].info.nameAndTypeInfo.name_index;
-            u2 fieldName  = cp->getCpInfoElement(cp->getCpInfoElement(index-1).constant_element.c3->name_and_type_index - 1).constant_element.c10->name_index;
+            u2 fieldName  = cp->getCpInfoElement(cp->getCpInfoElement(index).constant_element.c3->name_and_type_index).constant_element.c10->name_index;
             // u2 fieldType  = cp[runtime->info.fieldrefInfo.name_and_type_index - 1].info.nameAndTypeInfo.descriptor_index;
 
             std::string key = jClassInstance->javaClass->getUTF8(fieldName);
@@ -2327,8 +2327,8 @@ void Frame::setOpcodes(){
 
         //@@ cp_info* fieldRef = &cp[index - 1];
         // u2 className = cp[fieldRef->info.fieldrefInfo.class_index - 1].info.classInfo.name_index;
-        u2 fieldName = cp->getCpInfoElement(cp->getCpInfoElement(index - 1).constant_element.c3->name_and_type_index - 1).constant_element.c10->name_index;
-        u2 fieldType = cp->getCpInfoElement(cp->getCpInfoElement(index - 1).constant_element.c3->name_and_type_index - 1).constant_element.c10->descriptor_index;
+        u2 fieldName = cp->getCpInfoElement(cp->getCpInfoElement(index).constant_element.c3->name_and_type_index).constant_element.c10->name_index;
+        u2 fieldType = cp->getCpInfoElement(cp->getCpInfoElement(index).constant_element.c3->name_and_type_index).constant_element.c10->descriptor_index;
 
         Variable *field = new Variable(jClassInstance->javaClass->getUTF8(fieldType));
         
@@ -2384,14 +2384,14 @@ void Frame::setOpcodes(){
         uint16_t idx = (aux << 8) + code[(*pc)++];
 
         //@@ cp_info *ref2meth = &cp[idx - 1];
-        uint16_t class_name_idx = cp->getCpInfoElement(cp->getCpInfoElement(idx - 1).constant_element.c2->class_index - 1).constant_element.c1->name_index;
-        std::string cl_name((char *) cp->getCpInfoElement(class_name_idx - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(class_name_idx - 1).constant_element.c11->length);
+        uint16_t class_name_idx = cp->getCpInfoElement(cp->getCpInfoElement(idx).constant_element.c2->class_index).constant_element.c1->name_index;
+        std::string cl_name((char *) cp->getCpInfoElement(class_name_idx).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(class_name_idx).constant_element.c11->length);
 
-        uint16_t name_type_idx = cp->getCpInfoElement(idx - 1).constant_element.c2->name_and_type_index;
+        uint16_t name_type_idx = cp->getCpInfoElement(idx).constant_element.c2->name_and_type_index;
         //@@ cp_info *name_type = &cp[name_type_idx - 1];
 
-        std::string meth_name((char *) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx - 1).constant_element.c10->name_index - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx - 1).constant_element.c10->name_index - 1).constant_element.c11->length);
-        std::string meth_desc((char *) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx - 1).constant_element.c10->descriptor_index - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx - 1).constant_element.c10->descriptor_index - 1).constant_element.c11->length);
+        std::string meth_name((char *) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx).constant_element.c10->name_index).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx).constant_element.c10->name_index).constant_element.c11->length);
+        std::string meth_desc((char *) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx).constant_element.c10->descriptor_index).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx).constant_element.c10->descriptor_index).constant_element.c11->length);
 
         if (cl_name.find("java/") == 0) {
             if (cl_name == "java/io/PrintStream" && (meth_name == "print" || meth_name == "println")) {
@@ -2558,15 +2558,15 @@ void Frame::setOpcodes(){
 
         //@@ cp_info* methodRef = &cp[methodIndex - 1];
 
-        //@@ cp_info* classInfo = cp->getCpInfoElement(cp->getCpInfoElement(methodIndex - 1).constant_element.c2->class_index - 1);
-        u2 classNameIndex  = cp->getCpInfoElement(cp->getCpInfoElement(methodIndex - 1).constant_element.c2->class_index - 1).constant_element.c1->name_index;
+        //@@ cp_info* classInfo = cp->getCpInfoElement(cp->getCpInfoElement(methodIndex).constant_element.c2->class_index - 1);
+        u2 classNameIndex  = cp->getCpInfoElement(cp->getCpInfoElement(methodIndex).constant_element.c2->class_index).constant_element.c1->name_index;
         std::string className(jClassInstance->javaClass->getUTF8(classNameIndex));
 
-        u2 nameAndTypeIndex = cp->getCpInfoElement(methodIndex - 1).constant_element.c2->name_and_type_index;
+        u2 nameAndTypeIndex = cp->getCpInfoElement(methodIndex).constant_element.c2->name_and_type_index;
         //@@ cp_info* nameAndType = &cp[nameAndTypeIndex - 1];
 
-        std::string methodName = jClassInstance->javaClass->getUTF8(cp->getCpInfoElement(nameAndTypeIndex - 1).constant_element.c10->name_index);
-        std::string methodType = jClassInstance->javaClass->getUTF8(cp->getCpInfoElement(nameAndTypeIndex - 1).constant_element.c10->descriptor_index);
+        std::string methodName = jClassInstance->javaClass->getUTF8(cp->getCpInfoElement(nameAndTypeIndex).constant_element.c10->name_index);
+        std::string methodType = jClassInstance->javaClass->getUTF8(cp->getCpInfoElement(nameAndTypeIndex).constant_element.c10->descriptor_index);
 
         // Caso de Object<init>, String<init>, StringBuilder<init>
         if (((className == "java/lang/Object" || className == "java/lang/String") && methodName == "<init>") ||
@@ -2643,14 +2643,14 @@ void Frame::setOpcodes(){
 
         //@@ cp_info *ref2meth = &cp[idx - 1];
 
-        uint16_t class_name_idx = cp->getCpInfoElement(cp->getCpInfoElement(idx - 1).constant_element.c2->class_index - 1).constant_element.c1->name_index;
-        std::string cl_name((char *) cp->getCpInfoElement(class_name_idx - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(class_name_idx - 1).constant_element.c11->length);
+        uint16_t class_name_idx = cp->getCpInfoElement(cp->getCpInfoElement(idx).constant_element.c2->class_index).constant_element.c1->name_index;
+        std::string cl_name((char *) cp->getCpInfoElement(class_name_idx).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(class_name_idx).constant_element.c11->length);
 
-        uint16_t name_type_idx = cp->getCpInfoElement(idx - 1).constant_element.c2->name_and_type_index;
+        uint16_t name_type_idx = cp->getCpInfoElement(idx).constant_element.c2->name_and_type_index;
         //@@ cp_info *name_type = &cp[name_type_idx - 1];
 
-        std::string meth_name((char *) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx - 1).constant_element.c10->name_index - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx - 1).constant_element.c10->name_index - 1).constant_element.c11->length);
-        std::string meth_desc((char *) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx - 1).constant_element.c10->descriptor_index - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx - 1).constant_element.c10->descriptor_index - 1).constant_element.c11->length);
+        std::string meth_name((char *) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx).constant_element.c10->name_index).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx).constant_element.c10->name_index).constant_element.c11->length);
+        std::string meth_desc((char *) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx).constant_element.c10->descriptor_index).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(cp->getCpInfoElement(name_type_idx).constant_element.c10->descriptor_index).constant_element.c11->length);
 
         if (cl_name == "java/lang/Object" && meth_name == "registerNatives") {
             // codigo nativo
@@ -2718,10 +2718,10 @@ void Frame::setOpcodes(){
 
         uint16_t aux = code[(*pc)++];
         uint16_t idx = (aux << 8) + code[(*pc)++];
-        uint16_t nameIndex = cp->getCpInfoElement(idx - 1).constant_element.c1->name_index;
+        uint16_t nameIndex = cp->getCpInfoElement(idx).constant_element.c1->name_index;
 
         std::string s = "L";
-        s += std::string((char *) cp->getCpInfoElement(nameIndex - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(nameIndex - 1).constant_element.c11->length);
+        s += std::string((char *) cp->getCpInfoElement(nameIndex).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(nameIndex).constant_element.c11->length);
 
         if (s == "Ljava/lang/StringBuilder") {
             Variable *var = new Variable("Ljava/lang/String;");
@@ -2808,17 +2808,17 @@ void Frame::setOpcodes(){
 
         uint16_t aux = code[(*pc)++];
         uint16_t idx = (aux << 8) + code[(*pc)++];
-        uint16_t nameIndex = cp->getCpInfoElement(idx - 1).constant_element.c1->name_index;
+        uint16_t nameIndex = cp->getCpInfoElement(idx).constant_element.c1->name_index;
 
         std::string s = "L";
-        s += std::string((char *) cp->getCpInfoElement(nameIndex - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(nameIndex - 1).constant_element.c11->length);
+        s += std::string((char *) cp->getCpInfoElement(nameIndex).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(nameIndex).constant_element.c11->length);
         s += ";";
 
         int cont = *operands->top()->variable->intValue;
         operands->pop();
 
         Variable *var = new Variable(s);
-        if (cp->getCpInfoElement(idx - 1).tag == 0x07 || cp->getCpInfoElement(idx - 1).tag == 0x0B) {
+        if (cp->getCpInfoElement(idx).tag == 0x07 || cp->getCpInfoElement(idx).tag == 0x0B) {
             for (int i = 0; i < cont; i++) {
                 var->array->array->push_back(new Variable(s));
             }
@@ -2880,8 +2880,8 @@ void Frame::setOpcodes(){
         }
 
         Variable *var = new Variable("[");
-        uint16_t nameIndex = cp->getCpInfoElement(idx - 1).constant_element.c1->name_index;
-        std::string s((char *) cp->getCpInfoElement(nameIndex - 1).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(nameIndex - 1).constant_element.c11->length);
+        uint16_t nameIndex = cp->getCpInfoElement(idx).constant_element.c1->name_index;
+        std::string s((char *) cp->getCpInfoElement(nameIndex).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(nameIndex).constant_element.c11->length);
         s += std::to_string(dim);
 
         Frame::newMultiDimensionalArray(var->array, count_stack, s);
@@ -2930,16 +2930,16 @@ Frame::Frame(Leitor *jClass, Cp_info *cp, u2 methodIndex, JavaClassInstance *jCl
     u2 i;
     for(i = 0; i < jClass->get(CONSTANT_POOL_COUNT); i++){
         if(jClass->getConstantPool()->getCpInfoElement(i).tag == CONSTANT_Methodref){
-            if((jClass->getMethods()[0].methods[methodIndex]->name_index == jClass->getConstantPool()->getCpInfoElement(jClass->getConstantPool()->getCpInfoElement(i).constant_element.c2->name_and_type_index - 1).constant_element.c10->name_index)
-                && (jClass->getMethods()[0].methods[methodIndex]->descriptor_index == jClass->getConstantPool()->getCpInfoElement(jClass->getConstantPool()->getCpInfoElement(i).constant_element.c2->name_and_type_index - 1).constant_element.c10->descriptor_index))
+            if((jClass->getMethods()[0].methods[methodIndex]->name_index == jClass->getConstantPool()->getCpInfoElement(jClass->getConstantPool()->getCpInfoElement(i).constant_element.c2->name_and_type_index).constant_element.c10->name_index)
+                && (jClass->getMethods()[0].methods[methodIndex]->descriptor_index == jClass->getConstantPool()->getCpInfoElement(jClass->getConstantPool()->getCpInfoElement(i).constant_element.c2->name_and_type_index).constant_element.c10->descriptor_index))
                 break;
         }
     }
     //@@ cp_info *method = &cp[i];
     _pc = 0;
 
-    std::string methodName = jClass->getUTF8(cp->getCpInfoElement(cp->getCpInfoElement(i).constant_element.c2->name_and_type_index -1).constant_element.c10->name_index);
-    std::string methodType = jClass->getUTF8(cp->getCpInfoElement(cp->getCpInfoElement(i).constant_element.c2->name_and_type_index -1).constant_element.c10->descriptor_index);
+    std::string methodName = jClass->getUTF8(cp->getCpInfoElement(cp->getCpInfoElement(i).constant_element.c2->name_and_type_index ).constant_element.c10->name_index);
+    std::string methodType = jClass->getUTF8(cp->getCpInfoElement(cp->getCpInfoElement(i).constant_element.c2->name_and_type_index ).constant_element.c10->descriptor_index);
     
     _jClass = jClass;
     _classInstance = jClassInstance;
@@ -2992,7 +2992,7 @@ Frame::Frame(Leitor *jClass, Cp_info *cp, u2 method_index, JavaClassInstance *jC
     // Define o tamanho do array e as variáveis locais
     _localVariables.resize(_code->getInfoElement()->codeAttr->max_locals);
     for(u2 i = 0; i < jClass->get(FIELDS_COUNT); i++)
-        _localVariables[i] = new Variable(jClass->getUTF8(jClass->getFields()[i].getDescriptorIndex()));
+        _localVariables[i] = new Variable(jClass->getUTF8(jClass->getFields()->fields[i]->descriptor_index));
 
     _classInstance = jClassInstance;
 }
@@ -3031,29 +3031,29 @@ Variable* Frame::constPoolRef(JavaClassInstance* jci, u2 index){
     Variable* dest_var = nullptr;
 
     current_cp = jci->javaClass->getConstantPool();
-    tag = current_cp->getCpInfoElement(index-1).tag;
+    tag = current_cp->getCpInfoElement(index).tag;
     switch (tag)
     {
         // asm95@2018-11-24: issue #2
         case CONSTANT_Integer:
-            u4_storage = current_cp->getCpInfoElement(index-1).constant_element.c6->bytes;
+            u4_storage = current_cp->getCpInfoElement(index).constant_element.c6->bytes;
             dest_var = new Variable("I", &u4_storage);
             break;
         case CONSTANT_Float:
-            u4_storage = current_cp->getCpInfoElement(index-1).constant_element.c6->bytes;
+            u4_storage = current_cp->getCpInfoElement(index).constant_element.c6->bytes;
             dest_var = new Variable("F", &u4_storage);
             break;
         case CONSTANT_Long:
-            u8_storage = ((u8)current_cp->getCpInfoElement(index-1).constant_element.c9->high_bytes << 32) + current_cp->getCpInfoElement(index).constant_element.c9->low_bytes;
+            u8_storage = ((u8)current_cp->getCpInfoElement(index).constant_element.c9->high_bytes << 32) + current_cp->getCpInfoElement(index).constant_element.c9->low_bytes;
             dest_var = new Variable("J", &u8_storage);
             break;
         case CONSTANT_Double:
-            u8_storage = ((u8)current_cp->getCpInfoElement(index-1).constant_element.c9->high_bytes << 32) + current_cp->getCpInfoElement(index).constant_element.c9->low_bytes;
+            u8_storage = ((u8)current_cp->getCpInfoElement(index).constant_element.c9->high_bytes << 32) + current_cp->getCpInfoElement(index).constant_element.c9->low_bytes;
             dest_var = new Variable("D", &u8_storage);
             break;
         case CONSTANT_String:
             str_storage = new std::string( jci->javaClass->getUTF8(
-                current_cp->getCpInfoElement(index-1).constant_element.c5->string_index
+                current_cp->getCpInfoElement(index).constant_element.c5->string_index
             ));
             dest_var = new Variable("Ljava/lang/String;", str_storage);
             break;
