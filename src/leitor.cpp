@@ -412,177 +412,27 @@ Attribute_info* Leitor::setAttributes(u2 attribute_name_index, u4 attribute_leng
 		attribute->setInfoElement(string, element);
 	}
 	return attribute;
-
-
 }
 
-// bool Leitor::setAttributes(){
-// 	int32_t size = 2;
-// 	u4 j = size-1;
-// 	int16_t attribute_name_index;
-// 	int32_t attribute_length;
+bool Leitor::setAttributesLeitor(){
+	Attribute_info* attribute = new Attribute_info();
+	for (int i = 0; i < this->attributes_count; i++) {
+		u2 attribute_name_index = read2byte();
+		u2 attribute_length = read4byte();
+		u1* info = (u1*)malloc(attribute_length * sizeof(u1));
+		for (int i = 0; i < attribute_length; i++) {
+			info[i] = read1byte();
+		}
 
-// 	for (u4 i = 0; i < this->attributes_count; ++i){
-// 		attribute_name_index = read2byte();
-// 		attribute_length = read4byte();
+		attribute->setAttributeNameIndex(attribute_name_index);
+		attribute->setAttributeLength(attribute_length);
+		attribute->setInfo(info);
 
-
-// 		string op = "";
-// 		u2 length = this->constant_pool.constant_pool[attribute_name_index].c11.length;
-// 		for (int i = 0; i < length; ++i){
-// 			op += constant_pool.constant_pool[attribute_name_index].c11.bytes[i];
-// 		}
-
-// 		switch(op){
-// 			case "ConstantValue":
-// 				ConstantValue_attribute cv_aux;
-// 				cv_aux.attribute_name_index = attribute_name_index;
-// 				cv_aux.attribute_length = attribute_length;
-// 				cv_aux.constantvalue_index = read2byte();
-// 				this->attributes[i] = cv_aux;
-// 				break;
-// 			case "Code":
-// 				Code_attribute code_aux;
-// 				code_aux.attribute_name_index = attribute_name_index;
-// 				code_aux.attribute_length = attribute_length;
-// 				code_aux.max_stack = read2byte();
-// 				code_aux.max_locals = read2byte();
-// 				code_aux.code_length = read4byte();
-
-// 				for (u2 k = 0; k < code_aux.code_length; ++k){
-// 					code_aux.code[k] = read1byte();
-// 				}
-
-// 				code_aux.exception_table_length = read2byte();
-
-// 				for (int k = 0; k < code_aux.exception_table_length; ++k){
-// 					ExceptionCode_info b;
-// 					b.start_pc = read2byte();
-// 					b.end_pc = read2byte();
-// 					b.handler_pc = read2byte();
-// 					b.catch_type = read2byte();
-
-// 					code_aux.exception_table[k] = b;
-// 				}
-
-// 				code_aux.attributes_count = read2byte();
-
-// 				code_aux.setAttributes(this->constant_pool);
-// 				this->attributes[i] = cv_aux;
-// 				break;
-
-// 			case "Exceptions":
-// 				j = 3;
-// 				Exceptions_attribute exc_aux = new Exceptions_attribute();
-// 				exc_aux.attribute_name_index = attribute_name_index;
-// 				exc_aux.attribute_length = attribute_length;
-
-// 				exc_aux.number_of_exceptions = read2byte();
-
-// 				for (int k = 0; k < exc_aux.number_of_exceptions; ++k){
-// 					exc_aux.exception_index_table[k] = read2byte();
-// 				}
-
-// 				this->attributes[i] = exc_aux;
-// 				break;
-
-// 			case "InnerClasses":
-// 				InnerClasses_attribute in_aux;
-// 				in_aux.attribute_name_index = attribute_name_index;
-// 				in_aux.attribute_length = attribute_length;
-
-// 				in_aux.number_of_classes = read2byte();
-				
-
-// 				for (int k = 0; k < in_aux.number_of_classes; ++k){
-// 					ClassInners_info c;
-					
-// 					c.inner_class_info_index = read2byte();
-// 					c.outer_class_info_index = read2byte();
-// 					c.inner_name_index = read2byte();
-// 					c.inner_class_access_flags = read2byte();
-
-// 					in_aux.classes[k] = c;	
-// 				}
-// 				this->attributes[i] = in_aux;
-// 				break;
-
-// 			case "Synthetic":
-// 				Synthetic_attribute syn_aux;
-// 				syn_aux.attribute_name_index = attribute_name_index;
-// 				syn_aux.attribute_length = attribute_length;
-
-// 				this->attributes[i] = syn_aux;
-// 				break;
-
-// 			case "SourceFile":
-// 				SourceFile_attribute source_aux;
-// 				source_aux.attribute_name_index = attribute_name_index;
-// 				source_aux.attribute_length = attribute_length;
-
-// 				source_aux.sourcefile_index = read2byte();
-
-// 				this->attributes[i] = source_aux;
-// 				break;
-			
-// 			case "LineNumberTable":
-// 				LineNumberTable_attribute lnt_aux;
-// 				lnt_aux.attribute_name_index = attribute_name_index;
-// 				lnt_aux.attribute_length = attribute_length;
-
-// 				lnt_aux.line_number_table_length = read2byte();
-
-// 				for (u2 k = 0; k < lnt_aux.line_number_table_length; ++k){
-// 					LineNumber_info d;
-
-// 					d.start_pc = read2byte();
-// 					d.line_number = read2byte();
-
-// 					lnt_aux.line_number_table[k] = d;
-// 				}
-
-// 				this->attributes[i] = lnt_aux;
-// 				break;
-
-// 			case "LocalVariableTable":
-// 				LocalVariableTable_attribute local_aux;
-// 				local_aux.attribute_name_index = attribute_name_index;
-// 				local_aux.attribute_length = attribute_length;
-
-// 				local_aux.local_variable_table_length = read2byte();
-
-// 				for (int k = 0; k < local_aux.local_variable_table_length; ++k){
-// 					LocalVariableTable_info e;
-
-// 					e.start_pc = read2byte();
-// 					e.length = read2byte();
-// 					e.name_index = read2byte();
-// 					e.descriptor_index = read2byte();
-// 					e.index = read2byte();
-
-// 					local_aux.local_variable_table[k] = e;
-// 				}
-
-// 				this->attributes[i] = local_aux;
-// 				break;
-
-// 			case "Deprecated":
-// 				Deprecated_attribute dep_aux;
-// 				dep_aux.attribute_name_index = attribute_name_index;
-// 				dep_aux.attribute_length = attribute_length;
-
-// 				this->attributes[i] = dep_aux;
-// 				break;
-
-// 			default:
-// 				printf("invalido\n");
-
-// 		}
-
-// 	}
-
-	// return true;
-// }
+		this->attributes.push_back(attribute);
+	}
+	
+	return true;
+}
 
 Method_info* Leitor::getMethods(){
 	return this->methods;
@@ -604,6 +454,21 @@ Method_info* Leitor::getMethods(){
 
 // 	return ret;
 // }
+
+void Leitor::printAttributes() {
+	vector<Attribute_info*>::iterator i;
+	int j = 0;
+	for (i = this->attributes.begin(); i != this->attributes.end(); ++i) {
+		printf("========== [%d] ===========\n", j);
+		printf("Attribute name index: %d\n", (*i)->getAttributeNameIndex());
+		printf("Attribute length: %d\n", (*i)->getAttributeLength());
+		printf("Specific info:\n");
+		u1* info = (*i)->getInfo();
+		for (int k = 0; k < (*i)->getAttributeLength(); k+=2) {
+			printf("  Source file name index :%d\n", info[k] + info[k+1]);
+		}
+	}
+}
 
 /*Set e Get*/
 
@@ -642,8 +507,8 @@ bool Leitor::set(int key){
 		case ATTRIBUTES_COUNT:
 			return setAttributesCount();
 		case ATTRIBUTES:
-			break;
-			//return setAttributes();
+			return setAttributesLeitor();
+			// break;
 	}
 	return false;
 }
@@ -726,6 +591,8 @@ void Leitor::exibir() {
 	this->fields->printFieldsInfo();
 	printf("\nMethods:\n");
 	this->methods->getMethodInfo();
+	printf("\nAttributes:\n");
+	this->printAttributes();
 
 }
 

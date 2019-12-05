@@ -51,7 +51,7 @@ class Leitor {
 		u2 methods_count; // OK
 		Method_info *methods; // OK
 		u2 attributes_count; // 
-		vector<Attribute_info> attributes; // Faltando
+		vector<Attribute_info*> attributes; // Faltando
 
 		u4 current_size;	// atributo não oficial, guarda a posicão atual de memória
 		bool setMagicNumber();
@@ -74,7 +74,7 @@ class Leitor {
 		u2 getInterfacesCount();
 		u2 getMinorVersion();
 		u2 getMajorVersion();
-    u2 getConstantPoolCount();
+    	u2 getConstantPoolCount();
 		u2 getFieldsCount();
 		u2 getMethodsCount();
 		u2 getAttributesCount();
@@ -104,6 +104,7 @@ class Leitor {
 		void printInterfaceCont();
 		void printInterfaces();
 		void printFieldsCount();
+		void printAttributes();
 		u1 read1byte();
 		u2 read2byte();
 		u4 read4byte();

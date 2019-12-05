@@ -177,8 +177,6 @@ class Attribute_info{
         bool setAttributeNameIndex(u2 attribute_name_index);
         bool setAttributeLength(u4 attribute_length);
         void print();
-        //bool setAttributeType(char * attribute_name_index);// seta info e attributeType
-        // u4 setInfo(char *typeAttribute, u1 sizeTypeAtrr, u1 * infoAttr);// seta info e attributeType(OBS: retorna o numero de bytes percorridos)
         bool setInfo(u1* info);
         bool setInfoElement(char* op, info_element* element);
 
@@ -189,6 +187,7 @@ class Attribute_info{
         bool setCP(Cp_info * ConstantPool);
         u1* getInfo();
         info_element* getInfoElement();
+        void printAttributeInfo();
     private:
         u2 attribute_name_index;
         u4 attribute_length;
