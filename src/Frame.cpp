@@ -417,6 +417,10 @@ void Frame::setOpcodes(){
         Variable *ref = operands->top();
         operands->pop();
 
+        // printf("printa o array e intvalue\n");
+        // std::cout << "array:  " << (*ref->array->array)[0] << "  " ;
+        // std::cout << "intValue:  " << *idx->variable->intValue << "  " ;
+
         operands->push((*ref->array->array)[*idx->variable->intValue]);
     };
     OPCODE_CB(0x2F){
@@ -2234,8 +2238,16 @@ void Frame::setOpcodes(){
 
         std::string s1((char *)cp->getCpInfoElement(className).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(className).constant_element.c11->length);
         std::string s2((char *)cp->getCpInfoElement(fieldName).constant_element.c11->bytes, (size_t) cp->getCpInfoElement(fieldName).constant_element.c11->length);
+        
+        // printf("uno\n");
+
         Heap::getInstance()->getClass(s1);
+
+        // printf("dos\n");
+        
         Variable *value = Heap::getInstance()->getStaticInfo(s1, s2);
+
+        // printf("tres\n");
 
         switch (value->tag) {
             case Variable::type::_byte:
@@ -3006,7 +3018,7 @@ void Frame::executeFrame(){
     u1 current_opcode;
 
     current_opcode = *(_code->getInfoElement()->codeAttr->code + _pc);
-    printf("opcode: %x\n", current_opcode);
+    // printf("opcode: %x\n", current_opcode);
     current_cb_func_ptr = op_impl_set[current_opcode];
 
     if (current_cb_func_ptr != nullptr){
