@@ -38,7 +38,8 @@ void Method_info::getMethodInfo() {
 			printf("  Bytecode: ");
 			u1* bytecode = element->codeAttr->code;
 			for (uint32_t k = 0; k < element->codeAttr->code_length; k++) {
-				printf("%x ", *(bytecode + k));
+				printf("%x \n", *(bytecode + k));
+				ins.PrintInstr(*(bytecode + k));
 			}
 			printf("\n");
 			printf("  Line number table:\n");

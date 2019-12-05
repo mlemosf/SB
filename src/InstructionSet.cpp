@@ -210,6 +210,11 @@ string InstructionSet::get(int key)
 	return mnem[key];
 }
 
+void InstructionSet::PrintInstr(u1 bcode)
+{
+	cout << "Instruction : " << mnem[bcode] << endl;
+}
+
 //void printInstr(Leitor *l)
 //{
 
