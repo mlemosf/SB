@@ -9,16 +9,18 @@
 #include <string.h>
 #include <map>
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
 class InstructionSet{
 	private:
 		map<int, string> mnem;
+		void PrintInstr(u4 bcode);
 	public:
 		InstructionSet();
 		string get(int key);
-		void PrintInstr(u1 bcode);
+		void PrintAllInstr(u1 * bcode, u4 size);
 };
 
 #endif

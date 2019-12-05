@@ -210,9 +210,22 @@ string InstructionSet::get(int key)
 	return mnem[key];
 }
 
-void InstructionSet::PrintInstr(u1 bcode)
+void InstructionSet::PrintInstr(u4 bcode)
 {
-	cout << "Instruction : " << mnem[bcode] << endl;
+	u1 code[4];
+	memcpy(code, &bcode, sizeof(bcode));
+	cout << mnem[code[0]] << endl;
+	if(code[1] >= 0){
+		cout << "Parameters: " << code[1] << endl << endl;
+	}
+}
+
+void InstructionSet::PrintAllInstr(u1 * bcode, u4 size){
+	cout << "Instructions: " << endl;
+	for (u4 i = 0; i < size; ++i)
+	{
+		PrintInstr(*(bcode+i));
+	}
 }
 
 //void printInstr(Leitor *l)
