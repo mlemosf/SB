@@ -83,10 +83,10 @@ void Heap::runMain(Leitor *mainClass){
 
     printf("Rodando as frames...\n");
     while(!_executionFrames.empty()){
-        // printf("Executando frame::::   ");
+        printf("Executando frame::::   ");
         _executionFrames.top()->executeFrame();
-        // printf("     :::: done.\n");
-        // std::cout << "executeFrame: " << _executionFrames.empty() << std::endl;
+        printf("     :::: done.");
+        std::cout << " -------- executionFrames.empty(): " << _executionFrames.empty() << std::endl;
     }
     printf("Frames rodadas com sucesso (?)\n");
     return;
