@@ -3006,7 +3006,7 @@ void Frame::executeFrame(){
     u1 current_opcode;
 
     current_opcode = *(_code->getInfoElement()->codeAttr->code + _pc);
-    printf("opcode: %x\n", current_opcode);
+    // printf("opcode: %x\n", current_opcode);
     current_cb_func_ptr = op_impl_set[current_opcode];
 
     if (current_cb_func_ptr != nullptr){
@@ -3015,7 +3015,7 @@ void Frame::executeFrame(){
         }
         current_cb_func_ptr(_code->getInfoElement()->codeAttr->code, &_pc, &_operandStack, &_localVariables, _jClass->getConstantPool(), _classInstance);
     } else {
-        printf("(E) Opcode %x not implemented\n", current_opcode);
+        printf("(E) Opcode %x nao implementado\n", current_opcode);
         throw std::runtime_error("OpcodeNotImplementedError");
     }
 }
@@ -3059,7 +3059,7 @@ Variable* Frame::constPoolRef(JavaClassInstance* jci, u2 index){
             break;
         default:
             throw std::runtime_error(
-                "(E) Not implemented tag (" +
+                "(E) Tag nao implementada (" +
                 std::to_string(tag) +
                 ")"
             );
