@@ -11,8 +11,8 @@ TARGET=main
 
 all: $(TARGET)
 
-$(TARGET): $(SRC)/$(TARGET).cpp exibidor.o leitor.o cp_info.o method_info.o attribute_info.o field_info.o Types.o Heap.o Frame.o InstructionSet.o
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)/$(TARGET).cpp exibidor.o leitor.o cp_info.o method_info.o attribute_info.o field_info.o Types.o Heap.o Frame.o InstructionSet.o
+$(TARGET): $(SRC)/$(TARGET).cpp exibidor.o leitor.o cp_info.o method_info.o attribute_info.o field_info.o Types.o Heap.o Frame.o
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)/$(TARGET).cpp exibidor.o leitor.o cp_info.o method_info.o attribute_info.o field_info.o Types.o Heap.o Frame.o
 
 leitor.o: $(INCLUDE)/leitor.hpp $(SRC)/leitor.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)/leitor.cpp
@@ -40,9 +40,6 @@ Heap.o: $(INCLUDE)/Heap.hpp $(SRC)/Heap.cpp
 
 Frame.o: $(INCLUDE)/Frame.hpp $(SRC)/Frame.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)/Frame.cpp
-
-InstructionSet.o: $(INCLUDE)/InstructionSet.hpp $(SRC)/InstructionSet.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)/InstructionSet.cpp
 
 clean:
 	rm *.o

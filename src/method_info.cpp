@@ -18,7 +18,6 @@ method_info_element* Method_info::getMethod(u2 index) {
 	return this->methods[index];
 }
 
-
 void Method_info::getMethodInfo() {
 	vector<method_info_element*>::iterator i;
 	int j = 0;
@@ -39,8 +38,7 @@ void Method_info::getMethodInfo() {
 			printf("  Bytecode: ");
 			u1* bytecode = element->codeAttr->code;
 			for (uint32_t k = 0; k < element->codeAttr->code_length; k++) {
-				printf("%x \n", *(bytecode + k));
-				ins.PrintInstr(*(bytecode + k));
+				printf("%x ", *(bytecode + k));
 			}
 			printf("\n");
 			printf("  Line number table:\n");

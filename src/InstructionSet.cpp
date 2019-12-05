@@ -210,18 +210,6 @@ string InstructionSet::get(int key)
 	return mnem[key];
 }
 
-
-void InstructionSet::PrintInstr(u1 bcode){
-
-	cout << "Instruction: " << mnem[bcode] << endl;
-	
-	/*for(u1 i=0;i<4;i++){
-		if(*(bcode+i+1) != 0){ Após o opcode temos um contador de parametros, caso não tenha parametros, o contador retorna 0
-			//cout << "Param:" << Param(*(bcode+i+1)) << endl;
-		//}
-	//}*/
-}
-
 //void printInstr(Leitor *l)
 //{
 

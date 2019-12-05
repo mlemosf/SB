@@ -1,17 +1,11 @@
 #ifndef INSTRUCTIONSET_H
 #define INSTRUCTIONSET_H
 
-#define u1 uint8_t
-#define u2 uint16_t
-#define u4 uint32_t
-
+#include "Leitor.hpp"
 #include <cstdlib>
 #include <string.h>
 #include <map>
 #include <iostream>
-#include <string>
-
-using namespace std;
 
 class InstructionSet{
 	private:
@@ -19,7 +13,6 @@ class InstructionSet{
 	public:
 		InstructionSet();
 		string get(int key);
-		void PrintInstr(u1 bcode);
 };
 
 #endif
