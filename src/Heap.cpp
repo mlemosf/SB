@@ -40,7 +40,7 @@ void Heap::runMain(Leitor *mainClass){
     bool found_main_index = false;
     std::string method_name, method_descriptor;
     for(index = 0; index < mainClass->get(METHODS_COUNT); index++){
-        printf("Procurando main...\n");
+        // printf("Procurando main...\n");
         method_name = mainClass->getUTF8(mainClass->getMethods()->methods[index]->name_index);
         method_descriptor = mainClass->getUTF8(mainClass->getMethods()->methods[index]->descriptor_index);
         
@@ -49,21 +49,21 @@ void Heap::runMain(Leitor *mainClass){
             method_descriptor.compare("([Ljava/lang/String;)V") == 0
             && mainClass->isMethodAccessFlagSet(index, ACC_PUBLIC)
         ){
-            printf("Achou Main\n");
+            // printf("Achou Main\n");
             found_main_index = true;
             break;
         }
     }
 
-    printf("Parou de procurar main.\n");
+    // printf("Parou de procurar main.\n");
     // if the index containing the method is not found then the program exits
     if(!found_main_index){
-        printf("Não achou main, no if.\n");
-        std::cout << "(E) Could not find the entrypoint method of " /*<< @@ mainClass->classFilePath*/ << ". Terminating execution..." << std::endl;
+        // printf("Não achou main, no if.\n");
+        std::cout << "(E) Nao foi possivel encontrar o metodo main. " /*<< @@ mainClass->classFilePath*/ << "Finalizando execucao..." << std::endl;
         return;
     }
 
-    printf("Achou a main... Prosseguindo...\n");
+    // printf("Achou a main... Prosseguindo...\n");
     // Caso exista um método "main", adiciona a classe ao unordered_map de instâncias.
     std::string key(mainClass->getUTF8(mainClass->getConstantPool()->getCpInfoElement(mainClass->get(THIS_CLASS)).constant_element.c1->name_index));
     // printf("Criou a chave\n");
@@ -81,14 +81,14 @@ void Heap::runMain(Leitor *mainClass){
     // _executionFrames.top()->executeFrame();
 
 
-    printf("Rodando as frames...\n");
+    // printf("Rodando as frames...\n");
     while(!_executionFrames.empty()){
-        printf("Executando frame::::   ");
+        // printf("Executando frame::::   ");
         _executionFrames.top()->executeFrame();
-        printf("     :::: done.");
-        std::cout << " -------- executionFrames.empty(): " << _executionFrames.empty() << std::endl;
+        // printf("     :::: done.");
+        // std::cout << " -------- executionFrames.empty(): " << _executionFrames.empty() << std::endl;
     }
-    printf("Frames rodadas com sucesso (?)\n");
+    // printf("Frames rodadas com sucesso (?)\n");
     return;
 }
 
