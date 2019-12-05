@@ -5,9 +5,10 @@ Heap* Heap::_heap = NULL;
 Heap::Heap(){}
 
 Heap::~Heap(){
-    printf("Heap::~Heap()\n"); // printou isso
-    free(this->_heap);
-    printf("Liberou heap\n"); // printou isso
+    // printf("Heap::~Heap()\n"); // printou isso
+    // free(this->_heap);
+    Heap::_heap = NULL;
+    // printf("Liberou heap\n"); // printou isso
     return;
 }
 
