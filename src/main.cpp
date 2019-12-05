@@ -41,6 +41,7 @@ int main(int argc, char ** argv) {
 		leitor->set(FIELDS);
 		leitor->set(METHODS_COUNT);
 		leitor->set(METHODS);
+		leitor->set(ATTRIBUTES_COUNT);
 
 		if(option == EXECUTAR){
 			Frame::setOpcodes();

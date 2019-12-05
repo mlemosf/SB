@@ -384,18 +384,7 @@ bool Leitor::setMethods(){
 }
 
 bool Leitor::setAttributesCount() {
-	int32_t size = 2;
-	int32_t j = size - 1;
-	int16_t buffer[size];
-	int16_t attributes_count[size];
-
-	for (int32_t i = 0; i < size; i++) {
-		attributes_count[j] = *(this->byte_array + this->current_size + i);
-		j--;
-	}
-	memcpy(buffer, &attributes_count, sizeof(attributes_count));
-	this->attributes_count = *buffer;
-	this->current_size += sizeof(this->attributes_count);
+	this->attributes_count = read2byte();
 	return true;
 }
 
@@ -592,7 +581,7 @@ Attribute_info* Leitor::setAttributes(u2 attribute_name_index, u4 attribute_leng
 
 // 	}
 
-// 	return true;
+	// return true;
 // }
 
 Method_info* Leitor::getMethods(){
@@ -646,15 +635,12 @@ bool Leitor::set(int key){
 			return setFields();
 		case FIELDS_COUNT:
 			return setFieldsCount();
-			// break;
 		case METHODS_COUNT:
 			return setMethodsCount(); //metodos comentados
 		case METHODS:
 			return setMethods();
-			// break;
 		case ATTRIBUTES_COUNT:
-			break;
-			//return setAttributesCount();
+			return setAttributesCount();
 		case ATTRIBUTES:
 			break;
 			//return setAttributes();
@@ -733,6 +719,7 @@ void Leitor::exibir() {
 	printf("Interfaces count: %d\n", this->interfaces_count);
 	printf("Fields count: %d\n", this->fields_count);
 	printf("Methods count: %d\n", this->methods_count);
+	printf("Attributes count: %d\n", this->attributes_count);
 	printf("\nConstant pool:\n");
 	this->constant_pool->printConstantPool();
 	printf("\nFields:\n");
