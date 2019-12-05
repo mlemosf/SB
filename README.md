@@ -2,7 +2,7 @@
 
 Projeto de desenvolvimento de uma JVM.
 
-Grupo 6:
+Grupo 6:  
 Breno Felipe Nunes Gomes - 16/0003318  
 Caio Albuquerque Brandão - 16/0003636  
 Matheus de Sousa Lemos Fernandes - 16/0137969  
