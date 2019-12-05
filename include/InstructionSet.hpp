@@ -16,7 +16,9 @@ using namespace std;
 class InstructionSet{
 	private:
 		map<int, string> mnem;
-		void PrintInstr(u4 bcode);
+		map<int, int> pnem;
+		void PrintInstr(u1 bcode);
+		void PrintParam(u1 bcode);
 	public:
 		InstructionSet();
 		string get(int key);
