@@ -2,6 +2,13 @@
 
 Projeto de desenvolvimento de uma JVM.
 
+Grupo 6:  
+Breno Felipe Nunes Gomes - 16/0003318  
+Caio Albuquerque Brandão - 16/0003636  
+Matheus de Sousa Lemos Fernandes - 16/0137969  
+Renan Godoi de Medeiros - 15/0146612  
+Vitor Moraes Dellamora - 16/0056802  
+
 
 ## Referência
 
@@ -26,12 +33,12 @@ Outro software legal pra se ter é um linter do cppcheck pra conseguir ver os er
 
 ## Build do projeto
 
+Linux:
 Para compilar o projeto basta executar 
 
 ```
 make
 ```
-
 na pasta base do projeto.  
 A execucão é feita executando o arquivo **main** gerado pelo make, passando como parâmetro um arquivo .class e a opcão (exibicão do .class ou execucão do programa, sendo **0** para exibir 1 **1** para executar):
 
@@ -40,4 +47,16 @@ A execucão é feita executando o arquivo **main** gerado pelo make, passando co
 Exemplo:
 ```
 ./main file.class 0
+```
+
+
+Windows:
+Faça um projeto no DevCpp e importe as pastas "include" e "src" ao projeto. Adicione -std=c++11 ao parâmetro de compilação de C++ nas opções de projeto. Compile apertando F9 e rode, conforme o próximo parágrafo.
+A execucão é feita executando o arquivo **<nome do projeto>.exe** gerado pelo DevCpp, passando como parâmetro um arquivo .class e a opcão (exibicão do .class ou execucão do programa, sendo **0** para exibir 1 **1** para executar):
+
+<nome do projeto>.exe FILE OPTION
+
+Exemplo:
+```
+G6.exe file.class 0
 ```

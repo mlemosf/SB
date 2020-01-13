@@ -58,8 +58,8 @@ void Heap::runMain(Leitor *mainClass){
     // printf("Parou de procurar main.\n");
     // if the index containing the method is not found then the program exits
     if(!found_main_index){
-        printf("Não achou main, no if.\n");
-        std::cout << "(E) Could not find the entrypoint method of " /*<< @@ mainClass->classFilePath*/ << ". Terminating execution..." << std::endl;
+        // printf("Não achou main, no if.\n");
+        std::cout << "(E) Nao foi possivel encontrar o metodo main. " /*<< @@ mainClass->classFilePath*/ << "Finalizando execucao..." << std::endl;
         return;
     }
 

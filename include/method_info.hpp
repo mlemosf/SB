@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "attribute_info.hpp"
+#include "InstructionSet.hpp"
 
 #define u1 uint8_t
 #define u2 uint16_t
@@ -31,6 +32,8 @@ struct method_info_element {
 };
 
 class Method_info{
+		private:
+			InstructionSet ins;
     public:
         vector<method_info_element*> methods;
         bool setFields(u2 access_flags, u2 name_index, u2 descriptor_index, u2 attributes_count, Attribute_info* attributes);

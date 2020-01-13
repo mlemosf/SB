@@ -36,11 +36,12 @@ void Method_info::getMethodInfo() {
 			printf("  Maximum local variables: %d\n", element->codeAttr->max_locals);
 			printf("  Code length: %d\n", element->codeAttr->code_length);
 			printf("  Bytecode: ");
-			u1* bytecode = element->codeAttr->code;
-			for (uint32_t k = 0; k < element->codeAttr->code_length; k++) {
+			//u1* bytecode = element->codeAttr->code;
+			/*for (uint32_t k = 0; k < element->codeAttr->code_length; k++) {
 				printf("%x ", *(bytecode + k));
-			}
+			}*/
 			printf("\n");
+			ins.PrintAllInstr((u1*)element->codeAttr->code, element->codeAttr->code_length);
 			printf("  Line number table:\n");
 			Attribute_info* line_number_table = element->codeAttr->attributes;
 			printf("\tAttribute name index: %d\n", line_number_table->getAttributeNameIndex());

@@ -203,11 +203,184 @@ InstructionSet::InstructionSet(){
 	mnem[0xC7] = "IFNONNULL";
 	mnem[0xC8] = "GOTO_W";
 	mnem[0xC9] = "JSR_W";
+
+	pnem[0x00] = 0;
+	pnem[0x01] = 0;
+	pnem[0x02] = 0;
+	pnem[0x03] = 0;
+	pnem[0x04] = 0;
+	pnem[0x05] = 0;
+	pnem[0x06] = 0;
+	pnem[0x07] = 0;
+	pnem[0x08] = 0;
+	pnem[0x09] = 0;
+	pnem[0x0A] = 0;
+	pnem[0x0B] = 0;
+	pnem[0x0C] = 0;
+	pnem[0x0D] = 0;
+	pnem[0x0E] = 0;
+	pnem[0x0F] = 0;
+	pnem[0x10] = 1;
+	pnem[0x11] = 2;
+	pnem[0x12] = 1;
+	pnem[0x13] = 2;
+	pnem[0x14] = 2;
+	pnem[0x15] = 1;
+	pnem[0x16] = 1;
+	pnem[0x17] = 1;
+	pnem[0x18] = 1;
+	pnem[0x19] = 1;
+	pnem[0x1A] = 0;
+	pnem[0x1B] = 0;
+	pnem[0x1C] = 0;
+	pnem[0x1D] = 0;
+	pnem[0x1E] = 0;
+	pnem[0x1F] = 0;
+	pnem[0x20] = 0;
+	pnem[0x21] = 0;
+	pnem[0x22] = 0;
+	pnem[0x23] = 0;
+	pnem[0x24] = 0;
+	pnem[0x25] = 0;
+	pnem[0x26] = 0;
+	pnem[0x27] = 0;
+	pnem[0x28] = 0;
+	pnem[0x29] = 0;
+	pnem[0x2A] = 0;
+	pnem[0x2B] = 0;
+	pnem[0x2C] = 0;
+	pnem[0x2D] = 0;
+	pnem[0x2E] = 0;
+	pnem[0x2F] = 0;
+	pnem[0x30] = 0;
+	pnem[0x31] = 0;
+	pnem[0x32] = 0;
+	pnem[0x33] = 0;
+	pnem[0x34] = 0;
+	pnem[0x35] = 0;
+	pnem[0x36] = 1;
+	pnem[0x37] = 1;
+	pnem[0x38] = 1;
+	pnem[0x39] = 1;
+	pnem[0x3A] = 1;
+	pnem[0x3B] = 0;
+	pnem[0x3C] = 0;
+	pnem[0x3D] = 0;
+	pnem[0x3E] = 0;
+	pnem[0x3F] = 0;
+	pnem[0x40] = 0;
+	pnem[0x41] = 0;
+	pnem[0x42] = 0;
+	pnem[0x43] = 0;
+	pnem[0x44] = 0;
+	pnem[0x45] = 0;
+	pnem[0x46] = 0;
+	pnem[0x47] = 0;
+	pnem[0x48] = 0;
+	pnem[0x49] = 0;
+	pnem[0x4A] = 0;
+	pnem[0x4B] = 0;
+	pnem[0x4C] = 0;
+	pnem[0x4D] = 0;
+	pnem[0x4E] = 0;
+	pnem[0x4F] = 0;
+	pnem[0x50] = 0;
+	pnem[0x51] = 0;
+	pnem[0x52] = 0;
+	pnem[0x53] = 0;
+	pnem[0x54] = 0;
+	pnem[0x55] = 0;
+	pnem[0x56] = 0;
+	pnem[0x57] = 0;
+	pnem[0x58] = 0;
+	pnem[0x59] = 0;
+	pnem[0x5A] = 0;
+	pnem[0x5B] = 0;
+	pnem[0x5C] = 0;
+	pnem[0x5D] = 0;
+	pnem[0x5E] = 0;
+	pnem[0x5F] = 0;
+	pnem[0x60] = 0;
+	pnem[0x61] = 0;
+	pnem[0x62] = 0;
+	pnem[0x63] = 0;
+	pnem[0x64] = 0;
+	pnem[0x65] = 0;
+	pnem[0x66] = 0;
+	pnem[0x67] = 0;
+	pnem[0x9C] = 2;
+	pnem[0x9D] = 2;
+	pnem[0x9E] = 2;
+	pnem[0x9F] = 2;
+	pnem[0xA0] = 2;
+	pnem[0xA1] = 2;
+	pnem[0xA2] = 2;
+	pnem[0xA3] = 2;
+	pnem[0xA4] = 2;
+	pnem[0xA5] = 2;
+	pnem[0xA6] = 2;
+	pnem[0xA7] = 2;
+	pnem[0xA8] = 2;
+	pnem[0xA9] = 1;
+	pnem[0xAA] = 16;
+	pnem[0xAB] = 8;
+	pnem[0xAC] = 0;
+	pnem[0xAD] = 0;
+	pnem[0xAE] = 0;
+	pnem[0xAF] = 0;
+	pnem[0xB0] = 0;
+	pnem[0xB1] = 0;
+	pnem[0xB2] = 2;
+	pnem[0xB3] = 2;
+	pnem[0xB4] = 2;
+	pnem[0xB5] = 2;
+	pnem[0xB6] = 2;
+	pnem[0xB7] = 2;
+	pnem[0xB8] = 2;
+	pnem[0xB9] = 4;
+	pnem[0xBA] = 4;
+	pnem[0xBB] = 2;
+	pnem[0xBC] = 1;
+	pnem[0xBD] = 2;
+	pnem[0xBE] = 0;
+	pnem[0xBF] = 0;
+	pnem[0xC0] = 2;
+	pnem[0xC1] = 2;
+	pnem[0xC2] = 0;
+	pnem[0xC3] = 0;
+	pnem[0xC4] = 3;
+	pnem[0xC5] = 3;
+	pnem[0xC6] = 2;
+	pnem[0xC7] = 2;
+	pnem[0xC8] = 4;
+	pnem[0xC9] = 4;
 }
 
 string InstructionSet::get(int key)
 {
 	return mnem[key];
+}
+
+void InstructionSet::PrintParam(u1 bcode){
+	printf("%d ",bcode);
+}
+
+void InstructionSet::PrintInstr(u1 bcode)
+{
+	printf("(0x%x) ",bcode);
+	cout << mnem[bcode];
+}
+
+void InstructionSet::PrintAllInstr(u1 * bcode, u4 size){
+	/*iterando de 32bits do valor*/
+	for (u4 i = 0; i < size; i++)
+	{
+		PrintInstr(*(bcode+i));
+		/*if(pnem[*(bcode+i)] > 0){
+			PrintParam(*(bcode+i+j));
+		}*/
+		printf("\n");
+	}
 }
 
 //void printInstr(Leitor *l)
